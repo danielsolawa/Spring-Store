@@ -32,8 +32,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                .secret("secret")
                .authorizedGrantTypes("password", "authorization_code")
                .authorities("USER", "ADMIN")
-               .scopes("read", "write")
-               .autoApprove(true);
+               .scopes("read", "write");
     }
 
     @Override
