@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile("dev")
-public class WebConfig {
+public class WebDevConfig {
 
     @Bean
     ServletRegistrationBean h2ServletRegitration(){
