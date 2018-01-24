@@ -1,5 +1,6 @@
 package com.danielsolawa.storeauth.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Inventory {
     private Long id;
 
     @OneToOne(mappedBy = "inventory")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "inventory")

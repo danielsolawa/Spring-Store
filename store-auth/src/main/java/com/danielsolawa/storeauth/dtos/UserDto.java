@@ -4,6 +4,7 @@ package com.danielsolawa.storeauth.dtos;
 import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.Order;
 import com.danielsolawa.storeauth.domain.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.ArrayList;

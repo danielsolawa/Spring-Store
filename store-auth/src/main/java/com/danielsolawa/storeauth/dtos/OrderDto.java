@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.dtos;
 
 import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.time.LocalDateTime;
