@@ -6,7 +6,7 @@ import com.danielsolawa.storeauth.dtos.InventoryDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface InventoryMapper {
 
     InventoryMapper INSTANCE = Mappers.getMapper(InventoryMapper.class);

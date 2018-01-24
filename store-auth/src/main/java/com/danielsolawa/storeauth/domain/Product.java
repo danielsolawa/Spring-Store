@@ -15,7 +15,7 @@ public class Product {
     private String name;
     private Double price;
 
-    @OneToOne(mappedBy = "product")
+    @ManyToOne
     private Category category;
 
     @ManyToOne

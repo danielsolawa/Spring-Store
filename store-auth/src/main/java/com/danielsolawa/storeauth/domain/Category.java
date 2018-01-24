@@ -1,9 +1,13 @@
 package com.danielsolawa.storeauth.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -15,6 +19,12 @@ public class Category {
     private Long id;
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Product product;
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "category")
+    @JsonIgnore
+    private List<Product> products = new ArrayList<>();
+
+
+    public void addProduct(Product product){
+        this.products.add(product);
+    }
 }

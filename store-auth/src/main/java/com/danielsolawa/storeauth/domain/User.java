@@ -31,4 +31,9 @@ public class User {
     private Inventory inventory;
 
 
+    public void addOrder(Order order){
+        this.orders.add(order);
+    }
+
+
 }

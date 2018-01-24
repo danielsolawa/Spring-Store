@@ -23,4 +23,8 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Product> products = new ArrayList<>();
 
+    public void addProduct(Product product){
+        this.products.add(product);
+    }
+
 }
