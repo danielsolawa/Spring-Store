@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findOne(id);
 
         if(user == null){
-            throw new RuntimeException("Not found!");
+            throw new RuntimeException("User not found!");
         }
 
         return userMapper.userToUserDto(user);
