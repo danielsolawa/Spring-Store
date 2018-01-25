@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -54,6 +55,14 @@ public class UserControllerIT {
         assertThat(user.getPassword(), equalTo(foundUser.getPassword()));
         assertThat(user.getRole(), equalTo(foundUser.getRole()));
 
+
+        //delete created user
+
+        userRepository.delete(id);
+
+        User deletedUser = userRepository.findOne(id);
+
+        assertNull(deletedUser);
 
     }
 

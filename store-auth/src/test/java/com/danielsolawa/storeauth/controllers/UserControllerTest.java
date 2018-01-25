@@ -118,4 +118,16 @@ public class UserControllerTest extends AbstractControllerTest{
         then(userService).should().getUserById(anyLong());
 
     }
+
+
+    @Test
+    public void deleteUserById() throws Exception {
+
+        mockMvc.perform(delete(UserController.BASE_URL + "/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        then(userService).should().deleteUserById(anyLong());
+
+    }
 }

@@ -55,6 +55,13 @@ public class UserServiceImpl implements UserService {
         return findUserDtoById(id);
     }
 
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.delete(id);
+    }
+
+
     private UserDto findUserDtoById(Long id) {
         User user = userRepository.findOne(id);
 
@@ -66,10 +73,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
     private UserDto saveUserDto(UserDto userDto){
         User user = userMapper.userDtoToUser(userDto);
 
         return userMapper.userToUserDto(userRepository.save(user));
     }
+
+
 }

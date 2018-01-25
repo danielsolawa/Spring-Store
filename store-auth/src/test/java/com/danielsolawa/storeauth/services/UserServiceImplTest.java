@@ -124,4 +124,14 @@ public class UserServiceImplTest {
 
 
     }
+
+
+    @Test
+    public void deleteUserById() {
+
+        userService.deleteUserById(1L);
+
+        then(userRepository).should().delete(anyLong());
+
+    }
 }
