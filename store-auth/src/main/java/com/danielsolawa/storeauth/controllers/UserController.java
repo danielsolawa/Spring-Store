@@ -5,6 +5,7 @@ import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.dtos.UserListDTO;
 import com.danielsolawa.storeauth.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public UserListDTO getUserList(){

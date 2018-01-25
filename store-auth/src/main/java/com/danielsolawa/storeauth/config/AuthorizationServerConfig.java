@@ -2,8 +2,10 @@ package com.danielsolawa.storeauth.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Autowired
+    @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
     @Override
@@ -40,7 +43,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                .secret("secret")
                .authorizedGrantTypes("password", "authorization_code")
                .authorities("USER", "ADMIN")
-               .scopes("read", "write");
+               .scopes("read", "write")
+               .autoApprove(true);
     }
 
     @Override

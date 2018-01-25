@@ -5,6 +5,8 @@ import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
         return saveUserDto(userDto);
     }
+
 
     @Override
     public UserDto getUserById(Long id) {

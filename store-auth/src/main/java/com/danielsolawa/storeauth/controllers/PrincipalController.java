@@ -13,15 +13,9 @@ public class PrincipalController {
 
     public static final String BASE_URL =  "/api/v1/principal";
 
-    @GetMapping
-    public String index(){
-        return "Hello world";
-    }
 
-
-    /*
     @GetMapping
     public Principal principal(Principal principal){
         return principal;
-    }*/
+    }
 }

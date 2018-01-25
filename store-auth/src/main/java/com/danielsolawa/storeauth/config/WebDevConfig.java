@@ -5,9 +5,9 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
-@Profile("dev")
 public class WebDevConfig {
 
     @Bean
