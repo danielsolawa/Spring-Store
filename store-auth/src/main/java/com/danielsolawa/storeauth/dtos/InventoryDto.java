@@ -14,5 +14,6 @@ public class InventoryDto {
     private Long id;
     private User user;
     private List<Product> products = new ArrayList<>();
+    private Long userId;
 
 }

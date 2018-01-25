@@ -21,4 +21,6 @@ public class Inventory {
 
     @OneToMany(mappedBy = "inventory")
     private List<Product> products = new ArrayList<>();
+
+    private Long userId;
 }

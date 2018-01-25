@@ -47,7 +47,7 @@ public class InventoryServiceImplTest {
         given(userRepository.findOne(anyLong())).willReturn(user);
         given(userRepository.save(any(User.class))).willReturn(userWithInventory);
 
-        InventoryDto inventoryDto = inventoryService.createNewInventory(1L, new InventoryDto());
+        InventoryDto inventoryDto = inventoryService.createNewInventory( new InventoryDto());
 
         assertThat(inventoryDto.getProducts(), hasSize(3));
         assertThat(inventoryDto.getUser().getUsername(), equalTo(userWithInventory.getUsername()));
@@ -69,7 +69,7 @@ public class InventoryServiceImplTest {
         given(userRepository.save(any(User.class))).willReturn(userWithInventory);
 
 
-        InventoryDto inventoryDto = inventoryService.updateInventory(1L, new InventoryDto());
+        InventoryDto inventoryDto = inventoryService.updateInventory(new InventoryDto());
 
         assertThat(inventoryDto.getProducts(), hasSize(3));
         assertEquals(inventoryDto.getUser().getUsername(), "Hannah");

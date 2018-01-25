@@ -23,8 +23,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Transactional
     @Override
-    public InventoryDto createNewInventory(Long userId, InventoryDto inventoryDto) {
-        User user = getUserById(userId);
+    public InventoryDto createNewInventory(InventoryDto inventoryDto) {
+        User user = getUserById(inventoryDto.getUserId());
 
         inventoryDto.setUser(user);
 
@@ -37,8 +37,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Transactional
     @Override
-    public InventoryDto updateInventory(Long userId, InventoryDto inventoryDto) {
-        User user = getUserById(userId);
+    public InventoryDto updateInventory(InventoryDto inventoryDto) {
+        User user = getUserById(inventoryDto.getUserId());
 
         user.setInventory(inventoryMapper.inventoryDtoToInventory(inventoryDto));
 
