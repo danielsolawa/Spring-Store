@@ -2,6 +2,7 @@ package com.danielsolawa.storeauth.services;
 
 
 import com.danielsolawa.storeauth.bootstrap.Bootstrap;
+import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.Role;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
@@ -21,7 +22,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class UserControllerIT {
+public class UserServiceIT {
 
     @Autowired
     UserRepository userRepository;
@@ -42,9 +43,15 @@ public class UserControllerIT {
         user.setPassword("password");
         user.setRole(Role.USER);
 
+        Inventory inventory = new Inventory();
+        inventory.setUser(user);
+        user.setInventory(inventory);
+
         User savedUser = userRepository.save(user);
 
+
         assertNotNull(savedUser);
+        assertNotNull(savedUser.getInventory());
 
         Long id = savedUser.getId();
 

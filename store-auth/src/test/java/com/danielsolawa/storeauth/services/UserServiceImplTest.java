@@ -1,5 +1,6 @@
 package com.danielsolawa.storeauth.services;
 
+import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.mappers.UserMapper;
@@ -21,6 +22,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.notNull;
 
 public class UserServiceImplTest {
 
@@ -59,15 +61,22 @@ public class UserServiceImplTest {
     @Test
     public void createUser() {
         User user = new User();
+        user.setId(1L);
         user.setUsername("John");
         user.setPassword("Snow");
+
+        Inventory inventory = new Inventory();
+        inventory.setUser(user);
+        user.setInventory(inventory);
 
         given(userRepository.save(any(User.class))).willReturn(user);
 
         UserDto userDto = userService.createUser(new UserDto());
 
-        assertThat(userDto.getUsername(), equalTo(user.getUsername()));
-        assertThat(userDto.getPassword(), equalTo(user.getPassword()));
+        assertThat(user.getId(), equalTo(userDto.getId()));
+        assertThat(user.getUsername(), equalTo(userDto.getUsername()));
+        assertThat(user.getPassword(), equalTo(userDto.getPassword()));
+        assertNotNull(userDto.getInventory());
 
         then(userRepository).should().save(any(User.class));
 

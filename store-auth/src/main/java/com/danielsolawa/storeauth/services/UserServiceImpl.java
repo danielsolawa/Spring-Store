@@ -1,5 +1,6 @@
 package com.danielsolawa.storeauth.services;
 
+import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.mappers.UserMapper;
@@ -47,6 +48,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
         userDto.setId(id);
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        
 
         return saveUserDto(userDto);
     }
@@ -78,6 +81,12 @@ public class UserServiceImpl implements UserService {
 
     private UserDto saveUserDto(UserDto userDto){
         User user = userMapper.userDtoToUser(userDto);
+
+        if(userDto.getInventory() == null){
+            Inventory inventory = new Inventory();
+            inventory.setUser(user);
+            user.setInventory(inventory);
+        }
 
         return userMapper.userToUserDto(userRepository.save(user));
     }

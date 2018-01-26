@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.controllers;
 
 
+import com.danielsolawa.storeauth.utils.UserInfo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,17 +18,21 @@ public class PrincipalController {
 
 
     @GetMapping
-    public Principal principal(Principal principal){
-
-
-        return principal;
-    }
-
-    @GetMapping("/auth")
-    public String authentication(Authentication authentication){
+    public UserInfo authentication(Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 
-        return  userDetails.getAuthorities().toString();
+        return  getUserInfo(userDetails);
+    }
+
+
+    private UserInfo getUserInfo(UserDetails userDetails){
+        return UserInfo.builder()
+                        .username(userDetails.getUsername())
+                        .authority(userDetails.getAuthorities()
+                                            .stream()
+                                            .findFirst()
+                                            .get()
+                                            .getAuthority()).build();
     }
 }
