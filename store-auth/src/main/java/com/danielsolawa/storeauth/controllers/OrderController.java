@@ -31,18 +31,22 @@ public class OrderController {
         return orderService.updateOrder(userId, orderId, orderDto);
     }
 
-
-    public OrderListDto getOrderList(){
-        return null;
+    @GetMapping("/{userId}/orders")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderListDto getOrderList(@PathVariable Long userId){
+        return new OrderListDto(orderService.getOrderList(userId));
     }
 
-
-    public OrderDto getOrderById(){
-        return null;
+    @GetMapping("/{userId}/orders/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderDto getOrderById(@PathVariable Long userId, @PathVariable Long orderId){
+        return orderService.getOrderById(userId, orderId);
     }
 
-    public void deleteOrderById(){
-
+    @DeleteMapping("/{userId}/orders/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteOrderById(@PathVariable Long userId, @PathVariable Long orderId){
+        orderService.deleteOrderById(userId, orderId);
     }
 
 
