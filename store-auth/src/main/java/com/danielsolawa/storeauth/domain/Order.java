@@ -22,12 +22,17 @@ public class Order {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @ManyToMany
+    @JoinTable(name = "order_product",
+            joinColumns = @JoinColumn(name = "order_table_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
 
+
     public void addProduct(Product product){
-        product.setOrder(this);
         this.products.add(product);
     }
+
+
 
 }

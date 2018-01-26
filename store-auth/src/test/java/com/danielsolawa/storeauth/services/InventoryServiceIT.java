@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.bootstrap.Bootstrap;
 import com.danielsolawa.storeauth.domain.Inventory;
+import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import com.danielsolawa.storeauth.repositories.UserRepository;
@@ -12,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -56,6 +59,8 @@ public class InventoryServiceIT {
         assertNotNull(userWithInventory.getInventory());
 
     }
+
+
 
 
 }

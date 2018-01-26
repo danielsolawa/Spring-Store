@@ -29,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto createNewOrder(Long userId, OrderDto orderDto) {
+        log.info("Creating new order for user " + userId);
 
         return saveOrderDto(userId, orderDto);
     }

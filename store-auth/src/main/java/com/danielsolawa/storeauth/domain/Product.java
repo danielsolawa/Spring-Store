@@ -4,6 +4,8 @@ package com.danielsolawa.storeauth.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,7 +23,7 @@ public class Product {
     @ManyToOne
     private Inventory inventory;
 
-    @ManyToOne
-    private Order order;
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders = new ArrayList<>();
 
 }
