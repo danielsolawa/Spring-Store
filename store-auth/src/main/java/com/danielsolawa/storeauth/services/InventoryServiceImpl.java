@@ -21,19 +21,6 @@ public class InventoryServiceImpl implements InventoryService {
         this.inventoryMapper = inventoryMapper;
     }
 
-    @Transactional
-    @Override
-    public InventoryDto createNewInventory(InventoryDto inventoryDto) {
-        User user = getUserById(inventoryDto.getUserId());
-
-        inventoryDto.setUser(user);
-
-        user.setInventory(inventoryMapper.inventoryDtoToInventory(inventoryDto));
-
-        User returnedUser = userRepository.save(user);
-
-        return inventoryMapper.inventoryToInventoryDto(returnedUser.getInventory());
-    }
 
     @Transactional
     @Override

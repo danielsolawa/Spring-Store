@@ -39,23 +39,6 @@ public class InventoryServiceImplTest {
         inventoryService = new InventoryServiceImpl(userRepository, inventoryMapper);
     }
 
-    @Test
-    public void createNewInventory() {
-        User user = getUser();
-        User userWithInventory = getUserWithInventory();
-
-        given(userRepository.findOne(anyLong())).willReturn(user);
-        given(userRepository.save(any(User.class))).willReturn(userWithInventory);
-
-        InventoryDto inventoryDto = inventoryService.createNewInventory( new InventoryDto());
-
-        assertThat(inventoryDto.getProducts(), hasSize(3));
-        assertThat(inventoryDto.getUser().getUsername(), equalTo(userWithInventory.getUsername()));
-
-        then(userRepository).should().findOne(anyLong());
-        then(userRepository).should().save(any(User.class));
-
-    }
 
 
 

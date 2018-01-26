@@ -18,13 +18,7 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
-    @PostMapping("/{userId}/inventory")
-    @ResponseStatus(HttpStatus.CREATED)
-    public InventoryDto createNewInventory(@PathVariable Long userId, @RequestBody InventoryDto inventoryDto){
 
-
-        return inventoryService.createNewInventory(inventoryDto);
-    }
 
     @GetMapping("/{userId}/inventory")
     @ResponseStatus(HttpStatus.OK)

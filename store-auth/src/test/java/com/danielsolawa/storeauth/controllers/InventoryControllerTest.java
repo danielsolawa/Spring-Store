@@ -42,23 +42,6 @@ public class InventoryControllerTest extends AbstractControllerTest{
 
     }
 
-    @Test
-    public void createNewInventory() throws Exception {
-        InventoryDto inventoryDto = new InventoryDto();
-        inventoryDto.setId(1L);
-        inventoryDto.setProducts(Arrays.asList(new Product(), new Product(), new Product()));
-
-        given(inventoryService.createNewInventory(any(InventoryDto.class))).willReturn(inventoryDto);
-
-        mockMvc.perform(post(InventoryController.BASE_URL + "/1/inventory")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJson(inventoryDto)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.products", hasSize(3)));
-
-        then(inventoryService).should().createNewInventory(any(InventoryDto.class));
-    }
 
     @Test
     public void getInventoryByUserId() throws Exception {
