@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class UserListDTO {
+public class UserListDto {
 
     List<UserDto> users;
 }

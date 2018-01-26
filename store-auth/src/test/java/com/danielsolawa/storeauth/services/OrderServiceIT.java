@@ -62,6 +62,7 @@ public class OrderServiceIT {
 
         assertNotNull(order);
 
+        //update an order
         LocalDateTime oldDate = order.getOrderDate();
         order.setOrderDate(LocalDateTime.now());
         order.setProducts(products);
