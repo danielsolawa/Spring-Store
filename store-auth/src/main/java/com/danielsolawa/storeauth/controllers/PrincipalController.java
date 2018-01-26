@@ -33,6 +33,7 @@ public class PrincipalController {
                                             .stream()
                                             .findFirst()
                                             .get()
-                                            .getAuthority()).build();
+                                            .getAuthority())
+                        .build();
     }
 }

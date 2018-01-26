@@ -30,8 +30,11 @@ public class User {
     private Inventory inventory;
 
 
-    public void addOrder(Order order){
+    public User addOrder(Order order){
+        order.setUser(this);
         this.orders.add(order);
+
+        return this;
     }
 
 

@@ -26,6 +26,7 @@ public class Order {
     private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product){
+        product.setOrder(this);
         this.products.add(product);
     }
 
