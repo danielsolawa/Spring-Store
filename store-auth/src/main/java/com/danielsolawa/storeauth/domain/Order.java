@@ -2,6 +2,7 @@ package com.danielsolawa.storeauth.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "order_table")
+@ToString(exclude = {"user"})
 public class Order {
 
     @Id
@@ -21,6 +23,7 @@ public class Order {
     @ManyToOne
     @JsonIgnore
     private User user;
+
 
     @ManyToMany
     @JoinTable(name = "order_product",

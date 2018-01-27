@@ -8,6 +8,7 @@ import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,15 +32,19 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createNewOrder(Long userId, OrderDto orderDto) {
         log.info("Creating new order for user " + userId);
 
+        orderDto.setOrderDate(LocalDateTime.now());
+
         return saveOrderDto(userId, orderDto);
     }
 
 
     @Override
     public OrderDto updateOrder(Long userId, Long orderId, OrderDto orderDto) {
-        updateOrderDto(userId, orderId, orderDto);
+        log.info("Updating order...");
 
-        return orderDto;
+        orderDto.setOrderDate(LocalDateTime.now());
+
+        return updateOrderDto(userId, orderId, orderDto);
     }
 
 
