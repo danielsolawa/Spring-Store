@@ -24,7 +24,10 @@ public class Category {
     private List<Product> products = new ArrayList<>();
 
 
-    public void addProduct(Product product){
+    public Category addProduct(Product product){
+        product.setCategory(this);
         this.products.add(product);
+
+        return this;
     }
 }
