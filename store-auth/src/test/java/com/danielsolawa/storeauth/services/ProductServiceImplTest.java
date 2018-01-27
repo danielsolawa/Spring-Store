@@ -106,9 +106,45 @@ public class ProductServiceImplTest {
 
     @Test
     public void updateProduct() {
+
+        Category category = new Category();
+        category.setId(1L);
+
+        Product product = new Product();
+        product.setId(1L);
+
+        Category categoryWithProduct = new Category();
+        categoryWithProduct.setId(1L);
+        categoryWithProduct.addProduct(product);
+
+        given(categoryRepository.findOne(anyLong())).willReturn(category);
+        given(categoryRepository.save(any(Category.class))).willReturn(categoryWithProduct);
+
+        ProductDto productDto = productService.updateProduct(1L, 1L, new ProductDto());
+
+        assertThat(productDto.getId(), equalTo(1L));
+
+
+        then(categoryRepository).should().findOne(anyLong());
+        then(categoryRepository).should().save(any(Category.class));
+
     }
 
     @Test
     public void deleteProductById() {
+        Product product = new Product();
+        product.setId(1L);
+
+        Category categoryWithProduct = new Category();
+        categoryWithProduct.setId(1L);
+        categoryWithProduct.addProduct(product);
+
+        given(categoryRepository.findOne(anyLong())).willReturn(categoryWithProduct);
+
+        productService.deleteProductById(1L, 1L);
+
+        then(categoryRepository).should().findOne(anyLong());
+        then(categoryRepository).should().save(any(Category.class));
+
     }
 }

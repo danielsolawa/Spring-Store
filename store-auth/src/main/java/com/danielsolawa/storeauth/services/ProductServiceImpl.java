@@ -51,13 +51,60 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductDto createNewProduct(Long categoryId, ProductDto productDto) {
-
-        return saveProductDto(categoryId, productDto);
-    }
-
-    private ProductDto saveProductDto(Long categoryId, ProductDto productDto) {
         Category category = getCategoryById(categoryId);
         category.addProduct(productMapper.productDtoToProduct(productDto));
+
+        return saveProductDto(category);
+    }
+
+
+    @Transactional
+    @Override
+    public ProductDto updateProduct(Long categoryId, Long productId, ProductDto productDto) {
+
+        Category category = prepareForUpdate(productId, productDto, getCategoryById(categoryId));
+
+        return saveProductDto(category);
+    }
+
+
+
+    @Override
+    public void deleteProductById(Long categoryId, Long productId) {
+        Category category = getCategoryById(categoryId);
+
+        removeProduct(productId, category);
+
+        categoryRepository.save(category);
+
+
+
+    }
+
+    private void removeProduct(Long productId, Category category) {
+        List<Product> products = category.getProducts()
+                .stream()
+                .filter(product -> !(product.getId().equals(productId)))
+                .collect(Collectors.toList());
+
+        category.setProducts(products);
+    }
+
+
+    private Category prepareForUpdate(Long productId, ProductDto productDto, Category category) {
+        List<Product> products = category.getProducts()
+                .stream()
+                .filter(product -> !(product.getId().equals(productId)))
+                .collect(Collectors.toList());
+
+        products.add(productMapper.productDtoToProduct(productDto));
+        category.setProducts(products);
+
+        return category;
+    }
+
+
+    private ProductDto saveProductDto(Category category) {
 
         Category savedCategory = categoryRepository.save(category);
         Product product = savedCategory.getProducts()
@@ -67,16 +114,6 @@ public class ProductServiceImpl implements ProductService {
 
 
         return productMapper.productToProductDto(product);
-    }
-
-    @Override
-    public ProductDto updateProduct(Long categoryId, Long productId, ProductDto productDto) {
-        return null;
-    }
-
-    @Override
-    public void deleteProductById(Long categoryId, Long productId) {
-
     }
 
 
