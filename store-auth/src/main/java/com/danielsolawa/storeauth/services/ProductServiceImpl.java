@@ -69,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 
+    @Transactional
     @Override
     public void deleteProductById(Long categoryId, Long productId) {
         Category category = getCategoryById(categoryId);
