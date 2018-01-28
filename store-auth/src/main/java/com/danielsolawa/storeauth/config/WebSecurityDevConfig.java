@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
+@Profile("dev")
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
@@ -48,6 +49,6 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/console/**");
+        web.ignoring().antMatchers("/h2-console/**");
     }
 }

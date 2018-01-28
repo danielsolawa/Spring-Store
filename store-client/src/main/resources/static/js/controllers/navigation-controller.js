@@ -1,0 +1,24 @@
+application.controller('navigation', function ($rootScope, $http, $location, $route) {
+    var self = this;
+
+    $http.get('user').then(function(response){
+       $rootScope.user = response.data;
+
+       if(response.data.username){
+           $rootScope.authenticated = true;
+       }else{
+           $rootScope.authenticated = false;
+       }
+
+    }, function () {
+        $rootScope.authenticated = false;
+    });
+
+    self.logout = function (){
+        $http.post('logout', {}).finally(function () {
+           $rootScope.authenticated = false;
+           $location.path('/');
+        });
+    }
+
+});
