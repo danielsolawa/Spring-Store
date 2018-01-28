@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findOne(id);
 
         if(user == null){
-            throw new RuntimeException("User not found!");
+            throw new ResourceNotFoundException();
         }
 
         return userMapper.userToUserDto(user);

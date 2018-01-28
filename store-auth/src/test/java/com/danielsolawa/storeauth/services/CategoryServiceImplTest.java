@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.Category;
 import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.dtos.CategoryDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.CategoryMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import org.junit.Before;
@@ -53,7 +54,7 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void getCategoryById() {
+    public void getCategoryByIdHappyPath() {
         Category category = new Category();
         category.setId(1L);
         category.setProducts(Arrays.asList(new Product(), new Product()));
@@ -64,6 +65,18 @@ public class CategoryServiceImplTest {
 
         assertThat(categoryDto.getProducts(), hasSize(2));
         assertThat(categoryDto.getId(), equalTo(1L));
+
+        then(categoryRepository).should().findOne(anyLong());
+    }
+
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void getCategoryByIdFailure() {
+
+        given(categoryRepository.findOne(anyLong())).willThrow(ResourceNotFoundException.class);
+
+
+        CategoryDto categoryDto = categoryService.getCategoryById(1L);
 
         then(categoryRepository).should().findOne(anyLong());
     }

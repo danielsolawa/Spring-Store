@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.Order;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.OrderDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.OrderMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
                 .filter(order -> order.getId().equals(orderId))
                 .map(orderMapper::orderToOrderDto)
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -86,8 +87,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     private User getUserById(Long userId) {
+        User user = userRepository.findOne(userId);
 
-        return userRepository.findOne(userId);
+        if(user == null){
+            throw new ResourceNotFoundException();
+        }
+
+        return user;
     }
 
     private OrderDto updateOrderDto(Long userId, Long orderId, OrderDto orderDto) {

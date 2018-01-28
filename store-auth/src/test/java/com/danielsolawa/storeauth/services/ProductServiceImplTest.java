@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -72,6 +73,17 @@ public class ProductServiceImplTest {
         ProductDto productDto = productService.getProductById(1L, 1L);
 
         assertThat(productDto.getId(), equalTo(1L));
+
+        then(categoryRepository).should().findOne(anyLong());
+
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void getProductByIdHappyPathFailure() {
+
+        given(categoryRepository.findOne(anyLong())).willThrow(NoSuchElementException.class);
+
+        ProductDto productDto = productService.getProductById(1L, 1L);
 
         then(categoryRepository).should().findOne(anyLong());
 

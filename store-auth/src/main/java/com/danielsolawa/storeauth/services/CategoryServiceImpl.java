@@ -2,6 +2,7 @@ package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.Category;
 import com.danielsolawa.storeauth.dtos.CategoryDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.CategoryMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findOne(categoryId);
 
         if(category == null){
-            //todo
-            throw new RuntimeException();
+            throw new ResourceNotFoundException();
         }
 
         return categoryMapper.categoryToCategoryDto(category);

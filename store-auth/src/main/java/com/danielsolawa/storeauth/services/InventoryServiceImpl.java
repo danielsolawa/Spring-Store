@@ -2,6 +2,7 @@ package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.InventoryDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.InventoryMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +56,7 @@ public class InventoryServiceImpl implements InventoryService {
         User user = userRepository.findOne(id);
 
         if(user == null){
-            //todo
-            // implement more fitting exception
-            throw new RuntimeException();
+            throw new ResourceNotFoundException();
         }
 
         return user;

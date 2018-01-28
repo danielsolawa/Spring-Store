@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import org.junit.Before;
@@ -121,10 +122,10 @@ public class UserServiceImplTest {
 
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = ResourceNotFoundException.class)
     public void getUserByIdFailure() {
 
-        given(userRepository.findOne(anyLong())).willThrow(RuntimeException.class);
+        given(userRepository.findOne(anyLong())).willThrow(ResourceNotFoundException.class);
 
         UserDto userDto = userService.getUserById(1L);
 

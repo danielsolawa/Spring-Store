@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.Category;
 import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.dtos.ProductDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.ProductMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(productMapper::productToProductDto)
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Transactional
@@ -122,8 +123,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findOne(id);
 
         if(category == null){
-            //todo
-            throw new RuntimeException();
+            throw new ResourceNotFoundException();
         }
 
         return category;

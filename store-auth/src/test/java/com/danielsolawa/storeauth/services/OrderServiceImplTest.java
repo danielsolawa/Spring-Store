@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -114,10 +115,10 @@ public class OrderServiceImplTest {
 
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = NoSuchElementException.class)
     public void getOrderByIdFailure() {
 
-        given(userRepository.findOne(anyLong())).willThrow(new RuntimeException());
+        given(userRepository.findOne(anyLong())).willThrow(new NoSuchElementException());
 
         OrderDto orderDto = orderService.getOrderById(1L, 1L);
 
