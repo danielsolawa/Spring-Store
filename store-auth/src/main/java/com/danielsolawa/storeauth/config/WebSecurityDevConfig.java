@@ -1,6 +1,9 @@
 package com.danielsolawa.storeauth.config;
 
 
+import com.danielsolawa.storeauth.repositories.UserRepository;
+import com.danielsolawa.storeauth.utils.UserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -12,6 +15,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
@@ -21,19 +28,31 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
 
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+
+    @Override
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return username -> new UserInfo(userRepository.findByUsername(username));
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth
-               .inMemoryAuthentication()
-               .withUser("user").password("user").roles("USER")
-               .and()
-               .withUser("admin").password("admin").roles("ADMIN");
+       auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -43,7 +62,9 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .requestMatchers().antMatchers("/login", "/oauth/authorize")
-                .and().formLogin().permitAll();
+                .and()
+                .formLogin().permitAll()
+                .and().logout();
 
     }
 

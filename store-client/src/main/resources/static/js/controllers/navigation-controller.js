@@ -1,7 +1,7 @@
 application.controller('navigation', function ($rootScope, $http, $location, $route) {
     var self = this;
 
-    $http.get('user').then(function(response){
+    $http.get('principal').then(function(response){
        $rootScope.user = response.data;
 
        if(response.data.username){

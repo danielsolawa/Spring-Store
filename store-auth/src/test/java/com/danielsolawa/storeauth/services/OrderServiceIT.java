@@ -7,16 +7,16 @@ import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import com.danielsolawa.storeauth.repositories.UserRepository;
-import org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -37,12 +37,15 @@ public class OrderServiceIT {
     UserRepository userRepository;
 
 
+    PasswordEncoder passwordEncoder;
+
     Bootstrap bootstrap;
 
 
     @Before
     public void setUp() throws Exception {
-        bootstrap = new Bootstrap(userRepository, categoryRepository);
+        passwordEncoder = new BCryptPasswordEncoder();
+        bootstrap = new Bootstrap(passwordEncoder, userRepository, categoryRepository);
         bootstrap.run();
 
         System.out.println("Loading initial data...");

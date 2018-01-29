@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -30,9 +32,13 @@ public class UserServiceIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+
+    PasswordEncoder passwordEncoder;
+
     @Before
     public void setUp() throws Exception {
-        Bootstrap bootstrap = new Bootstrap(userRepository, categoryRepository);
+        passwordEncoder = new BCryptPasswordEncoder();
+        Bootstrap bootstrap = new Bootstrap(passwordEncoder, userRepository, categoryRepository);
         bootstrap.run();
     }
 

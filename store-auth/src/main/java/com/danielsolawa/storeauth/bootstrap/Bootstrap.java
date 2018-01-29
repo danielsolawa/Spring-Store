@@ -7,10 +7,10 @@ import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @Profile("dev")
@@ -18,10 +18,13 @@ import java.util.List;
 public class Bootstrap implements CommandLineRunner{
 
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
-    public Bootstrap(UserRepository userRepository, CategoryRepository categoryRepository) {
+
+    public Bootstrap(PasswordEncoder passwordEncoder, UserRepository userRepository, CategoryRepository categoryRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
     }
@@ -70,7 +73,7 @@ public class Bootstrap implements CommandLineRunner{
         if(userRepository.count() == 0){
             User user = new User();
             user.setUsername("user");
-            user.setPassword("password");
+            user.setPassword(passwordEncoder.encode("password"));
             user.setRole(Role.USER);
 
 

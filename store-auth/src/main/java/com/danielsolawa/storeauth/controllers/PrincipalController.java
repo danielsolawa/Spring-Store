@@ -19,21 +19,12 @@ public class PrincipalController {
 
     @GetMapping
     public UserInfo authentication(Authentication authentication){
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserInfo userInfo = (UserInfo) authentication.getPrincipal();
 
 
-        return  getUserInfo(userDetails);
+        return  userInfo;
     }
 
 
-    private UserInfo getUserInfo(UserDetails userDetails){
-        return UserInfo.builder()
-                        .username(userDetails.getUsername())
-                        .authority(userDetails.getAuthorities()
-                                            .stream()
-                                            .findFirst()
-                                            .get()
-                                            .getAuthority())
-                        .build();
-    }
+
 }
