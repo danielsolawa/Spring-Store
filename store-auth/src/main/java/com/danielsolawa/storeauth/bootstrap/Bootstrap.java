@@ -38,31 +38,49 @@ public class Bootstrap implements CommandLineRunner{
     private void loadProducts() {
         if(categoryRepository.count() == 0){
 
-            Category category =  new Category();
-            category.setName("Music");
+            Category category1 =  new Category();
+            category1.setName("Music");
+
+            Category category2 =  new Category();
+            category2.setName("Cars");
 
             Product product1 = new Product();
             product1.setName("Queen");
             product1.setPrice(25.00);
-            product1.setCategory(category);
+            product1.setCategory(category1);
 
             Product product2 = new Product();
             product2.setName("The Beatles");
             product2.setPrice(23.00);
-            product2.setCategory(category);
+            product2.setCategory(category1);
 
             Product product3 = new Product();
             product3.setName("Elvis Presley");
             product3.setPrice(28.00);
-            product3.setCategory(category);
+            product3.setCategory(category1);
+
+
+            Product product4 = new Product();
+            product4.setName("Honda");
+            product4.setPrice(122228.00);
+            product4.setCategory(category2);
+
+            Product product5 = new Product();
+            product5.setName("Ford");
+            product5.setPrice(15228.00);
+            product5.setCategory(category2);
 
 
 
-            category.addProduct(product1);
-            category.addProduct(product2);
-            category.addProduct(product3);
+            category1.addProduct(product1);
+            category1.addProduct(product2);
+            category1.addProduct(product3);
 
-            categoryRepository.save(category).getId();
+            category2.addProduct(product4);
+            category2.addProduct(product5);
+
+            categoryRepository.save(category1);
+            categoryRepository.save(category2);
 
 
             log.info("loaded products");

@@ -59,9 +59,10 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/api/v1/categories/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .requestMatchers().antMatchers("/login", "/oauth/authorize")
+                .requestMatchers().antMatchers("/login", "/oauth/authorize", "/api/v1/categories/**")
                 .and()
                 .formLogin().permitAll()
                 .and().logout();

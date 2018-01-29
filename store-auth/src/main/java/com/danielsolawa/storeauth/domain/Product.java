@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,12 +19,15 @@ public class Product {
     private Double price;
 
     @ManyToOne
+    @JsonIgnore
     private Category category;
 
     @ManyToOne
+    @JsonIgnore
     private Inventory inventory;
 
     @ManyToMany(mappedBy = "products")
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
 }

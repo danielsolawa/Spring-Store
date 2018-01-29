@@ -20,5 +20,11 @@ zuul:
     user:
       path: /principal/**
       url: http://localhost:8080/api/v1/principal
+    logout:
+      path: /logout/**
+      url: http://localhost:8080/logout
+    categories:
+      path: /categories/**
+      url: http://localhost:8080/api/v1/categories
 
 
