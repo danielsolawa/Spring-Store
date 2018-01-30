@@ -9,11 +9,18 @@ application.controller('userAdd', ['$location', 'userService', function($locatio
 
    self.register = function(){
 
+       var save = userService.save(self.user, function(response){
+          $location.path("/users/registered/" + response.username);
+       }, function(error){
+           console.log(error);
+       });
+/*
        if(isValid()){
-            //register logic here
+
+
        }else{
            self.error = true;
-       }
+       }*/
    }
 
     var isValid = function () {
@@ -30,4 +37,8 @@ application.controller('userAdd', ['$location', 'userService', function($locatio
 
         return true;
     }
+}]).controller('userRegistered', ['$routeParams', function($routeParams){
+   var self = this;
+
+   self.username = $routeParams.username;
 }]);

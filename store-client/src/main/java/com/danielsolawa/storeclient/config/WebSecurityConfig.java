@@ -15,13 +15,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .logout()
                 .and()
                 .antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers(
                         "/", "/login**", "/categories/**", "/logout", "/users/**",
-                        "/home.html", "/category-view.html", "/product-view.html", "/user-add.html", "/error403.html")
+                        "/home.html", "/category-view.html", "/product-view.html", "/user-add.html",
+                        "/user-registered.html", "/error403.html")
                 .permitAll()
                 .anyRequest().authenticated();
     }

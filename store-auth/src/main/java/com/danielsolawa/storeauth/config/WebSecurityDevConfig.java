@@ -32,6 +32,7 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
     private UserRepository userRepository;
 
     @Bean
+    @Primary
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
@@ -58,6 +59,7 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/categories/**", "/api/v1/users/**").permitAll()
                 .anyRequest().authenticated()

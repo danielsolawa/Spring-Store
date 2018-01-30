@@ -15,7 +15,7 @@ application.controller('navigation', function ($rootScope, $http, $location, $ro
     });
 
     self.logout = function (){
-        $http.get('logout', {}).finally(function () {
+        $http.post('logout', {}).finally(function () {
            $rootScope.authenticated = false;
            $location.path('/');
         });

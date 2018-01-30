@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+
     private String password;
 
     @Enumerated(EnumType.STRING)

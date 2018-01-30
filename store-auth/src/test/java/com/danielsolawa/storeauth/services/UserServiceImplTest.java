@@ -92,7 +92,7 @@ public class UserServiceImplTest {
         given(userRepository.save(any(User.class))).willThrow(UserAlreadyExistsException.class);
 
         userService.createUser(new UserDto());
-        
+
         then(userRepository).should().save(any(User.class));
 
     }

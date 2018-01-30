@@ -22,6 +22,11 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'userAdd',
             controllerAs: 'controller'
         })
+        .when('/users/registered/:username', {
+            templateUrl: 'user-registered.html',
+            controller: 'userRegistered',
+            controllerAs: 'controller'
+        })
         .when('/error403', {
             templateUrl: 'error403.html'
         })
@@ -55,4 +60,6 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
 
             }
         });
+
+
     });
