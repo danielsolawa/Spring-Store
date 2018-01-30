@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/">
     <meta charset="UTF-8"/>
     <title>Spring Store</title>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -8,6 +9,7 @@
     <script type="application/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="application/javascript" src="/webjars/angularjs/1.6.6/angular.min.js"></script>
     <script type="application/javascript" src="/webjars/angularjs/1.6.6/angular-route.min.js"></script>
+    <script type="application/javascript" src="/webjars/angularjs/1.6.6/angular-resource.min.js"></script>
     <script type="application/javascript" src="/js/main.js"></script>
     <script type="application/javascript" src="/js/services/category-service.js"></script>
     <script type="application/javascript" src="/js/controllers/navigation-controller.js"></script>
@@ -17,7 +19,8 @@
 <body ng-app="springstore">
 <nav class="navbar navbar-inverse" ng-controller="navigation as nav">
     <p class="navbar-text">Home</p>
-    <p ng-show="!authenticated" class="navbar-text"><a href="/login">Login</a></p>
+    <p class="navbar-text"><a href="/categories">Categories</a></p>
+    <p ng-show="!authenticated" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
     <p ng-show="authenticated" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} {{user.id}} Logout</a></p>
     <p class="navbar-text">Register</p>
 </nav>

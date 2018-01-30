@@ -1,6 +1,9 @@
-application.factory('categoryService', function($http){
-    
-    var categoryList = function(){
+application.factory('categoryService', function($resource){
+
+    return $resource('categories/:id');
+
+
+  /*  var categoryList = function(){
         return $http({
             method: 'GET',
             url: '/categories'
@@ -11,6 +14,6 @@ application.factory('categoryService', function($http){
     return{
         getCategoryList : categoryList
     }
-    
+    */
     
 });
