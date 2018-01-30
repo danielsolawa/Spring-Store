@@ -19,7 +19,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/login**", "/categories", "/logout", "/home.html").permitAll()
+                .antMatchers(
+                        "/", "/login**", "/categories/**", "/logout",
+                        "/home.html", "/category-view.html", "/error403.html")
+                .permitAll()
                 .anyRequest().authenticated();
     }
 }

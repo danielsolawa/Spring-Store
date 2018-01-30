@@ -1,19 +1,9 @@
 application.factory('categoryService', function($resource){
 
-    return $resource('categories/:id');
+    return $resource('categories/:id', { id: '@_id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
 
-
-  /*  var categoryList = function(){
-        return $http({
-            method: 'GET',
-            url: '/categories'
-        });
-    }
-
-
-    return{
-        getCategoryList : categoryList
-    }
-    */
-    
 });

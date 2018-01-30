@@ -94,6 +94,11 @@ public class Bootstrap implements CommandLineRunner{
             user.setPassword(passwordEncoder.encode("password"));
             user.setRole(Role.USER);
 
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setRole(Role.ADMIN);
+
 
             Order order = new Order();
             order.setOrderDate(LocalDateTime.now());
@@ -106,7 +111,7 @@ public class Bootstrap implements CommandLineRunner{
             user.setInventory(inventory);
             user.addOrder(order);
 
-
+            userRepository.save(admin);
             User savedUser =  userRepository.save(user);
 
 
