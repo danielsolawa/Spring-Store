@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.controllers;
 
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
+import com.danielsolawa.storeauth.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,17 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>("Resource not found", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    public ResponseEntity<Object> handleUserAlreadyExistsException(Exception exception, WebRequest request){
+        return new ResponseEntity<>(exception.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT);
+    }
 
     @ExceptionHandler({NumberFormatException.class})
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return new ResponseEntity<>("Wrong path param", new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
+
+
 }

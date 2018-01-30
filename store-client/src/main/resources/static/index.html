@@ -12,18 +12,20 @@
     <script type="application/javascript" src="/webjars/angularjs/1.6.6/angular-resource.min.js"></script>
     <script type="application/javascript" src="/js/main.js"></script>
     <script type="application/javascript" src="/js/services/category-service.js"></script>
-    <script type="application/javascript" src="/js/services/auth-service.js"></script>
+    <script type="application/javascript" src="/js/services/products-service.js"></script>
+    <script type="application/javascript" src="/js/services/user-service.js"></script>
     <script type="application/javascript" src="/js/controllers/navigation-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/categories-controller.js"></script>
+    <script type="application/javascript" src="/js/controllers/user-controller.js"></script>
+    <script type="application/javascript" src="/js/controllers/products-controller.js"></script>
 
 </head>
 <body ng-app="springstore">
 <nav class="navbar navbar-inverse" ng-controller="navigation as nav">
-    <p class="navbar-text">Home</p>
-    <p class="navbar-text"><a href="/categories">Categories</a></p>
+    <p class="navbar-text"><a href="/">Home</a></p>
     <p ng-show="!authenticated" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
     <p ng-show="authenticated" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} {{user.id}} Logout</a></p>
-    <p class="navbar-text">Register</p>
+    <p class="navbar-text"><a href="/#!/users/new">Register</a></p>
 </nav>
 
 <div ng-view ng-cloak class="container">

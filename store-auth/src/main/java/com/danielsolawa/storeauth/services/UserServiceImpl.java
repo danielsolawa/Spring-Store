@@ -4,6 +4,7 @@ import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
+import com.danielsolawa.storeauth.exceptions.UserAlreadyExistsException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,13 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
+        if(userAlreadyExists(userDto.getUsername())){
+            throw new UserAlreadyExistsException("User " + userDto.getUsername() + " already exists.");
+        }
+
         return saveUserDto(userDto);
     }
+
 
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
@@ -79,6 +85,18 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDto(user);
 
     }
+
+
+    private boolean userAlreadyExists(String username) {
+        User user = userRepository.findByUsername(username);
+
+        if(user != null){
+            return true;
+        }
+
+        return false;
+    }
+
 
     private UserDto saveUserDto(UserDto userDto){
         User user = userMapper.userDtoToUser(userDto);

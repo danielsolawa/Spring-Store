@@ -17,6 +17,8 @@ public class Product {
     private Long id;
     private String name;
     private Double price;
+    @Column(length = 1000)
+    private String description;
 
     @ManyToOne
     @JsonIgnore

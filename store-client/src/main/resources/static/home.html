@@ -2,13 +2,7 @@
     <div class="panel-heading">Products</div>
     <div class="panel-body">
         <div ng-repeat="category in controller.categories">
-            <div>
-                <h4><a href="/#!/categories/{{category.id}}">{{category.name}}</a></h4>
-                <ul class="list-group" ng-repeat="product in category.products">
-                    <li class="list-group-item">{{product.name}}</li>
-
-                </ul>
-            </div>
+            <h4><a href="/#!/categories/{{category.id}}">{{category.name}}</a></h4>
         </div>
     </div>
 </div>

@@ -1,0 +1,21 @@
+<div class="panel panel-info">
+    <div class="panel-heading"><h2>Registration</h2></div>
+    <div class="panel-body">
+        <div ng-show="controller.error" class="alert alert-danger">
+            {{controller.errorMessage}}
+        </div>
+        <form name="reg"ng-submit="controller.register()">
+            <div class="form-group">
+                <label for="username">Email:</label>
+                <input class="form-control"
+                       type="email" ng-model="controller.user.username" id="username" required/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input class="form-control"
+                       type="password" ng-model="controller.user.password" id="password" required/>
+            </div>
+            <button type="submit" class="btn btn-primary" ng-disabled="reg.$invalid">Register</button>
+        </form>
+    </div>
+</div>

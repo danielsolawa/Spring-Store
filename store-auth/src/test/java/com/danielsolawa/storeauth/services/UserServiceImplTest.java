@@ -4,6 +4,7 @@ import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
+import com.danielsolawa.storeauth.exceptions.UserAlreadyExistsException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import org.junit.Before;
@@ -21,9 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.notNull;
+import static org.mockito.Matchers.*;
 
 public class UserServiceImplTest {
 
@@ -60,7 +59,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void createUser() {
+    public void createUserHappyPath() {
         User user = new User();
         user.setId(1L);
         user.setUsername("John");
@@ -70,6 +69,7 @@ public class UserServiceImplTest {
         inventory.setUser(user);
         user.setInventory(inventory);
 
+        given(userRepository.findByUsername(anyString())).willReturn(null);
         given(userRepository.save(any(User.class))).willReturn(user);
 
         UserDto userDto = userService.createUser(new UserDto());
@@ -79,6 +79,20 @@ public class UserServiceImplTest {
         assertThat(user.getPassword(), equalTo(userDto.getPassword()));
         assertNotNull(userDto.getInventory());
 
+        then(userRepository).should().findByUsername(anyString());
+        then(userRepository).should().save(any(User.class));
+
+    }
+
+
+
+    @Test(expected = UserAlreadyExistsException.class)
+    public void createUserFailure() {
+
+        given(userRepository.save(any(User.class))).willThrow(UserAlreadyExistsException.class);
+
+        userService.createUser(new UserDto());
+        
         then(userRepository).should().save(any(User.class));
 
     }

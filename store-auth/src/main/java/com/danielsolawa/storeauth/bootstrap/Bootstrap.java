@@ -47,27 +47,47 @@ public class Bootstrap implements CommandLineRunner{
             Product product1 = new Product();
             product1.setName("Queen");
             product1.setPrice(25.00);
+            product1.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nibh a purus elementum elementum sit amet vitae odio. Fusce sed urna id lectus dapibus bibendum ut sed neque." +
+                    " Duis fermentum sagittis sem, in posuere tortor venenatis et. Quisque at ex dolor. Maecenas placerat interdum suscipit. Nullam venenatis quis nisl vel laoreet. Praesent semper sodales lorem, at maximus ligula aliquet nec. " +
+                    "Pellentesque quis odio congue, lobortis leo eu, volutpat sapien. Nam finibus magna vel metus facilisis, vitae porta ligula porta. Nulla facilisi. Aliquam eget ex sit amet lorem porttitor viverra. Integer tincidunt, est ac posuere pretium, lectus nisi maximus tellus, ac bibendum risus sem id ex. " +
+                    "Proin dapibus ligula efficitur ligula sollicitudin, sit amet fringilla ex volutpat.");
             product1.setCategory(category1);
 
             Product product2 = new Product();
             product2.setName("The Beatles");
             product2.setPrice(23.00);
+            product2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nibh a purus elementum elementum sit amet vitae odio. Fusce sed urna id lectus dapibus bibendum ut sed neque." +
+                    " Duis fermentum sagittis sem, in posuere tortor venenatis et. Quisque at ex dolor. Maecenas placerat interdum suscipit. Nullam venenatis quis nisl vel laoreet. Praesent semper sodales lorem, at maximus ligula aliquet nec. " +
+                    "Pellentesque quis odio congue, lobortis leo eu, volutpat sapien. Nam finibus magna vel metus facilisis, vitae porta ligula porta. Nulla facilisi. Aliquam eget ex sit amet lorem porttitor viverra. Integer tincidunt, est ac posuere pretium, lectus nisi maximus tellus, ac bibendum risus sem id ex. " +
+                    "Proin dapibus ligula efficitur ligula sollicitudin, sit amet fringilla ex volutpat.");
             product2.setCategory(category1);
 
             Product product3 = new Product();
             product3.setName("Elvis Presley");
             product3.setPrice(28.00);
+            product3.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nibh a purus elementum elementum sit amet vitae odio. Fusce sed urna id lectus dapibus bibendum ut sed neque." +
+                    " Duis fermentum sagittis sem, in posuere tortor venenatis et. Quisque at ex dolor. Maecenas placerat interdum suscipit. Nullam venenatis quis nisl vel laoreet. Praesent semper sodales lorem, at maximus ligula aliquet nec. " +
+                    "Pellentesque quis odio congue, lobortis leo eu, volutpat sapien. Nam finibus magna vel metus facilisis, vitae porta ligula porta. Nulla facilisi. Aliquam eget ex sit amet lorem porttitor viverra. Integer tincidunt, est ac posuere pretium, lectus nisi maximus tellus, ac bibendum risus sem id ex. " +
+                    "Proin dapibus ligula efficitur ligula sollicitudin, sit amet fringilla ex volutpat.");
             product3.setCategory(category1);
 
 
             Product product4 = new Product();
             product4.setName("Honda");
             product4.setPrice(122228.00);
+            product4.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nibh a purus elementum elementum sit amet vitae odio. Fusce sed urna id lectus dapibus bibendum ut sed neque." +
+                    " Duis fermentum sagittis sem, in posuere tortor venenatis et. Quisque at ex dolor. Maecenas placerat interdum suscipit. Nullam venenatis quis nisl vel laoreet. Praesent semper sodales lorem, at maximus ligula aliquet nec. " +
+                    "Pellentesque quis odio congue, lobortis leo eu, volutpat sapien. Nam finibus magna vel metus facilisis, vitae porta ligula porta. Nulla facilisi. Aliquam eget ex sit amet lorem porttitor viverra. Integer tincidunt, est ac posuere pretium, lectus nisi maximus tellus, ac bibendum risus sem id ex. " +
+                    "Proin dapibus ligula efficitur ligula sollicitudin, sit amet fringilla ex volutpat.");
             product4.setCategory(category2);
 
             Product product5 = new Product();
             product5.setName("Ford");
             product5.setPrice(15228.00);
+            product5.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nibh a purus elementum elementum sit amet vitae odio. Fusce sed urna id lectus dapibus bibendum ut sed neque." +
+                    " Duis fermentum sagittis sem, in posuere tortor venenatis et. Quisque at ex dolor. Maecenas placerat interdum suscipit. Nullam venenatis quis nisl vel laoreet. Praesent semper sodales lorem, at maximus ligula aliquet nec. " +
+                    "Pellentesque quis odio congue, lobortis leo eu, volutpat sapien. Nam finibus magna vel metus facilisis, vitae porta ligula porta. Nulla facilisi. Aliquam eget ex sit amet lorem porttitor viverra. Integer tincidunt, est ac posuere pretium, lectus nisi maximus tellus, ac bibendum risus sem id ex. " +
+                    "Proin dapibus ligula efficitur ligula sollicitudin, sit amet fringilla ex volutpat.");
             product5.setCategory(category2);
 
 
@@ -111,8 +131,9 @@ public class Bootstrap implements CommandLineRunner{
             user.setInventory(inventory);
             user.addOrder(order);
 
-            userRepository.save(admin);
+
             User savedUser =  userRepository.save(user);
+            userRepository.save(admin);
 
 
             log.info("saved new user at " + savedUser.getOrders().get(0).getOrderDate().toString());

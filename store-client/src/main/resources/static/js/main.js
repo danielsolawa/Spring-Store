@@ -12,6 +12,16 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'categoriesView',
             controllerAs: 'controller'
         })
+        .when('/categories/:id/products/:prodId', {
+            templateUrl: 'product-view.html',
+            controller: 'productView',
+            controllerAs: 'controller'
+        })
+        .when('/users/new', {
+            templateUrl: 'user-add.html',
+            controller: 'userAdd',
+            controllerAs: 'controller'
+        })
         .when('/error403', {
             templateUrl: 'error403.html'
         })
@@ -23,7 +33,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     $locationProvider.html5Mode(false);
 }])
     .run(function ($rootScope, $location) {
-        var protectedUrlPaths = ["category-view.html"];
+        var protectedUrlPaths = [];
 
         $rootScope.$on("$routeChangeStart", function(event, next, current){
 
