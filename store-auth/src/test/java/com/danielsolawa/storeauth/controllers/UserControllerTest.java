@@ -60,8 +60,8 @@ public class UserControllerTest extends AbstractControllerTest{
     public void createUser() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setId(1L);
-        userDto.setUsername("Kate");
-        userDto.setPassword("password");
+        userDto.setUsername("kate@wp.pl");
+        userDto.setPassword("passshouldbestrong");
 
         given(userService.createUser(any(UserDto.class))).willReturn(userDto);
 
@@ -71,8 +71,7 @@ public class UserControllerTest extends AbstractControllerTest{
                 .content(asJson(userDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.username", equalTo(userDto.getUsername())))
-                .andExpect(jsonPath("$.password", equalTo(userDto.getPassword())));
+                .andExpect(jsonPath("$.username", equalTo(userDto.getUsername())));
 
         then(userService).should().createUser(any(UserDto.class));
 
@@ -93,8 +92,7 @@ public class UserControllerTest extends AbstractControllerTest{
                 .content(asJson(userDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.username", equalTo(userDto.getUsername())))
-                .andExpect(jsonPath("$.password", equalTo(userDto.getPassword())));
+                .andExpect(jsonPath("$.username", equalTo(userDto.getUsername())));
 
         then(userService).should().updateUser(anyLong(), any(UserDto.class));
     }
@@ -112,8 +110,7 @@ public class UserControllerTest extends AbstractControllerTest{
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.username", equalTo(userDto.getUsername())))
-                .andExpect(jsonPath("$.password", equalTo(userDto.getPassword())));
+                .andExpect(jsonPath("$.username", equalTo(userDto.getUsername())));
 
         then(userService).should().getUserById(anyLong());
 

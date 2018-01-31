@@ -3,9 +3,14 @@ package com.danielsolawa.storeauth.controllers;
 
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.dtos.UserListDto;
+import com.danielsolawa.storeauth.exceptions.ValidationConstraintException;
 import com.danielsolawa.storeauth.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(UserController.BASE_URL)
@@ -29,7 +34,17 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@RequestBody  UserDto userDto){
+    public UserDto createUser(@Valid @RequestBody  UserDto userDto, Errors errors){
+        if(errors.hasErrors()){
+            String message = errors.getAllErrors()
+                    .stream()
+                    .map(e -> e.getDefaultMessage())
+                    .collect(Collectors.joining(","));
+
+            throw new ValidationConstraintException(message);
+        }
+
+
         return userService.createUser(userDto);
     }
 
@@ -37,6 +52,8 @@ public class UserController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+
+
         return userService.updateUser(id, userDto);
     }
 
