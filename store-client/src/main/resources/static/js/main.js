@@ -35,6 +35,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     $httpProvider.defaults.headers.common['Accept'] = 'application/json';
 
+
     $locationProvider.html5Mode(false);
 }])
     .run(function ($rootScope, $location) {
@@ -60,6 +61,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
 
             }
         });
+
 
 
     });

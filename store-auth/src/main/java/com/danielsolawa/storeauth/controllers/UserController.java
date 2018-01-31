@@ -35,18 +35,11 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@Valid @RequestBody  UserDto userDto, Errors errors){
-        if(errors.hasErrors()){
-            String message = errors.getAllErrors()
-                    .stream()
-                    .map(e -> e.getDefaultMessage())
-                    .collect(Collectors.joining(","));
-
-            throw new ValidationConstraintException(message);
-        }
-
+        checkValidation(errors);
 
         return userService.createUser(userDto);
     }
+
 
 
     @PutMapping("/{id}")
@@ -68,5 +61,17 @@ public class UserController {
     public void deleteUserById(@PathVariable Long id){
 
         userService.deleteUserById(id);
+    }
+
+
+    private void checkValidation(Errors errors) {
+        if(errors.hasErrors()){
+            String message = errors.getAllErrors()
+                    .stream()
+                    .map(e -> e.getDefaultMessage())
+                    .collect(Collectors.joining("\n"));
+
+            throw new ValidationConstraintException(message);
+        }
     }
 }

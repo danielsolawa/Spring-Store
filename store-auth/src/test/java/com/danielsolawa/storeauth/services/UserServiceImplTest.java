@@ -4,14 +4,13 @@ import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
-import com.danielsolawa.storeauth.exceptions.UserAlreadyExistsException;
+import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -86,10 +85,10 @@ public class UserServiceImplTest {
 
 
 
-    @Test(expected = UserAlreadyExistsException.class)
+    @Test(expected = ResourceAlreadyExistsException.class)
     public void createUserFailure() {
 
-        given(userRepository.save(any(User.class))).willThrow(UserAlreadyExistsException.class);
+        given(userRepository.save(any(User.class))).willThrow(ResourceAlreadyExistsException.class);
 
         userService.createUser(new UserDto());
 

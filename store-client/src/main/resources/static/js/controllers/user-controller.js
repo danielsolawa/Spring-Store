@@ -1,6 +1,6 @@
 
 
-application.controller('userAdd', ['$location', 'userService', function($location, userService){
+application.controller('userAdd', ['$location', 'userService', '$http', function($location, userService, $http){
    var self = this;
 
    self.error = false;
@@ -8,19 +8,21 @@ application.controller('userAdd', ['$location', 'userService', function($locatio
    self.errorMessage ="";
 
    self.register = function(){
+       self.error = false;
 
-       var save = userService.save(self.user, function(response){
-          $location.path("/users/registered/" + response.username);
-       }, function(error){
-           console.log(error);
-       });
-/*
        if(isValid()){
-
-
+           userService.save(self.user, function(response){
+               $location.path("/users/registered/" + response.username);
+           }, function(response){
+               self.errorMessage = response.data.message;
+               self.error = true;
+           });
        }else{
            self.error = true;
-       }*/
+       }
+
+
+
    }
 
     var isValid = function () {

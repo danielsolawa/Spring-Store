@@ -4,12 +4,10 @@ import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
-import com.danielsolawa.storeauth.exceptions.UserAlreadyExistsException;
+import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +43,7 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         if(userAlreadyExists(userDto.getUsername())){
-            throw new UserAlreadyExistsException("User " + userDto.getUsername() + " already exists.");
+            throw new ResourceAlreadyExistsException("User " + userDto.getUsername() + " already exists.");
         }
 
         return saveUserDto(userDto);
