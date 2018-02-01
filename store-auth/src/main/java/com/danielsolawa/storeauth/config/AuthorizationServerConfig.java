@@ -59,6 +59,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Configuration
     @EnableResourceServer
     public static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http

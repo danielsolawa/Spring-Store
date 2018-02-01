@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 @Configuration
 @Profile("dev")
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(-20)
 public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
 
@@ -57,31 +57,7 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
-/*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-       http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/api/v1/categories/**").permitAll()
-                .antMatchers("/api/v1/users/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .requestMatchers().antMatchers("/login", "/oauth/authorize",
-                "/api/v1/users/**")
-                .and()
-                .formLogin().permitAll()
-                .and().logout();
-       http
-               .antMatcher("/**")
-               .authorizeRequests()
-               .antMatchers("/api/v1/categories/**").permitAll()
-               .anyRequest().authenticated()
-               .and()
-               .formLogin().permitAll()
-               .and().csrf().disable();
 
-    }*/
 
 
     @Override
