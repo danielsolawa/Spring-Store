@@ -1,0 +1,91 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+
+        <div class="row">
+            <div class="col-xs-2">
+                Admin Panel
+            </div>
+            <div class="col-xs-10">
+                <div class="btn-group btn-block">
+                    <button class="btn btn-primary btn-lg" ng-click="controller.toggle('users', -1)">Manage Users</button>
+                    <button class="btn btn-primary btn-lg" ng-click="controller.toggle('categories', -1)">Manage Categories</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- USERS -->
+    <div class="panel-body">
+        <div ng-show="controller.users">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Authority</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in controller.userData">
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.role}}</td>
+                    <td><button class="btn btn-warning">edit</button></td>
+                    <td><button class="btn btn-danger">delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- CATEGORIES -->
+        <div ng-show="controller.categories">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="category in controller.categoryData">
+                    <td>{{category.id}}</td>
+                    <td>{{category.name}}</td>
+                    <td ng-click="controller.toggle('products', category.id)">click to show products</td>
+                    <td><button class="btn btn-warning">edit</button></td>
+                    <td><button class="btn btn-danger">delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- PRODUCTS -->
+        <div ng-show="controller.products">
+            <h3>{{controller.productData.name}}</h3>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="product in controller.productData.products">
+                    <td>{{product.id}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.description}}</td>
+                    <td><button class="btn btn-warning">edit</button></td>
+                    <td><button class="btn btn-danger">delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+</div>

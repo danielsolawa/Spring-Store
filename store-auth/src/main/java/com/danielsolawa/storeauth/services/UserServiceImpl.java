@@ -106,7 +106,9 @@ public class UserServiceImpl implements UserService {
             user.setInventory(inventory);
         }
 
-        return userMapper.userToUserDto(userRepository.save(user));
+        UserDto savedUser = userMapper.userToUserDto(userRepository.save(user));
+
+        return savedUser;
     }
 
 

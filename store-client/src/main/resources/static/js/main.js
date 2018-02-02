@@ -27,6 +27,11 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'userRegistered',
             controllerAs: 'controller'
         })
+        .when('/admin', {
+            templateUrl: 'admin-panel.html',
+            controller: 'adminPanel',
+            controllerAs: 'controller'
+        })
         .when('/error403', {
             templateUrl: 'error403.html'
         })
@@ -39,7 +44,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     $locationProvider.html5Mode(false);
 }])
     .run(function ($rootScope, $location) {
-        var protectedUrlPaths = [];
+        var protectedUrlPaths = ['/admin'];
 
         $rootScope.$on("$routeChangeStart", function(event, next, current){
 
@@ -52,7 +57,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             }else{
                 for(var i =0; i < protectedUrlPaths.length; i++){
                     if(next.templateUrl == protectedUrlPaths[i]){
-                        if($rootScope.user.authorities[0].authority == 'USER'){
+                        if($rootScope.user.authority != 'ADMIN'){
                             $location.path("/error403");
                         }
 

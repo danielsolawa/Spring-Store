@@ -6,6 +6,7 @@ import com.danielsolawa.storeauth.dtos.UserListDto;
 import com.danielsolawa.storeauth.exceptions.ValidationConstraintException;
 import com.danielsolawa.storeauth.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,8 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUserById(@PathVariable Long id){

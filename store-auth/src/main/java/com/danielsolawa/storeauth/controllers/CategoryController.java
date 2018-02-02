@@ -49,6 +49,7 @@ public class CategoryController {
         return categoryService.updateCategory(categoryId, categoryDto);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{categoryId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCategory(@PathVariable Long categoryId){
