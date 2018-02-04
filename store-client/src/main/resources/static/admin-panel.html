@@ -103,7 +103,26 @@
 
         <!-- PRODUCTS -->
         <div ng-show="controller.products">
-            <h3>{{controller.productData.name}}</h3>
+            <h3 ng-click="controller.addingProduct = !controller.addingProduct">
+                {{controller.productData.name}}(click do add new)
+            </h3>
+            <div ng-show="controller.addingProduct">
+                <form name="reg" ng-submit="controller.addProduct(controller.productData.id)">
+                    <div class="form-group">
+                        <label for="pname">Product Name:</label>
+                        <input class="form-control"
+                               type="text" ng-model="controller.product.name" id="pname" required/>
+                        <label for="price">Price:</label>
+                        <input class="form-control"
+                               type="text" ng-model="controller.product.price" id="price" required/>
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" rows="5" id="description"
+                                  ng-model="controller.product.description" id="description"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                </form>
+            </div>
             <table class="table table-hover">
                 <thead>
                 <tr>

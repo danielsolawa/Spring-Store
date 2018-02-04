@@ -1,5 +1,5 @@
 application.controller('adminPanel',
-    ['categoryService', 'userService', 'productsService',  function (categoryService, userService) {
+    ['categoryService', 'userService', 'productsService',  function (categoryService, userService, productsService) {
    var self = this;
 
    self.error = false;
@@ -7,6 +7,7 @@ application.controller('adminPanel',
    self.users = false;
    self.categories = false;
    self.products = false;
+   self.addingProduct = false;
 
 
 
@@ -15,6 +16,7 @@ application.controller('adminPanel',
    self.productData = [];
 
    self.category = {};
+   self.product = {};
 
    self.toggle = function(val, index){
        disableAll();
@@ -41,6 +43,19 @@ application.controller('adminPanel',
 
    }
 
+    var disableAll = function(){
+        self.users = false;
+        self.categories = false;
+        self.products = false;
+    }
+
+
+
+
+   /*
+    *
+    * CATEGORIES
+    */
 
    self.addCategory = function(){
        self.error = false;
@@ -61,9 +76,6 @@ application.controller('adminPanel',
            console.log("error occured");
        });
 
-   /*   self.category.$update(function () {
-         console.log("updated");
-      });*/
    }
 
 
@@ -71,9 +83,9 @@ application.controller('adminPanel',
      console.log('index ' + index);
    };
 
-   self.categoryEdit = function(index, edit){
-       self.categoryData[index].edit = edit;
-   };
+        self.categoryEdit = function(index, edit){
+            self.categoryData[index].edit = edit;
+        };
 
    var setUpEdit = function(){
        for(var i = 0; i < self.categoryData.length; i++){
@@ -83,10 +95,20 @@ application.controller('adminPanel',
    }
 
 
-   var disableAll = function(){
-       self.users = false;
-       self.categories = false;
-       self.products = false;
+
+   /*
+    *
+    * Products
+    */
+
+   self.addProduct = function(categoryId){
+       productsService.save({id: categoryId}, self.product, function(response){
+           console.log("success");
+           self.product = {};
+           self.toggle('products', categoryId);
+       }, function(error){
+           console.log("error");
+       });
    }
 
 }]);
