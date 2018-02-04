@@ -39,6 +39,20 @@
 
         <!-- CATEGORIES -->
         <div ng-show="controller.categories">
+
+            <div ng-show="controller.error" class="alert alert-danger">
+                {{controller.errorMessage}}
+            </div>
+            <form name="reg" ng-submit="controller.addCategory()">
+                <div class="form-group">
+                    <label for="name">Category Name:</label>
+                    <input class="form-control"
+                           type="text" ng-model="controller.category.name" id="name" required/>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </form>
+
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -46,14 +60,42 @@
                     <th>Name</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr ng-repeat="category in controller.categoryData">
-                    <td>{{category.id}}</td>
-                    <td>{{category.name}}</td>
-                    <td ng-click="controller.toggle('products', category.id)">click to show products</td>
-                    <td><button class="btn btn-warning">edit</button></td>
-                    <td><button class="btn btn-danger">delete</button></td>
-                </tr>
+                <tbody ng-repeat="category in controller.categoryData">
+
+                    <!-- EDIT OFF -->
+                    <tr ng-show="!category.edit">
+                        <td>{{category.id}}</td>
+                        <td>{{category.name}}</td>
+                        <td ng-click="controller.toggle('products', category.id)">display product list</td>
+                        <td><button class="btn btn-warning" ng-click="controller.categoryEdit($index, true)">edit</button></td>
+                        <td><button class="btn btn-danger">delete</button></td>
+                    </tr>
+
+                    <!-- EDIT ON -->
+                    <tr ng-show="category.edit">
+
+
+                            <div class="form-group">
+                                <td>{{category.id}}</td>
+                                <td>
+                                    <input class="form-control" type="text"
+                                           ng-model="controller.categoryData[$index].name" required/>
+                                </td>
+
+                                <td>
+                                    <form name="reg" ng-submit="controller.updateCategories($index)">
+                                        <button type="submit" class="btn btn-success">save</button>
+                                    </form>
+
+                                </td>
+                                <td>
+                                    <button ng-click="controller.categoryEdit($index, false)" class="btn btn-warning">cancel</button>
+                                </td>
+
+                            </div>
+
+                    </tr>
+
                 </tbody>
             </table>
 
