@@ -68,6 +68,20 @@ application.controller('adminPanel',
        });
    }
 
+
+
+
+   self.deleteCategory = function(categoryId){
+
+     categoryService.delete({id: categoryId}, function(response){
+        console.log("successfully deleted");
+         self.toggle('categories', -1);
+     }, function(error){
+         console.log("error has occurred")
+     });
+
+   }
+
    self.updateCategories = function(index){
 
        categoryService.update({id: self.categoryData[index].id}, self.categoryData[index], function(response){
@@ -95,7 +109,6 @@ application.controller('adminPanel',
    }
 
 
-
    /*
     *
     * Products
@@ -103,12 +116,25 @@ application.controller('adminPanel',
 
    self.addProduct = function(categoryId){
        productsService.save({id: categoryId}, self.product, function(response){
-           console.log("success");
            self.product = {};
+           self.addingProduct = false;
            self.toggle('products', categoryId);
        }, function(error){
            console.log("error");
        });
+   }
+
+   self.deleteProduct = function(categoryId, productId){
+       productsService.delete({id: categoryId, prodId: productId}, function(response){
+           console.log(response);
+           self.toggle('products', id);
+       }, function(error){
+           console.log("error has occurred");
+       });
+   }
+
+   self.updateProduct = function(id, productId){
+
    }
 
 }]);

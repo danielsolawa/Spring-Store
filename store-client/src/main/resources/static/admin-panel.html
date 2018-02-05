@@ -68,7 +68,7 @@
                         <td>{{category.name}}</td>
                         <td ng-click="controller.toggle('products', category.id)">display product list</td>
                         <td><button class="btn btn-warning" ng-click="controller.categoryEdit($index, true)">edit</button></td>
-                        <td><button class="btn btn-danger">delete</button></td>
+                        <td><button class="btn btn-danger" ng-click="controller.deleteCategory(category.id)">delete</button></td>
                     </tr>
 
                     <!-- EDIT ON -->
@@ -114,10 +114,10 @@
                                type="text" ng-model="controller.product.name" id="pname" required/>
                         <label for="price">Price:</label>
                         <input class="form-control"
-                               type="text" ng-model="controller.product.price" id="price" required/>
+                               type="number" ng-model="controller.product.price" id="price" required/>
                         <label for="description">Description:</label>
                         <textarea class="form-control" rows="5" id="description"
-                                  ng-model="controller.product.description" id="description"></textarea>
+                                  ng-model="controller.product.description" id="description" required></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Add Product</button>
@@ -139,7 +139,8 @@
                     <td>{{product.price}}</td>
                     <td>{{product.description}}</td>
                     <td><button class="btn btn-warning">edit</button></td>
-                    <td><button class="btn btn-danger">delete</button></td>
+                    <td><button class="btn btn-danger"
+                                ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
                 </tr>
                 </tbody>
             </table>

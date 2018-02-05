@@ -117,10 +117,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void updateProduct() {
-
-        Category category = new Category();
-        category.setId(1L);
+    public void updateProductHappyPath() {
 
         Product product = new Product();
         product.setId(1L);
@@ -129,7 +126,7 @@ public class ProductServiceImplTest {
         categoryWithProduct.setId(1L);
         categoryWithProduct.addProduct(product);
 
-        given(categoryRepository.findOne(anyLong())).willReturn(category);
+        given(categoryRepository.findOne(anyLong())).willReturn(categoryWithProduct);
         given(categoryRepository.save(any(Category.class))).willReturn(categoryWithProduct);
 
         ProductDto productDto = productService.updateProduct(1L, 1L, new ProductDto());
@@ -141,6 +138,7 @@ public class ProductServiceImplTest {
         then(categoryRepository).should().save(any(Category.class));
 
     }
+    
 
     @Test
     public void deleteProductById() {

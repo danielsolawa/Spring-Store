@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto updateProduct(Long categoryId, Long productId, ProductDto productDto) {
 
+        productDto.setId(productId);
         Category category = prepareForUpdate(productId, productDto, getCategoryById(categoryId));
 
         return saveProductDto(category);
@@ -75,32 +76,56 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(Long categoryId, Long productId) {
         Category category = getCategoryById(categoryId);
 
-        removeProduct(productId, category);
+        Category updatedCategory = removeProduct(productId, category);
 
-        categoryRepository.save(category);
+        categoryRepository.save(updatedCategory);
 
 
 
     }
 
-    private void removeProduct(Long productId, Category category) {
-        List<Product> products = category.getProducts()
+    private Category removeProduct(Long productId, Category category) {
+        Product foundProduct = category.getProducts()
                 .stream()
-                .filter(product -> !(product.getId().equals(productId)))
-                .collect(Collectors.toList());
+                .filter(product -> product.getId().equals(productId))
+                .findFirst().orElseThrow(NoSuchElementException::new);
 
-        category.setProducts(products);
+        log.info(foundProduct.toString());
+
+        foundProduct.setCategory(null);
+
+        category.getProducts().remove(foundProduct);
+
+
+        return category;
     }
 
 
     private Category prepareForUpdate(Long productId, ProductDto productDto, Category category) {
-        List<Product> products = category.getProducts()
-                .stream()
-                .filter(product -> !(product.getId().equals(productId)))
-                .collect(Collectors.toList());
 
-        products.add(productMapper.productDtoToProduct(productDto));
-        category.setProducts(products);
+        log.info(category.getProducts().toString());
+
+
+        Product foundProduct= category.getProducts()
+                .stream()
+                .filter(product -> product.getId().equals(productId))
+                .findFirst().orElseThrow(NoSuchElementException::new);
+
+        category.getProducts().remove(foundProduct);
+
+        if(productDto.getName() != null){
+            foundProduct.setName(productDto.getName());
+        }
+
+        if(productDto.getPrice() != null){
+            foundProduct.setPrice(productDto.getPrice());
+        }
+
+        if(productDto.getDescription() != null){
+            foundProduct.setDescription(productDto.getDescription());
+        }
+
+        category.addProduct(foundProduct);
 
         return category;
     }

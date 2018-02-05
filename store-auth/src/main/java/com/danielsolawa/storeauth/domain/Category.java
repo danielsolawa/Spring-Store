@@ -4,6 +4,8 @@ package com.danielsolawa.storeauth.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Data
 @Entity
+@EqualsAndHashCode(exclude = {"products"})
+@ToString(exclude = {"products"})
 public class Category {
 
     @Id
