@@ -7,6 +7,7 @@ import com.danielsolawa.storeauth.mappers.CategoryMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,11 +49,14 @@ public class CategoryServiceImpl implements CategoryService {
         return saveCategoryDto(categoryDto);
     }
 
+    @Transactional
     @Override
     public CategoryDto updateCategory(Long categoryId, CategoryDto categoryDto) {
-        categoryDto.setId(categoryId);
+        CategoryDto foundCategory = getCategoryById(categoryId);
 
-        return saveCategoryDto(categoryDto);
+        foundCategory.setName(categoryDto.getName());
+
+        return saveCategoryDto(foundCategory);
     }
 
     @Override

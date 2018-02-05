@@ -101,6 +101,7 @@ public class CategoryServiceImplTest {
         category.setId(1L);
         category.setProducts(Arrays.asList(new Product()));
 
+        given(categoryRepository.findOne(anyLong())).willReturn(category);
         given(categoryRepository.save(any(Category.class))).willReturn(category);
 
         CategoryDto categoryDto = categoryService.updateCategory(1L, new CategoryDto());
