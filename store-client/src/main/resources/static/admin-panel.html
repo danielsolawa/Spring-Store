@@ -132,16 +132,25 @@
                     <th>Description</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr ng-repeat="product in controller.productData.products">
-                    <td>{{product.id}}</td>
-                    <td>{{product.name}}</td>
-                    <td>{{product.price}}</td>
-                    <td>{{product.description}}</td>
-                    <td><button class="btn btn-warning">edit</button></td>
-                    <td><button class="btn btn-danger"
-                                ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
-                </tr>
+                <tbody ng-repeat="product in controller.productData.products">
+                    <tr ng-show="!controller.productData.products[$index].edit" >
+                        <td>{{product.id}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.description}}</td>
+                        <td><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = true">edit</button></td>
+                        <td><button class="btn btn-danger"
+                                    ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
+                    </tr>
+
+                    <tr ng-show="controller.productData.products[$index].edit">
+                        <td>{{product.id}}</td>
+                        <td><input class="form-control" type="text" ng-model="controller.productData.products[$index].name" required/></td>
+                        <td><input class="form-control" type="number" ng-model="controller.productData.products[$index].price" required/></td>
+                        <td><textarea class="form-control" ng-model="controller.productData.products[$index].description" required></textarea></td>
+                        <td><button class="btn btn-success" ng-click="controller.updateProduct(controller.productData.id, controller.productData.products[$index].id, $index)">save</button></td>
+                        <td><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = false">cancel</button></td>
+                    </tr>
                 </tbody>
             </table>
 

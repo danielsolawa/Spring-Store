@@ -31,17 +31,22 @@ application.controller('adminPanel',
               self.categories = true;
               categoryService.get(function(response){
                   self.categoryData = response.categories;
-                  setUpEdit();
+                  setUpCategoryEdit();
               });
               break;
            case 'products':
               self.products = true;
               categoryService.get({id: index}, function(response){
                   self.productData = response;
+                  setUpProductEdit();
               });
        }
 
    }
+
+
+
+
 
     var disableAll = function(){
         self.users = false;
@@ -101,10 +106,10 @@ application.controller('adminPanel',
             self.categoryData[index].edit = edit;
         };
 
-   var setUpEdit = function(){
+   var setUpCategoryEdit = function(){
        for(var i = 0; i < self.categoryData.length; i++){
            self.categoryData[i].edit = false;
-          // console.log(self.categoryData[i]);
+
        }
    }
 
@@ -113,6 +118,14 @@ application.controller('adminPanel',
     *
     * Products
     */
+
+
+
+    function setUpProductEdit() {
+        for(var i = 0; i < self.productData.products.length; i++){
+            self.productData.products[i].edit = false;
+        }
+    }
 
    self.addProduct = function(categoryId){
        productsService.save({id: categoryId}, self.product, function(response){
@@ -127,14 +140,19 @@ application.controller('adminPanel',
    self.deleteProduct = function(categoryId, productId){
        productsService.delete({id: categoryId, prodId: productId}, function(response){
            console.log(response);
-           self.toggle('products', id);
+           self.toggle('products', categoryId);
        }, function(error){
            console.log("error has occurred");
        });
    }
 
-   self.updateProduct = function(id, productId){
-
+   self.updateProduct = function(categoryId, productId, index){
+        productsService.update({id: categoryId, prodId: productId}, self.productData.products[index], function(response){
+        console.log("successfully updated");
+        self.toggle('products', categoryId);
+    }, function(error){
+        console.log("error has occurred");
+    });
    }
 
 }]);
