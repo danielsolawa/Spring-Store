@@ -11,6 +11,7 @@ application.controller('adminPanel',
 
 
 
+
    self.userData = [];
    self.categoryData = [];
    self.productData = [];
@@ -25,6 +26,7 @@ application.controller('adminPanel',
               self.users = true;
               userService.get(function(response){
                  self.userData = response.users;
+                 setUpUsersEdit();
               });
               break;
            case 'categories':
@@ -43,7 +45,6 @@ application.controller('adminPanel',
        }
 
    }
-
 
 
 
@@ -154,5 +155,21 @@ application.controller('adminPanel',
         console.log("error has occurred");
     });
    }
+
+
+
+   /*
+    * Users
+    *
+    */
+
+   var setUpUsersEdit = function(){
+       for(var i = 0; i <  self.userData.length; i++){
+           self.userData[i].edit = false;
+       }
+   }
+
+
+
 
 }]);

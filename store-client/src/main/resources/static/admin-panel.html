@@ -24,13 +24,27 @@
                     <th>Authority</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr ng-repeat="user in controller.userData">
+                <tbody ng-repeat="user in controller.userData">
+                <tr ng-show="!controller.userData[$index].edit">
                     <td>{{user.id}}</td>
                     <td>{{user.username}}</td>
                     <td>{{user.role}}</td>
-                    <td><button class="btn btn-warning">edit</button></td>
+                    <td>
+                        <button class="btn btn-warning"
+                                ng-click="controller.userData[$index].edit = true">edit</button>
+                    </td>
                     <td><button class="btn btn-danger">delete</button></td>
+                </tr>
+
+                <tr ng-show="controller.userData[$index].edit">
+                    <td>{{user.id}}</td>
+                    <td><input class="form-control" type="text" ng-model="controller.userData[$index].username"/></td>
+                    <td><input class="form-control" type="text" ng-model="controller.userData[$index].role"/></td>
+                    <td><button class="btn btn-success">save</button></td>
+                    <td>
+                        <button class="btn btn-warning"
+                                ng-click="controller.userData[$index].edit = false">cancel</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -133,7 +147,7 @@
                 </tr>
                 </thead>
                 <tbody ng-repeat="product in controller.productData.products">
-                    <tr ng-show="!controller.productData.products[$index].edit" >
+                <tr ng-show="!controller.productData.products[$index].edit">
                         <td>{{product.id}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.price}}</td>
@@ -143,13 +157,13 @@
                                     ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
                     </tr>
 
-                    <tr ng-show="controller.productData.products[$index].edit">
-                        <td>{{product.id}}</td>
-                        <td><input class="form-control" type="text" ng-model="controller.productData.products[$index].name" required/></td>
-                        <td><input class="form-control" type="number" ng-model="controller.productData.products[$index].price" required/></td>
-                        <td><textarea class="form-control" ng-model="controller.productData.products[$index].description" required></textarea></td>
-                        <td><button class="btn btn-success" ng-click="controller.updateProduct(controller.productData.id, controller.productData.products[$index].id, $index)">save</button></td>
-                        <td><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = false">cancel</button></td>
+                    <tr style="min-height: 120%" ng-show="controller.productData.products[$index].edit">
+                        <td class="col-md-1">{{product.id}}</td>
+                        <td class="col-md-2"><input class="form-control input-sm" type="text" ng-model="controller.productData.products[$index].name"required/></td>
+                        <td class="col-md-2"><input class="form-control input-sm" type="number" ng-model="controller.productData.products[$index].price"required/></td>
+                        <td class="col-md-5"><textarea class="form-control input-sm" ng-model="controller.productData.products[$index].description" required></textarea></td>
+                        <td class="col-md-1"><button class="btn btn-success" ng-click="controller.updateProduct(controller.productData.id, controller.productData.products[$index].id, $index)">save</button></td>
+                        <td class="col-md-1"><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = false">cancel</button></td>
                     </tr>
                 </tbody>
             </table>
