@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,13 +52,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Transactional
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
-        userDto.setId(id);
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        
 
-        return saveUserDto(userDto);
+
+        return saveUserDto(prepareForUpdate(id, userDto));
     }
 
 
@@ -83,6 +83,34 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.userToUserDto(user);
 
+    }
+
+
+    private UserDto prepareForUpdate(Long userId, UserDto userDto){
+        User foundUser = userRepository.findOne(userId);
+
+        if(foundUser == null){
+            throw new ResourceNotFoundException("User not found.");
+        }
+
+
+        if(userDto.getUsername() != null){
+            foundUser.setUsername(userDto.getUsername());
+        }
+
+        if(userDto.getPassword() != null){
+            foundUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        if(userDto.getRole() != null){
+            foundUser.setRole(userDto.getRole());
+        }
+
+
+
+
+
+        return userMapper.userToUserDto(foundUser);
     }
 
 

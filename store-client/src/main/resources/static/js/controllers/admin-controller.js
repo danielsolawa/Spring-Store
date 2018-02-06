@@ -170,6 +170,21 @@ application.controller('adminPanel',
    }
 
 
+   self.updateUser = function(userId, index){
+       var userToUpdate = {id: self.userData[index].id, password: self.userData[index].passwrod,
+           username: self.userData[index].username, role: self.userData[index].role}
+
+       userService.update({id: userId}, userToUpdate, function(response){
+           console.log("successfully updated");
+           self.toggle('users', -1);
+       }, function(error){
+           console.log("an error has occurred");
+           console.log(error);
+       });
+
+   }
+
+
 
 
 }]);
