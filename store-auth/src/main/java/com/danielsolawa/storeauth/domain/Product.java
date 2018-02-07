@@ -24,9 +24,9 @@ public class Product {
     @JsonIgnore
     private Category category;
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "products")
     @JsonIgnore
-    private Inventory inventory;
+    private List<Inventory> inventories = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
     @JsonIgnore

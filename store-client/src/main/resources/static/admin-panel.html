@@ -34,7 +34,8 @@
                         <button class="btn btn-warning"
                                 ng-click="controller.userData[$index].edit = true">edit</button>
                     </td>
-                    <td><button class="btn btn-danger">delete</button></td>
+                    <td><button class="btn btn-danger"
+                                ng-click="controller.deleteUser(user.id)">delete</button></td>
                 </tr>
                 <!-- EDIT ON-->
                 <tr ng-show="controller.userData[$index].edit">
@@ -148,7 +149,8 @@
                 </tr>
                 </thead>
                 <tbody ng-repeat="product in controller.productData.products">
-                <tr ng-show="!controller.productData.products[$index].edit">
+                <!-- EDIT OFF -->
+                    <tr ng-show="!controller.productData.products[$index].edit">
                         <td>{{product.id}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.price}}</td>
@@ -157,7 +159,7 @@
                         <td><button class="btn btn-danger"
                                     ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
                     </tr>
-
+                <!-- EDIT ON -->
                     <tr style="min-height: 120%" ng-show="controller.productData.products[$index].edit">
                         <td class="col-md-1">{{product.id}}</td>
                         <td class="col-md-2"><input class="form-control input-sm" type="text" ng-model="controller.productData.products[$index].name"required/></td>

@@ -27,7 +27,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryDto updateInventory(InventoryDto inventoryDto) {
         User user = getUserById(inventoryDto.getUserId());
-
+        inventoryDto.setUser(user);
         user.setInventory(inventoryMapper.inventoryDtoToInventory(inventoryDto));
 
         User returnedUser = userRepository.save(user);

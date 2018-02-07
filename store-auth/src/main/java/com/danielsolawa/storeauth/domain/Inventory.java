@@ -19,7 +19,11 @@ public class Inventory {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "inventory")
+
+    @ManyToMany
+    @JoinTable(name = "inventory_product",
+            joinColumns = @JoinColumn(name = "inventory_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
 
     private Long userId;

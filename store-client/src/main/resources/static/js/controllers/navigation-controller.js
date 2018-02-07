@@ -1,4 +1,4 @@
-application.controller('navigation', function ($rootScope, $http, $location) {
+application.controller('navigation', function ($rootScope, $http, $location, inventoryService) {
     var self = this;
 
     $http.get('principal').then(function(response){
@@ -8,6 +8,10 @@ application.controller('navigation', function ($rootScope, $http, $location) {
            $rootScope.authenticated = true;
            $rootScope.user = {'id': response.data.id,
                'username': response.data.username, 'authority': response.data.authorities[0].authority};
+           inventoryService.get({id: response.data.id}, function(response){
+              $rootScope.inventory = response;
+           });
+
        }else{
            $rootScope.authenticated = false;
        }
@@ -23,5 +27,7 @@ application.controller('navigation', function ($rootScope, $http, $location) {
            $location.path('/');
         });
     }
+
+    
 
 });

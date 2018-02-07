@@ -6,6 +6,9 @@ import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.Order;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class ProductDto {
 
@@ -14,6 +17,6 @@ public class ProductDto {
     private Double price;
     private String description;
     private Category category;
-    private Inventory inventory;
-    private Order order;
+    private List<Inventory> inventories = new ArrayList<>();
+    private List<Order> orders;
 }

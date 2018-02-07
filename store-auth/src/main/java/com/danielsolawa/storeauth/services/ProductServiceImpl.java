@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
         return category.getProducts()
                 .stream()
+                .filter(product -> product.getId().equals(productId))
                 .map(productMapper::productToProductDto)
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new);

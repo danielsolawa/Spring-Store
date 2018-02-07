@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findOne(id);
 
         if(user == null){
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("User not found.");
         }
 
         return userMapper.userToUserDto(user);

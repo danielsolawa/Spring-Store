@@ -30,6 +30,7 @@ public class InventoryController {
     @PutMapping("/{userId}/inventory")
     @ResponseStatus(HttpStatus.OK)
     public InventoryDto updateInventory(@PathVariable Long userId, @RequestBody InventoryDto inventoryDto){
+        inventoryDto.setUserId(userId);
         return inventoryService.updateInventory(inventoryDto);
     }
 

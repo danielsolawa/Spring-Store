@@ -14,11 +14,13 @@
     <script type="application/javascript" src="/js/services/category-service.js"></script>
     <script type="application/javascript" src="/js/services/products-service.js"></script>
     <script type="application/javascript" src="/js/services/user-service.js"></script>
+    <script type="application/javascript" src="/js/services/inventory-service.js"></script>
     <script type="application/javascript" src="/js/controllers/navigation-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/admin-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/categories-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/user-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/products-controller.js"></script>
+    <script type="application/javascript" src="/js/controllers/inventory-controller.js"></script>
 
 </head>
 <body ng-app="springstore">
@@ -27,7 +29,9 @@
     <p ng-show="!authenticated" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
     <p ng-show="authenticated && user.authority=='ADMIN'" class="navbar-text"><a href="/#!/admin">Admin Panel</a></p>
     <p ng-show="authenticated" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} Logout</a></p>
+    <p ng-show="authenticated" class="navbar-text"><a href="/#!/inventory" >Inventory[{{inventory.products.length}}]</a></p>
     <p class="navbar-text"><a href="/#!/users/new">Register</a></p>
+
 </nav>
 
 <div ng-view ng-cloak class="container">

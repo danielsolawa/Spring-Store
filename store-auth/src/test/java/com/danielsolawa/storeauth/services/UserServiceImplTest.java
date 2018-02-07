@@ -103,6 +103,7 @@ public class UserServiceImplTest {
         user.setUsername("Tony");
         user.setPassword("Stark");
 
+        given(userRepository.findOne(anyLong())).willReturn(user);
         given(userRepository.save(any(User.class))).willReturn(user);
 
         UserDto userDto = userService.updateUser(1L, new UserDto());
@@ -111,6 +112,7 @@ public class UserServiceImplTest {
         assertThat(userDto.getUsername(), equalTo(user.getUsername()));
         assertThat(userDto.getPassword(), equalTo(user.getPassword()));
 
+        then(userRepository).should().findOne(anyLong());
         then(userRepository).should().save(any(User.class));
 
     }

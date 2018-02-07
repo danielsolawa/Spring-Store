@@ -171,7 +171,7 @@ application.controller('adminPanel',
 
 
    self.updateUser = function(userId, index){
-       var userToUpdate = {id: self.userData[index].id, password: self.userData[index].passwrod,
+       var userToUpdate = {id: self.userData[index].id, password: self.userData[index].password,
            username: self.userData[index].username, role: self.userData[index].role}
 
        userService.update({id: userId}, userToUpdate, function(response){
@@ -180,6 +180,17 @@ application.controller('adminPanel',
        }, function(error){
            console.log("an error has occurred");
            console.log(error);
+       });
+
+   }
+
+
+   self.deleteUser = function(userId){
+       userService.delete({id: userId}, function(response){
+           console.log("deleted successfully");
+           self.toggle('users', -1);
+       }, function(error){
+           console("an error has occurred");
        });
 
    }
