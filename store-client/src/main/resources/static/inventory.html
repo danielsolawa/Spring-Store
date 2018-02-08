@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-inventory
-</body>
-</html>
+<div class="panel panel-default" data-ng-init="controller.fetchInventory()">
+    <div class="panel-heading">
+        Inventory
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>price</th>
+                    <th>description</th>
+                    <th>amount</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="inventory in controller.filteredInventory">
+                <tr>
+                    <td>{{inventory.id}}</td>
+                    <td>{{inventory.name}}</td>
+                    <td>{{inventory.price}}</td>
+                    <td>{{inventory.description}}</td>
+                    <td>{{inventory.amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

@@ -28,6 +28,6 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
         });
     }
 
-    
+
 
 });
