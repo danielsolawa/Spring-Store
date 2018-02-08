@@ -6,23 +6,32 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>id</th>
                     <th>name</th>
                     <th>price</th>
-                    <th>description</th>
                     <th>amount</th>
                 </tr>
             </thead>
-            <tbody ng-repeat="inventory in controller.filteredInventory">
-                <tr>
-                    <td>{{inventory.id}}</td>
+            <tbody>
+                <tr ng-repeat="inventory in controller.filteredInventory">
                     <td>{{inventory.name}}</td>
-                    <td>{{inventory.price}}</td>
-                    <td>{{inventory.description}}</td>
-                    <td>{{inventory.amount}}</td>
+                    <td>{{inventory.price | number : 2}} PLN</td>
+                    <td><input class="form-control" type="number" step="1" min="1"
+                               ng-model="controller.filteredInventory[$index].amount" required/></td>
+                </tr>
+                <tr>
+                    <td><h3>Total price:</h3></td>
+                    <td></td>
+                    <td><h3>{{controller.totalPrice | number : 2}} PLN</h3></td>
                 </tr>
             </tbody>
+
+
         </table>
+        <div class="btn-group btn-block">
+            <button class="btn btn-primary btn-lg" ng-click="controller.updateInventory()">update inventory</button>
+            <button class="btn btn-success btn-lg">order</button>
+        </div>
+
     </div>
 
 
