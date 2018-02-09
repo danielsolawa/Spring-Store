@@ -21,6 +21,7 @@
     <script type="application/javascript" src="/js/controllers/user-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/products-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/inventory-controller.js"></script>
+    <script type="application/javascript" src="/js/controllers/orders-controller.js"></script>
 
 </head>
 <body ng-app="springstore">
@@ -30,6 +31,7 @@
     <p ng-show="authenticated && user.authority=='ADMIN'" class="navbar-text"><a href="/#!/admin">Admin Panel</a></p>
     <p ng-show="authenticated" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} Logout</a></p>
     <p ng-show="authenticated" class="navbar-text"><a href="/#!/inventory" >Inventory[{{inventory.products.length}}]</a></p>
+    <p ng-show="authenticated" class="navbar-text"><a href="/#!/users/{{user.id}}/orders" >Orders</a></p>
     <p class="navbar-text"><a href="/#!/users/new">Register</a></p>
 
 </nav>

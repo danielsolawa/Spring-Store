@@ -114,7 +114,8 @@ public class OrderServiceImpl implements OrderService {
         Order updatedOrder = updatedUser.getOrders()
                                 .stream()
                                 .filter(order -> order.getId().equals(orderId))
-                                .findFirst().get();
+                                .findFirst()
+                                .orElseThrow(NoSuchElementException::new);
 
 
 

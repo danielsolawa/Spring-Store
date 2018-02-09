@@ -31,9 +31,15 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             templateUrl: 'admin-panel.html',
             controller: 'adminPanel',
             controllerAs: 'controller'
-        }).when('/inventory', {
+        })
+        .when('/inventory', {
             templateUrl: 'inventory.html',
             controller: 'inventoryController',
+            controllerAs: 'controller'
+        })
+        .when("/users/:id/orders", {
+            templateUrl: 'orders.html',
+            controller: 'ordersController',
             controllerAs: 'controller'
         })
         .when('/error403', {
