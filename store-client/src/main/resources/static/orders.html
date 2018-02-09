@@ -1,1 +1,23 @@
-<h3>orders</h3>
+<div class="panel panel-default" data-ng-init="controller.fetchOrders()">
+    <div class="panel-heading">
+        {{user.username}} orders
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+                <th>id</th>
+                <th>date</th>
+                <th>products amount</th>
+            </thead>
+            <tbody ng-repeat="order in controller.orders">
+                <td>{{order.id}}</td>
+                <td>
+                    {{order.orderDate.hour}}:{{order.orderDate.minute}}:{{order.orderDate.second}}
+                    {{order.orderDate.dayOfMonth}} {{order.orderDate.month}} {{order.orderDate.year}}
+                </td>
+                <td>{{order.products.length}}</td>
+
+            </tbody>
+        </table>
+    </div>
+</div>

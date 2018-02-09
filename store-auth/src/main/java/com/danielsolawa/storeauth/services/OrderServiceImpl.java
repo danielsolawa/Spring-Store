@@ -99,16 +99,19 @@ public class OrderServiceImpl implements OrderService {
     private OrderDto updateOrderDto(Long userId, Long orderId, OrderDto orderDto) {
         User user = getUserById(userId);
 
-        //adds all orders to list except the given one
-        List<Order> orders = user.getOrders()
+
+        Order orderToRemove = user.getOrders()
                 .stream()
-                .filter(order -> !(order.getId().equals(orderId)))
-                .collect(Collectors.toList());
+                .filter(order -> order.getId().equals(orderId))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+
+        user.getOrders().remove(orderToRemove);
 
 
-        orders.add(orderMapper.orderDtoToOrder(orderDto));
+        orderDto.setUser(user);
+        user.addOrder(orderMapper.orderDtoToOrder(orderDto));
 
-        user.setOrders(orders);
         User updatedUser = userRepository.save(user);
 
         Order updatedOrder = updatedUser.getOrders()
