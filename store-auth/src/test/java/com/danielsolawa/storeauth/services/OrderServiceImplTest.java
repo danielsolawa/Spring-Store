@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -150,8 +151,11 @@ public class OrderServiceImplTest {
         order.setId(1L);
         order.addProduct(new Product());
 
-        userWithOrders.setOrders(Arrays.asList(order));
 
+        List<Order> orders = new ArrayList<>();
+        orders.add(order);
+
+        userWithOrders.setOrders(orders);
 
         return userWithOrders;
     }
