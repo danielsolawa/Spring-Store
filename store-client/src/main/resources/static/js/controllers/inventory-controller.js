@@ -1,4 +1,5 @@
-application.controller('inventoryController',['$rootScope','inventoryService', function($rootScope, inventoryService){
+application.controller('inventoryController',['$rootScope', '$location','inventoryService', 'ordersService',
+    function($rootScope, $location, inventoryService, ordersService){
     var self = this;
     self.inventory = [];
 
@@ -7,6 +8,27 @@ application.controller('inventoryController',['$rootScope','inventoryService', f
         for(var i = 0; i < self.filteredInventory.length; i++){
             self.totalPrice += (self.filteredInventory[i].price * self.filteredInventory[i].amount);
         }
+    }
+
+    self.order = function(){
+        var productsToOrder = $rootScope.inventory.products;
+        var userId = $rootScope.user.id;
+        var newOrder = {products: productsToOrder};
+
+        var emptyInventory = {products:[]};
+
+
+        ordersService.save({id: userId}, newOrder, function(response){
+
+            inventoryService.update({id: userId}, emptyInventory, function(response){
+                $location.path("/users/" + userId + "/orders");
+
+            }, function(error){
+                console.log("update inventory error");
+            });
+        }, function(error){
+            console.log("an error has occurred");
+        });
     }
 
     self.fetchInventory = function(){

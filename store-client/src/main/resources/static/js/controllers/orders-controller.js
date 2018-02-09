@@ -1,6 +1,8 @@
 application.controller('ordersController',['$routeParams','ordersService', function ($routeParams, ordersService) {
    var self =  this;
 
+   self.orderDetail = {};
+   self.showProducts = false;
 
 
    self.fetchOrders = function(){
@@ -11,4 +13,13 @@ application.controller('ordersController',['$routeParams','ordersService', funct
            console.log("an error has occurred");
        });
    }
+
+
+   self.showDetails = function(index){
+       self.showProducts = true;
+       self.orderDetail = self.orders[index];
+   }
+
+
+
 }]);
