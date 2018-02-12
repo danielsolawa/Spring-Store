@@ -1,4 +1,5 @@
-var application = angular.module('springstore', ['ngRoute', 'ngResource']);
+var application = angular.module('springstore', ['ngRoute', 'ngResource',
+    'ngMessages', 'ngMaterial', 'ngCookies']);
 
 application.config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
     $routeProvider
@@ -51,32 +52,27 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     $httpProvider.defaults.headers.common['Accept'] = 'application/json';
 
 
+
     $locationProvider.html5Mode(false);
 }])
-    .run(function ($rootScope, $location) {
-        var protectedUrlPaths = ['/admin'];
-
-        $rootScope.$on("$routeChangeStart", function(event, next, current){
-
-            if(!$rootScope.authenticated){
-                for(var i =0; i < protectedUrlPaths.length; i++){
-                    if(next.templateUrl == protectedUrlPaths[i]){
-                        $location.path("/error403");
-                    }
-                }
-            }else{
-                for(var i =0; i < protectedUrlPaths.length; i++){
-                    if(next.templateUrl == protectedUrlPaths[i]){
-                        if($rootScope.user.authority != 'ADMIN'){
-                            $location.path("/error403");
-                        }
-
-                    }
-                }
-
+    .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){
+    return {
+        response: function(response){
+            if (response.status === 401) {
+                console.log("Response 401");
             }
-        });
-
-
-
-    });
+            return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+            if (rejection.status === 401) {
+                console.log("Response Error 401",rejection);
+                $location.path('/').search('returnTo', $location.path());
+            }
+            return $q.reject(rejection);
+        }
+    }
+}])
+    .config(['$httpProvider',function($httpProvider) {
+    
+        $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    }]);

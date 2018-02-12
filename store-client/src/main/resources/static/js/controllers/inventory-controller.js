@@ -1,5 +1,5 @@
-application.controller('inventoryController',['$rootScope', '$location','inventoryService', 'ordersService',
-    function($rootScope, $location, inventoryService, ordersService){
+application.controller('inventoryController',['$rootScope', '$location', '$mdDialog','inventoryService', 'ordersService',
+    function($rootScope, $location, $mdDialog, inventoryService, ordersService){
     var self = this;
     self.inventory = [];
 
@@ -21,6 +21,7 @@ application.controller('inventoryController',['$rootScope', '$location','invento
         ordersService.save({id: userId}, newOrder, function(response){
 
             inventoryService.update({id: userId}, emptyInventory, function(response){
+                $rootScope.inventory.products = [];
                 $location.path("/users/" + userId + "/orders");
 
             }, function(error){
@@ -90,6 +91,23 @@ application.controller('inventoryController',['$rootScope', '$location','invento
         });
 
     }
+
+
+    self.showConfirm = function(ev) {
+
+        var confirm = $mdDialog.confirm()
+            .title('Confirm your order')
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok('Order now')
+            .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function() {
+            self.order();
+        }, function() {
+            self.status = 'You decided to keep your debt.';
+        });
+    };
 
 
 
