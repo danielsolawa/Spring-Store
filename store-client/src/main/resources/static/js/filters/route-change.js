@@ -6,6 +6,7 @@ application.run(function ($rootScope, $location, $http, LoginService) {
 
             if(LoginService.getCurrentUser() == null){
                 LoginService.setCurrentUser(response.data);
+                LoginService.setWasLogged(true);
                 $rootScope.$broadcast('authorized');
                 console.log("sending broadcast");
             }
