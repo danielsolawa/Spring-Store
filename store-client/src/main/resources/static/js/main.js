@@ -1,5 +1,5 @@
 var application = angular.module('springstore', ['ngRoute', 'ngResource',
-    'ngMessages', 'ngMaterial', 'ngCookies']);
+    'ngMessages', 'ngMaterial', 'ngCookies', 'angular-storage']);
 
 application.config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
     $routeProvider
@@ -43,8 +43,8 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'ordersController',
             controllerAs: 'controller'
         })
-        .when('/error403', {
-            templateUrl: 'error403.html'
+        .when('/error401', {
+            templateUrl: 'error401.html'
         })
         .otherwise('/');
 
@@ -54,25 +54,33 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
 
 
     $locationProvider.html5Mode(false);
-}])
-    .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){
+}]);
+
+
+
+
+
+
+/*
+    .factory('authHttpResponseInterceptor',['$q','$rootScope','$location',function($q, $location, $rootScope){
+
     return {
         response: function(response){
+
             if (response.status === 401) {
-                console.log("Response 401");
+                console.log("response");
             }
             return response || $q.when(response);
         },
         responseError: function(rejection) {
-            if (rejection.status === 401) {
-                console.log("Response Error 401",rejection);
-                $location.path('/').search('returnTo', $location.path());
-            }
+
+            $location.path('/error401').search('returnTo', $location.path());
+
             return $q.reject(rejection);
         }
     }
 }])
     .config(['$httpProvider',function($httpProvider) {
-    
+
         $httpProvider.interceptors.push('authHttpResponseInterceptor');
-    }]);
+    }]);*/

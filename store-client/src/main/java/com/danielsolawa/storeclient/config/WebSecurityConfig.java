@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/", "/login**", "/categories/**", "/logout", "/users/**",
                         "/home.html", "/category-view.html", "/product-view.html", "/user-add.html",
-                        "/user-registered.html", "/error403.html").permitAll()
+                        "/user-registered.html", "/error401.html").permitAll()
                 .antMatchers("/admin-panel.html").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
     }
