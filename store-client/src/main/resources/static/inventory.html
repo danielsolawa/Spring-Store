@@ -17,6 +17,7 @@
                     <td>{{inventory.price | number : 2}} PLN</td>
                     <td><input class="form-control" type="number" step="1" min="1"
                                ng-model="controller.filteredInventory[$index].amount" required/></td>
+                    <td><button class="btn btn-danger" ng-click="controller.removeAllProducts()" >remove all</button></td>
                 </tr>
                 <tr>
                     <td><h3>Total price:</h3></td>
@@ -28,8 +29,10 @@
 
         </table>
         <div class="btn-group btn-block">
-            <button class="btn btn-primary btn-lg" ng-click="controller.updateInventory()">update inventory</button>
-            <button class="btn btn-success btn-lg" ng-click="controller.showConfirm($event)">order</button>
+            <button class="btn btn-primary btn-lg" ng-disabled="controller.filteredInventory.length < 1"
+                    ng-click="controller.updateInventory()">update inventory</button>
+            <button class="btn btn-success btn-lg" ng-disabled="controller.filteredInventory.length < 1"
+                    ng-click="controller.showConfirm($event)">order</button>
 
         </div>
 

@@ -44,13 +44,13 @@
 
 </head>
 <body ng-app="springstore">
-<nav class="navbar navbar-inverse" ng-controller="navigation as nav">
+<nav class="navbar navbar-inverse" ng-cloak ng-controller="navigation as nav">
+
     <p class="navbar-text"><a href="/">Home</a></p>
-    <p ng-show="!authenticated" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
-    <p ng-show="authenticated && user.authority=='ADMIN'" class="navbar-text"><a href="/#!/admin">Admin Panel</a></p>
-    <p ng-show="authenticated" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} Logout</a></p>
-    <p ng-show="authenticated" class="navbar-text"><a href="/#!/inventory" >Inventory[{{inventory.products.length}}]</a></p>
-    <p ng-show="authenticated" class="navbar-text"><a href="/#!/users/{{user.id}}/orders" >Orders</a></p>
+    <p ng-show="!nav.isAuthenticated()" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
+    <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} Logout</a></p>
+    <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="/#!/inventory" >Inventory[{{inventory.products.length}}]</a></p>
+    <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="/#!/users/{{user.id}}/orders">Orders</a></p>
     <p class="navbar-text"><a href="/#!/users/new">Register</a></p>
 
 </nav>

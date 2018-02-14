@@ -1,7 +1,11 @@
 application.controller('inventoryController',['$rootScope', '$location', '$mdDialog','inventoryService', 'ordersService',
-    function($rootScope, $location, $mdDialog, inventoryService, ordersService){
+    'LoginService',
+    function($rootScope, $location, $mdDialog, inventoryService, ordersService, LoginService){
     var self = this;
+    var userId = LoginService.getCurrentUser().id;
     self.inventory = [];
+
+
 
 
     self.getTotalPrice = function(){
@@ -10,9 +14,10 @@ application.controller('inventoryController',['$rootScope', '$location', '$mdDia
         }
     }
 
+
+
     self.order = function(){
         var productsToOrder = $rootScope.inventory.products;
-        var userId = $rootScope.user.id;
         var newOrder = {products: productsToOrder};
 
         var emptyInventory = {products:[]};
@@ -35,7 +40,7 @@ application.controller('inventoryController',['$rootScope', '$location', '$mdDia
     self.fetchInventory = function(){
         self.filteredInventory = [];
         self.totalPrice = 0;
-        inventoryService.get({id: $rootScope.user.id}, function(response){
+        inventoryService.get({id: userId}, function(response){
             $rootScope.inventory = response;
             self.inventory = response.products;
             prepareInventory();
@@ -48,7 +53,7 @@ application.controller('inventoryController',['$rootScope', '$location', '$mdDia
 
     self.updateInventory = function(){
 
-      var updatedInventory = {userId: $rootScope.user.id ,products:[]};
+      var updatedInventory = {userId: userId ,products:[]};
       for(var i = 0; i < self.filteredInventory.length; i++){
           for(var j = 0; j < self.filteredInventory[i].amount; j++){
               updatedInventory.products.push({id: self.filteredInventory[i].id,
@@ -57,12 +62,20 @@ application.controller('inventoryController',['$rootScope', '$location', '$mdDia
       }
 
 
-      inventoryService.update({id: $rootScope.user.id}, updatedInventory, function(response){
+      inventoryService.update({id: userId}, updatedInventory, function(response){
 
           self.fetchInventory();
       }, function(error){
           console.log(error);
       });
+    }
+
+
+    self.removeAllProducts = function(){
+        if(self.filteredInventory != null){
+            self.filteredInventory = [];
+            self.updateInventory();
+        }
     }
 
     var prepareInventory = function(){

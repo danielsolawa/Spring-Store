@@ -3,11 +3,7 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
 
 
     $rootScope.$on('authorized', function(){
-        console.log("received authorized broadcast");
-        var user =  LoginService.getCurrentUser();
-        $rootScope.user = user;
-        $rootScope.authenticated = true;
-        inventoryService.get({id: user.id}, function(response){
+        inventoryService.get({id: LoginService.getCurrentUser().id}, function(response){
             $rootScope.inventory = response;
         });
     });
@@ -19,6 +15,9 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
         LoginService.setCurrentUser(null);
     });
 
+    self.isAuthenticated = function(){
+        return LoginService.getCurrentUser() != null;
+    }
 
 
     self.logout = function (){
