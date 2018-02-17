@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.Inventory;
+import com.danielsolawa.storeauth.domain.Role;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setRole(Role.USER);
 
         if(userAlreadyExists(userDto.getUsername())){
             throw new ResourceAlreadyExistsException("User " + userDto.getUsername() + " already exists.");

@@ -10,6 +10,14 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
         return -1;
     }
 
+    self.getRole = function(){
+        if(LoginService.getCurrentUser() != null){
+            return LoginService.getCurrentUser().authorities[0].authority;
+        }
+
+        return "UNAUTHORIZED";
+    }
+
     $rootScope.$on('authorized', function(){
         inventoryService.getInventory();
     });

@@ -51,6 +51,7 @@
 
     <p class="navbar-text"><a href="/">Home</a></p>
     <p ng-show="!nav.isAuthenticated()" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
+    <p ng-show="nav.isAuthenticated() && nav.getRole() == 'ADMIN'" class="navbar-text"><a ng-href="/#!/admin" href="#">Admin Panel</a></p>
     <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} Logout</a></p>
     <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="/#!/inventory" >Inventory</a></p>
     <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="/#!/users/{{nav.getUserId()}}/orders">Orders</a></p>
