@@ -1,4 +1,4 @@
-application.run(function ($rootScope, $location, $http, LoginService) {
+application.run(function ($rootScope, $location, $http, LoginService, inventoryService) {
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         $http.get('principal').then(function(response){
@@ -6,9 +6,10 @@ application.run(function ($rootScope, $location, $http, LoginService) {
             if(LoginService.getCurrentUser() == null){
                 LoginService.setCurrentUser(response.data);
                 LoginService.setWasLogged(true);
-                $rootScope.user = response.data;
                 $rootScope.$broadcast('authorized');
+                $rootScope.user = response.data;
             }
+
 
 
         }, function(error){

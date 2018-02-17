@@ -1,0 +1,29 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Inventory
+    </div>
+    <div class="panel-body">
+        {{inventory.length}}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>price</th>
+                <th>amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="inv in inventory">
+                <td>{{inv.name}}</td>
+                <td>{{inv.price | number : 2}} PLN</td>
+                <td>{{inv.amount}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <md-dialog-actions>
+            <md-button ng-click="accept('daniel')">Add To Inventory</md-button>
+        </md-dialog-actions>
+    </div>
+</div>

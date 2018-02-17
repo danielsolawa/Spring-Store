@@ -1,33 +1,38 @@
 application
-    .controller('productView',['$rootScope', '$routeParams', '$location', 'productsService', 'inventoryService',
-        'LoginService',
-        function($rootScope, $routeParams, $location, productsService, inventoryService, LoginService){
+    .controller('productView',['$rootScope', '$routeParams', '$location', "$mdDialog", 'productsService', 'inventoryService',
+        'LoginService','inventorySortService',
+        function($rootScope, $routeParams, $location, $mdDialog, productsService, inventoryService,
+                 LoginService, inventorySortService){
         var self = this;
         var user = LoginService.getCurrentUser();
 
+        self.customFullscreen = false;
 
         var product = productsService.get({id: $routeParams.id, prodId: $routeParams.prodId},function(){
             self.product = product;
         });
 
 
-        self.addToInventory = function(){
 
-          if(LoginService.getCurrentUser() == null){
-              $location.path("/");
-          }else{
-              inventoryService.get({id: user.id}, function(response){
-                  var inventory = response;
-                  inventory.products.push(product);
-                  inventoryService.update({id: $rootScope.user.id}, inventory, function(response){
-                      $rootScope.inventory = response;
-                  }, function(error){
-                      console.log("an error has occurred");
-                  });
-              }, function(error){
-                  console.log("an error has occurred");
-              });
-          }
+        self.showConfirmDialog = function(ev) {
 
-        }
+            inventoryService.addToInventory(product);
+
+
+            $mdDialog.show({
+                controller: 'ConfirmController',
+                templateUrl: 'confirm.tmpl.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: true
+            })
+                .then(function(answer) {
+
+                }, function() {
+                    inventoryService.removeLastProduct();
+                });
+        };
+
+
     }]);

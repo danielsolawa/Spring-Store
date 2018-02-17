@@ -2,17 +2,22 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
     var self = this;
 
 
+    self.getUserId = function(){
+        if(LoginService.getCurrentUser() != null){
+            return LoginService.getCurrentUser().id;
+        }
+
+        return -1;
+    }
+
     $rootScope.$on('authorized', function(){
-        inventoryService.get({id: LoginService.getCurrentUser().id}, function(response){
-            $rootScope.inventory = response;
-        });
+        inventoryService.getInventory();
     });
 
     $rootScope.$on('unauthorized', function(){
         console.log("unauthorized broadcast");
-        $rootScope.user = {};
-        $rootScope.authenticated = false;
         LoginService.setCurrentUser(null);
+        inventoryService.clearInventory();
     });
 
     self.isAuthenticated = function(){

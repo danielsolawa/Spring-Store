@@ -1,4 +1,4 @@
-<div class="panel panel-default" data-ng-init="controller.fetchInventory()">
+<div class="panel panel-default" data-ng-init="controller.init()">
     <div class="panel-heading">
         Inventory
     </div>
@@ -17,7 +17,8 @@
                     <td>{{inventory.price | number : 2}} PLN</td>
                     <td><input class="form-control" type="number" step="1" min="1"
                                ng-model="controller.filteredInventory[$index].amount" required/></td>
-                    <td><button class="btn btn-danger" ng-click="controller.removeAllProducts()" >remove all</button></td>
+                    <td><button class="btn btn-danger" ng-click="controller.deleteDialog($event ,inventory.id)">
+                        remove all</button></td>
                 </tr>
                 <tr>
                     <td><h3>Total price:</h3></td>
