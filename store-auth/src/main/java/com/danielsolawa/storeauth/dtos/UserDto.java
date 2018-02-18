@@ -24,7 +24,12 @@ public class UserDto {
     @Size(min = 8, max = 30, message = "Please enter a password between 8 and 30 characters.")
     private String password;
 
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
     private Role role;
     private List<Order> orders = new ArrayList<>();
     private Inventory inventory;
+    private ActivationTokenDto activationToken;
 }

@@ -22,6 +22,11 @@ public class User {
 
     private String password;
 
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

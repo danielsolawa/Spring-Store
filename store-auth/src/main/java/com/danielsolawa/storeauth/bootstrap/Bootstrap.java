@@ -113,11 +113,19 @@ public class Bootstrap implements CommandLineRunner{
             user.setUsername("user");
             user.setPassword(passwordEncoder.encode("password"));
             user.setRole(Role.USER);
+            user.setEnabled(true);
+            user.setAccountNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setCredentialsNonExpired(true);
 
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setRole(Role.ADMIN);
+            admin.setEnabled(true);
+            admin.setAccountNonExpired(true);
+            admin.setAccountNonLocked(true);
+            admin.setCredentialsNonExpired(true);
 
 
             Order order = new Order();

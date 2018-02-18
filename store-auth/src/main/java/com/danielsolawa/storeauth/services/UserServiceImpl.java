@@ -1,8 +1,11 @@
 package com.danielsolawa.storeauth.services;
 
+import com.danielsolawa.storeauth.domain.ActivationToken;
 import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.Role;
 import com.danielsolawa.storeauth.domain.User;
+import com.danielsolawa.storeauth.dtos.ActivationTokenDto;
+import com.danielsolawa.storeauth.dtos.EmailDto;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
@@ -13,7 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,6 +49,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public UserDto createUser(UserDto userDto) {
 
@@ -52,10 +59,16 @@ public class UserServiceImpl implements UserService {
 
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setRole(Role.USER);
+        userDto.setAccountNonExpired(true);
+        userDto.setAccountNonLocked(true);
+        userDto.setCredentialsNonExpired(true);
+        userDto.setEnabled(false);
+
 
 
         return saveUserDto(userDto);
     }
+
 
 
     @Transactional
@@ -123,11 +136,7 @@ public class UserServiceImpl implements UserService {
     private boolean userAlreadyExists(String username) {
         User user = userRepository.findByUsername(username);
 
-        if(user != null){
-            return true;
-        }
-
-        return false;
+        return user != null;
     }
 
 
@@ -140,9 +149,38 @@ public class UserServiceImpl implements UserService {
             user.setInventory(inventory);
         }
 
+        if(userDto.getActivationToken() == null && !userDto.isEnabled()){
+            ActivationToken activationToken = new ActivationToken();
+            activationToken.setExpireDate(LocalDateTime.now());
+            activationToken.setToken(UUID.randomUUID().toString());
+            activationToken.setUser(user);
+            user.setActivationToken(activationToken);
+
+            try {
+                prepareActivationEmail(activationToken);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
         UserDto savedUser = userMapper.userToUserDto(userRepository.save(user));
 
         return savedUser;
+    }
+
+    private void prepareActivationEmail(ActivationToken activationToken) throws MessagingException, InterruptedException {
+        emailService.sendEmail(
+                EmailDto.builder()
+                .from("danielsolawa@gmail.com")
+                .subject("Spring Store Account Activaiton")
+                .text("Welcome to Spring Store!")
+                .to(activationToken.getUser().getUsername())
+                .build(), activationToken.getToken()
+        );
     }
 
 

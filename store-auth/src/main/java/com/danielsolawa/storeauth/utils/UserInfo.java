@@ -22,6 +22,10 @@ public class UserInfo implements UserDetails {
     @JsonIgnore
     private String password;
     private Set<GrantedAuthority> authorities = new HashSet<>();
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
 
 
     public UserInfo(User user) {
@@ -29,6 +33,10 @@ public class UserInfo implements UserDetails {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities.add(new SimpleGrantedAuthority(user.getRole().toString().toUpperCase()));
+        this.accountNonExpired = user.isAccountNonExpired();
+        this.accountNonLocked = user.isAccountNonLocked();
+        this.credentialsNonExpired = user.isCredentialsNonExpired();
+        this.enabled = user.isEnabled();
     }
 
     @Override
@@ -43,22 +51,22 @@ public class UserInfo implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
 }
