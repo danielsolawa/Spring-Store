@@ -31,6 +31,9 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Inventory inventory;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private ActivationToken activationToken;
+
 
     public User addOrder(Order order){
         order.setUser(this);

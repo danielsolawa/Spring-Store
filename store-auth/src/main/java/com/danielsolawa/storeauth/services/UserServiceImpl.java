@@ -9,7 +9,6 @@ import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +22,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
+                           EmailService emailService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -43,12 +45,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userDto.setRole(Role.USER);
 
         if(userAlreadyExists(userDto.getUsername())){
             throw new ResourceAlreadyExistsException("User " + userDto.getUsername() + " already exists.");
         }
+
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setRole(Role.USER);
+
 
         return saveUserDto(userDto);
     }

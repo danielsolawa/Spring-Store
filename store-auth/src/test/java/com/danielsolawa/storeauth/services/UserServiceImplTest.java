@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -38,8 +39,9 @@ public class UserServiceImplTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        EmailService emailService = new EmailServiceImpl(new JavaMailSenderImpl());
         userMapper = UserMapper.INSTANCE;
-        userService = new UserServiceImpl(userRepository, userMapper, passwordEncoder);
+        userService = new UserServiceImpl(userRepository, userMapper, emailService, passwordEncoder);
 
     }
 
