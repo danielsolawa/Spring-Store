@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
@@ -35,6 +36,8 @@ public class ActivateAccountServiceImplTest {
 
         ActivationToken activationToken = new ActivationToken();
         activationToken.setToken(UUID.randomUUID().toString());
+        activationToken.setExpireDate(LocalDateTime.now());
+        
         user.setActivationToken(activationToken);
 
         given(userRepository.findOne(anyLong())).willReturn(user);

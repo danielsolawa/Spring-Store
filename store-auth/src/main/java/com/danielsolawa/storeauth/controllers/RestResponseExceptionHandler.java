@@ -1,9 +1,6 @@
 package com.danielsolawa.storeauth.controllers;
 
-import com.danielsolawa.storeauth.exceptions.ActivateTokenExpiredException;
-import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
-import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
-import com.danielsolawa.storeauth.exceptions.ValidationConstraintException;
+import com.danielsolawa.storeauth.exceptions.*;
 import com.danielsolawa.storeauth.utils.ErrorInfo;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +39,12 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
         return new ResponseEntity<>(ErrorInfo.builder().message(exception.getMessage()).build(),
                 new HttpHeaders(), HttpStatus.GONE);
+    }
+
+    @ExceptionHandler({TokenMismatchException.class})
+    public ResponseEntity<Object> handleTokenMismatchException(Exception exception, WebRequest request){
+        return new ResponseEntity<>(ErrorInfo.builder().message(exception.getMessage()).build(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({NumberFormatException.class})

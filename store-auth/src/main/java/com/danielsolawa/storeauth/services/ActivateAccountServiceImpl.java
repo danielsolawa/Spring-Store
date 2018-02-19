@@ -3,7 +3,9 @@ package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.ActivationToken;
 import com.danielsolawa.storeauth.domain.User;
+import com.danielsolawa.storeauth.exceptions.ActivateTokenExpiredException;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
+import com.danielsolawa.storeauth.exceptions.TokenMismatchException;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class ActivateAccountServiceImpl implements ActivateAccountService {
     }
 
     @Override
-    public boolean activateAccount(Long userId, String token) {
+    public void activateAccount(Long userId, String token) {
         User user =  userRepository.findOne(userId);
 
         if(user == null){
@@ -29,8 +31,7 @@ public class ActivateAccountServiceImpl implements ActivateAccountService {
         }
 
 
-
-        return activate(user.getActivationToken(), token);
+        activate(user, token);
     }
 
 
@@ -40,12 +41,20 @@ public class ActivateAccountServiceImpl implements ActivateAccountService {
 
     }
 
-    private boolean activate(ActivationToken activationToken , String token) {
-        if(LocalDateTime.now().isAfter(activationToken.getExpireDate())){
+    private void activate(User user , String token) {
+        ActivationToken activationToken = user.getActivationToken();
 
+        if(LocalDateTime.now().isAfter(activationToken.getExpireDate())){
+            throw new ActivateTokenExpiredException("Activation Token has expired");
         }
 
-        return false;
+        if(!activationToken.getToken().equals(token)){
+            throw new TokenMismatchException("Wrong Token");
+        }
+
+
+        user.setEnabled(true);
+        userRepository.save(user);
 
     }
 }
