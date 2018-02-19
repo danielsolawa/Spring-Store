@@ -23,8 +23,8 @@ public class ActivateAccountServiceImpl implements ActivateAccountService {
     }
 
     @Override
-    public void activateAccount(Long userId, String token) {
-        User user =  userRepository.findOne(userId);
+    public void activateAccount(String username, String token) {
+        User user =  userRepository.findByUsername(username);
 
         if(user == null){
             throw new ResourceNotFoundException("User not found");

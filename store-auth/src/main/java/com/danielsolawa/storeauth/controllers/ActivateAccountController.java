@@ -17,10 +17,10 @@ public class ActivateAccountController {
         this.activateAccountService = activateAccountService;
     }
 
-    @GetMapping("/{userId}/activate/{token}")
+    @GetMapping("/{username}/activate/{token}")
     @ResponseStatus(HttpStatus.OK)
-    public void activateAccount(@PathVariable Long userId, @PathVariable String token){
-        activateAccountService.activateAccount(userId, token);
+    public void activateAccount(@PathVariable String username, @PathVariable String token){
+        activateAccountService.activateAccount(username, token);
 
     }
 }

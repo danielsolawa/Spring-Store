@@ -43,7 +43,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'ordersController',
             controllerAs: 'controller'
         })
-        .when("/users/:id/activate/:token", {
+        .when("/users/:username/activate/:token", {
             templateUrl: 'activate-account.html',
             controller: 'activateAccountController',
             controllerAs: 'controller'

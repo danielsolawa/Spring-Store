@@ -36,11 +36,11 @@ public class ActivateAccountControllerTest {
     @Test
     public void activateAccount() throws Exception {
         mockMvc.perform(get
-                (ActivateAccountController.BASE_URL + "/1/activate/" + UUID.randomUUID().toString())
+                (ActivateAccountController.BASE_URL + "/user@user.com/activate/" + UUID.randomUUID().toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        then(activateAccountService).should().activateAccount(anyLong(), anyString());
+        then(activateAccountService).should().activateAccount(anyString(), anyString());
 
     }
 }

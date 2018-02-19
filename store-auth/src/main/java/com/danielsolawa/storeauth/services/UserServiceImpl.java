@@ -175,11 +175,12 @@ public class UserServiceImpl implements UserService {
     private void prepareActivationEmail(ActivationToken activationToken) throws MessagingException, InterruptedException {
         emailService.sendEmail(
                 EmailDto.builder()
-                .from("springStore2018@gmail.com")
-                .subject("Spring Store Account Activaiton")
-                .text("Welcome to Spring Store!")
-                .to(activationToken.getUser().getUsername())
-                .build(), activationToken.getToken()
+                        .user(activationToken.getUser())
+                        .from("springStore2018@gmail.com")
+                        .subject("Spring Store Account Activaiton")
+                        .text("Welcome to Spring Store!")
+                        .to(activationToken.getUser().getUsername())
+                        .build(), activationToken.getToken()
         );
     }
 

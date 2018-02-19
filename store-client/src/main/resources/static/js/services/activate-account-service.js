@@ -1,5 +1,5 @@
 application.factory('activateAccountService', function($resource){
-   return $resource("users/:id/activate/:token", {id: '@_id', token: '@_token'},{
+   return $resource("users/:username/activate/:token", {username: '@_username', token: '@_token'},{
        update:{
            method: 'PUT'
        }

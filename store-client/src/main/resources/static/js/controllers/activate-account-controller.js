@@ -4,10 +4,10 @@ application.controller('activateAccountController',['$routeParams', 'activateAcc
 
     self.checkToken = function(){
         console.log("checking!!");
-        var userId = $routeParams.id;
+        var username = $routeParams.username;
         var token = $routeParams.token;
 
-        activateAccountService.get({id: userId, token: token}, function(){
+        activateAccountService.get({username: username, token: token}, function(){
             self.message = "Account successfully activated!";
         }, function(error){
             console.log("an error has occurred " + error);

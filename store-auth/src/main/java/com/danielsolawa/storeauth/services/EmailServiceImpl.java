@@ -36,14 +36,17 @@ public class EmailServiceImpl implements EmailService {
         mimeMessageHelper.setFrom(emailDto.getFrom());
         mimeMessageHelper.setTo(emailDto.getTo());
         mimeMessageHelper.setSubject(emailDto.getSubject());
-        mimeMessageHelper.setText(buildMessage(emailDto.getText(), additionalInfo));
+        mimeMessageHelper.setText(buildMessage(emailDto, additionalInfo));
 
         mailSender.send(mimeMessage);
     }
 
-    private String buildMessage(String text, String token){
+    private String buildMessage(EmailDto emailDto, String token){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(text + "\n");
+        stringBuilder.append(emailDto.getText() + "\n");
+        stringBuilder.append("http://localhost:9000/#!/users/");
+        stringBuilder.append(emailDto.getUser().getUsername());
+        stringBuilder.append("/activate/");
         stringBuilder.append(token);
 
         return stringBuilder.toString();

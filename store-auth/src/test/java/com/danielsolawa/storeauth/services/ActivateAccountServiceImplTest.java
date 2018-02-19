@@ -16,6 +16,7 @@ import java.util.UUID;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 
 public class ActivateAccountServiceImplTest {
 
@@ -36,6 +37,7 @@ public class ActivateAccountServiceImplTest {
         String token = UUID.randomUUID().toString();
         User user = new User();
         user.setId(1L);
+        user.setUsername("user@user.pl");
 
         ActivationToken activationToken = new ActivationToken();
         activationToken.setToken(token);
@@ -43,11 +45,11 @@ public class ActivateAccountServiceImplTest {
 
         user.setActivationToken(activationToken);
 
-        given(userRepository.findOne(anyLong())).willReturn(user);
+        given(userRepository.findByUsername(anyString())).willReturn(user);
 
-        activateAccountService.activateAccount(1L, token);
+        activateAccountService.activateAccount(user.getUsername(), token);
 
-        then(userRepository).should().findOne(anyLong());
+        then(userRepository).should().findByUsername(anyString());
 
     }
 
@@ -55,7 +57,8 @@ public class ActivateAccountServiceImplTest {
     public void activateAccountTokenExpired() {
         String token = UUID.randomUUID().toString();
         User user = new User();
-        user.setId(2L);
+        user.setId(1L);
+        user.setUsername("user@user.pl");
 
         ActivationToken activationToken = new ActivationToken();
         activationToken.setToken(token);
@@ -63,18 +66,18 @@ public class ActivateAccountServiceImplTest {
 
         user.setActivationToken(activationToken);
 
-        given(userRepository.findOne(anyLong())).willReturn(user);
+        given(userRepository.findByUsername(anyString())).willReturn(user);
 
-        activateAccountService.activateAccount(1L, token);
+        activateAccountService.activateAccount(user.getUsername(), token);
 
-        then(userRepository).should().findOne(anyLong());
+        then(userRepository).should().findByUsername(anyString());
     }
 
     @Test(expected = TokenMismatchException.class)
     public void activateAccountTokenMismatch() {
-
         User user = new User();
-        user.setId(2L);
+        user.setId(1L);
+        user.setUsername("user@user.pl");
 
         ActivationToken activationToken = new ActivationToken();
         activationToken.setToken(UUID.randomUUID().toString());
@@ -82,11 +85,11 @@ public class ActivateAccountServiceImplTest {
 
         user.setActivationToken(activationToken);
 
-        given(userRepository.findOne(anyLong())).willReturn(user);
+        given(userRepository.findByUsername(anyString())).willReturn(user);
 
-        activateAccountService.activateAccount(1L, UUID.randomUUID().toString());
+        activateAccountService.activateAccount(anyString(), UUID.randomUUID().toString());
 
-        then(userRepository).should().findOne(anyLong());
+        then(userRepository).should().findByUsername(anyString());
     }
 
     @Test
