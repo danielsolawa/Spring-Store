@@ -1,8 +1,8 @@
 application
     .controller('productView',['$rootScope', '$routeParams', '$location', "$mdDialog", 'productsService', 'inventoryService',
-        'LoginService','inventorySortService',
+        'LoginService',
         function($rootScope, $routeParams, $location, $mdDialog, productsService, inventoryService,
-                 LoginService, inventorySortService){
+                 LoginService){
         var self = this;
         var user = LoginService.getCurrentUser();
 

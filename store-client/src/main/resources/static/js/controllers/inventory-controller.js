@@ -1,5 +1,5 @@
 application.controller('inventoryController',['$rootScope', '$location', '$mdDialog','inventoryService', 'ordersService',
-    'LoginService', 'inventorySortService',
+    'LoginService',
     function($rootScope, $location, $mdDialog, inventoryService, ordersService, LoginService){
 
     var self = this;

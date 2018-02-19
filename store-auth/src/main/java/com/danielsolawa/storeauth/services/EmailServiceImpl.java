@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
                 new MimeMessageHelper(mimeMessage , true, "UTF-8");
 
         mimeMessageHelper.setFrom(emailDto.getFrom());
-        mimeMessageHelper.setTo(emailDto.getFrom());
+        mimeMessageHelper.setTo(emailDto.getTo());
         mimeMessageHelper.setSubject(emailDto.getSubject());
         mimeMessageHelper.setText(buildMessage(emailDto.getText(), additionalInfo));
 
@@ -43,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
 
     private String buildMessage(String text, String token){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(text);
+        stringBuilder.append(text + "\n");
         stringBuilder.append(token);
 
         return stringBuilder.toString();

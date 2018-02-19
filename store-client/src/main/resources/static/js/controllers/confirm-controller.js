@@ -1,6 +1,6 @@
 application.controller('ConfirmController',
-    ['$scope', '$mdDialog','inventoryService', 'LoginService', 'inventorySortService',
-    function($scope, $mdDialog, inventoryService, LoginService, inventorySortService){
+    ['$scope', '$mdDialog','inventoryService', 'LoginService',
+    function($scope, $mdDialog, inventoryService, LoginService){
 
     $scope.inventory = inventoryService.getSortedInventory();
 

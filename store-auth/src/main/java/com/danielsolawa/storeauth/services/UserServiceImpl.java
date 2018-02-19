@@ -149,9 +149,10 @@ public class UserServiceImpl implements UserService {
             user.setInventory(inventory);
         }
 
+
         if(userDto.getActivationToken() == null && !userDto.isEnabled()){
             ActivationToken activationToken = new ActivationToken();
-            activationToken.setExpireDate(LocalDateTime.now());
+            activationToken.setExpireDate(LocalDateTime.now().plusDays(3L));
             activationToken.setToken(UUID.randomUUID().toString());
             activationToken.setUser(user);
             user.setActivationToken(activationToken);
@@ -166,7 +167,6 @@ public class UserServiceImpl implements UserService {
 
         }
 
-
         UserDto savedUser = userMapper.userToUserDto(userRepository.save(user));
 
         return savedUser;
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
     private void prepareActivationEmail(ActivationToken activationToken) throws MessagingException, InterruptedException {
         emailService.sendEmail(
                 EmailDto.builder()
-                .from("danielsolawa@gmail.com")
+                .from("springStore2018@gmail.com")
                 .subject("Spring Store Account Activaiton")
                 .text("Welcome to Spring Store!")
                 .to(activationToken.getUser().getUsername())
