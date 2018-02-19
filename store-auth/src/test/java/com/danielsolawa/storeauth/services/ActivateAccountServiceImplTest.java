@@ -2,6 +2,8 @@ package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.ActivationToken;
 import com.danielsolawa.storeauth.domain.User;
+import com.danielsolawa.storeauth.exceptions.ActivateTokenExpiredException;
+import com.danielsolawa.storeauth.exceptions.TokenMismatchException;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,14 +32,54 @@ public class ActivateAccountServiceImplTest {
     }
 
     @Test
-    public void activateAccount() {
+    public void activateAccountHappyPath() {
+        String token = UUID.randomUUID().toString();
         User user = new User();
         user.setId(1L);
 
         ActivationToken activationToken = new ActivationToken();
+        activationToken.setToken(token);
+        activationToken.setExpireDate(LocalDateTime.now().plusDays(10L));
+
+        user.setActivationToken(activationToken);
+
+        given(userRepository.findOne(anyLong())).willReturn(user);
+
+        activateAccountService.activateAccount(1L, token);
+
+        then(userRepository).should().findOne(anyLong());
+
+    }
+
+    @Test(expected = ActivateTokenExpiredException.class)
+    public void activateAccountTokenExpired() {
+        String token = UUID.randomUUID().toString();
+        User user = new User();
+        user.setId(2L);
+
+        ActivationToken activationToken = new ActivationToken();
+        activationToken.setToken(token);
+        activationToken.setExpireDate(LocalDateTime.now().minusDays(10L));
+
+        user.setActivationToken(activationToken);
+
+        given(userRepository.findOne(anyLong())).willReturn(user);
+
+        activateAccountService.activateAccount(1L, token);
+
+        then(userRepository).should().findOne(anyLong());
+    }
+
+    @Test(expected = TokenMismatchException.class)
+    public void activateAccountTokenMismatch() {
+
+        User user = new User();
+        user.setId(2L);
+
+        ActivationToken activationToken = new ActivationToken();
         activationToken.setToken(UUID.randomUUID().toString());
-        activationToken.setExpireDate(LocalDateTime.now());
-        
+        activationToken.setExpireDate(LocalDateTime.now().plusDays(20L));
+
         user.setActivationToken(activationToken);
 
         given(userRepository.findOne(anyLong())).willReturn(user);
@@ -45,11 +87,11 @@ public class ActivateAccountServiceImplTest {
         activateAccountService.activateAccount(1L, UUID.randomUUID().toString());
 
         then(userRepository).should().findOne(anyLong());
-
-
     }
 
     @Test
     public void createNewToken() {
     }
+
+
 }
