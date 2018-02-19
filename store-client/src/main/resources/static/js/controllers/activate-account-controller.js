@@ -1,3 +1,4 @@
-application.controller('activateAccountController',['$routeParams', function($routeParams){
+application.controller('activateAccountController',['$routeParams', 'activateAccountService',
+    function($routeParams, activateAccountService){
 
 }]);
