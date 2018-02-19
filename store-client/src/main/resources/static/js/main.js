@@ -43,6 +43,11 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'ordersController',
             controllerAs: 'controller'
         })
+        .when("/users/:id/activate/:token", {
+            templateUrl: 'activate-account.html',
+            controller: 'activateAccountController',
+            controllerAs: 'controller'
+        })
         .when('/error401', {
             templateUrl: 'error401.html'
         })
