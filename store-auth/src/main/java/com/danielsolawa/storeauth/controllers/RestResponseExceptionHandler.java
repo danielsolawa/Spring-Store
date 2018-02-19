@@ -1,5 +1,6 @@
 package com.danielsolawa.storeauth.controllers;
 
+import com.danielsolawa.storeauth.exceptions.ActivateTokenExpiredException;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
 import com.danielsolawa.storeauth.exceptions.ValidationConstraintException;
@@ -25,8 +26,8 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler({ValidationConstraintException.class})
-    public ResponseEntity<Object> handleValidationConstraintException(Exception e, WebRequest request){
-        return new ResponseEntity<>(ErrorInfo.builder().message(e.getMessage()).build(),
+    public ResponseEntity<Object> handleValidationConstraintException(Exception exception, WebRequest request){
+        return new ResponseEntity<>(ErrorInfo.builder().message(exception.getMessage()).build(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -36,12 +37,21 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
                 new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler({ActivateTokenExpiredException.class})
+    public ResponseEntity<Object> handleActivateTokenExpiredException(Exception exception, WebRequest request){
+
+        return new ResponseEntity<>(ErrorInfo.builder().message(exception.getMessage()).build(),
+                new HttpHeaders(), HttpStatus.GONE);
+    }
+
     @ExceptionHandler({NumberFormatException.class})
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return new ResponseEntity<>(ErrorInfo.builder().message(ex.getMessage()).build(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
+
 
 
 
