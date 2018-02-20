@@ -1,5 +1,23 @@
 <div class="panel panel-default" data-ng-init="controller.checkToken()">
     <div class="panel-heading">Activate Account</div>
-    <div class="panel-body"></div>
+    <div class="panel-body" ng-cloak>
+        <div ng-show="!controller.sendNewToken">
+            <div ng-show="controller.error" class="alert alert-danger">
+                <p>{{controller.message}}</p>
+                <div ng-show="controller.tokenExpired">
+                    <p>Click <span ng-click="controller.sendNewToken = true">here</span>
+                        to send new activation token.</p>
+                </div>
+            </div>
+            <div ng-show="!controller.error" class="alert alert-success">
+                <p>{{controller.message}}</p>
+                <p>Click <a href="login">here</a> to log in.</p>
+            </div>
+        </div>
+        <div ng-show="controller.sendNewToken">
+            <p>An email with activation token has been sent to your email {{controller.username}}.</p>
+        </div>
+
+    </div>
 
 </div>

@@ -1,16 +1,28 @@
-application.controller('activateAccountController',['$routeParams', 'activateAccountService',
-    function($routeParams, activateAccountService){
+application.controller('activateAccountController',['$routeParams', '$location','activateAccountService',
+    function($routeParams, $location,activateAccountService){
     var self = this;
 
+    self.sendNewToken = false;
+    self.tokenExpired = false;
+
     self.checkToken = function(){
-        console.log("checking!!");
-        var username = $routeParams.username;
+        self.message = "";
+        self.error = false;
+        self.username = $routeParams.username;
         var token = $routeParams.token;
 
-        activateAccountService.get({username: username, token: token}, function(){
+        activateAccountService.get({username: self.username, token: token}, function(){
             self.message = "Account successfully activated!";
         }, function(error){
-            console.log("an error has occurred " + error);
-        })
+            self.message = error.data.message;
+            self.error = true;
+
+            if(error.status == 410){
+                self.tokenExpired = true;
+            }
+
+        });
     }
+
+
 }]);
