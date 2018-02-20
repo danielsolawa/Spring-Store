@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 
 public class ActivateAccountServiceImplTest {
@@ -24,12 +24,16 @@ public class ActivateAccountServiceImplTest {
     ActivateAccountService activateAccountService;
 
     @Mock
+    EmailService emailService;
+
+    @Mock
     UserRepository userRepository;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        activateAccountService = new ActivateAccountServiceImpl(userRepository);
+        activateAccountService = new ActivateAccountServiceImpl("storeemail@email.com",
+                userRepository, emailService);
     }
 
     @Test
@@ -94,6 +98,20 @@ public class ActivateAccountServiceImplTest {
 
     @Test
     public void createNewToken() {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("user@user.pl");
+
+        given(userRepository.findByUsername(anyString())).willReturn(user);
+        given(userRepository.save(any(User.class))).willReturn(user);
+
+        activateAccountService.createNewToken(UUID.randomUUID().toString());
+
+        then(userRepository).should().findByUsername(anyString());
+        then(userRepository).should().save(any(User.class));
+
+
+
     }
 
 

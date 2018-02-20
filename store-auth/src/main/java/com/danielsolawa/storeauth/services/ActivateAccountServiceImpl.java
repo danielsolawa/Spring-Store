@@ -3,23 +3,33 @@ package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.ActivationToken;
 import com.danielsolawa.storeauth.domain.User;
+import com.danielsolawa.storeauth.dtos.EmailDto;
 import com.danielsolawa.storeauth.exceptions.ActivateTokenExpiredException;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.exceptions.TokenMismatchException;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Slf4j
 public class ActivateAccountServiceImpl implements ActivateAccountService {
 
-    private final UserRepository userRepository;
 
-    public ActivateAccountServiceImpl(UserRepository userRepository) {
+    private final String storeEmail;
+    private final UserRepository userRepository;
+    private final EmailService emailService;
+
+    public ActivateAccountServiceImpl(@Value("${spring.mail.username}") String storeEmail,
+                                      UserRepository userRepository, EmailService emailService) {
+        this.storeEmail = storeEmail;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -37,8 +47,41 @@ public class ActivateAccountServiceImpl implements ActivateAccountService {
 
 
     @Override
-    public void createNewToken(Long id) {
+    public void createNewToken(String username) {
+        User user =  userRepository.findByUsername(username);
 
+        if(user == null){
+            throw new ResourceNotFoundException("User not found");
+        }
+
+        ActivationToken activationToken = new ActivationToken();
+        activationToken.setToken(UUID.randomUUID().toString());
+        activationToken.setExpireDate(LocalDateTime.now().plusDays(2L));
+        activationToken.setUser(user);
+
+        user.setActivationToken(activationToken);
+
+
+        try {
+            prepareActivationEmail(userRepository.save(user));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void prepareActivationEmail(User user) throws MessagingException, InterruptedException {
+        emailService.sendEmail(
+                EmailDto.builder()
+                        .user(user)
+                        .from(storeEmail)
+                        .to(user.getUsername())
+                        .subject("Spring Store Account Activation")
+                        .text("Welcome to Spring Store!")
+                        .build(), user.getActivationToken().getToken()
+        );
     }
 
     private void activate(User user , String token) {

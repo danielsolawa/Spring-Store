@@ -4,7 +4,6 @@ import com.danielsolawa.storeauth.domain.ActivationToken;
 import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.Role;
 import com.danielsolawa.storeauth.domain.User;
-import com.danielsolawa.storeauth.dtos.ActivationTokenDto;
 import com.danielsolawa.storeauth.dtos.EmailDto;
 import com.danielsolawa.storeauth.dtos.UserDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
@@ -12,6 +11,7 @@ import com.danielsolawa.storeauth.exceptions.ResourceAlreadyExistsException;
 import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +26,18 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+
+    private final String storeEmail;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
-                           EmailService emailService, PasswordEncoder passwordEncoder) {
+
+    public UserServiceImpl(@Value("${spring.mail.username}") String storeEmail, UserRepository userRepository,
+                           UserMapper userMapper, EmailService emailService, PasswordEncoder passwordEncoder) {
+        this.storeEmail = storeEmail;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.emailService = emailService;
@@ -176,12 +180,14 @@ public class UserServiceImpl implements UserService {
         emailService.sendEmail(
                 EmailDto.builder()
                         .user(activationToken.getUser())
-                        .from("springStore2018@gmail.com")
-                        .subject("Spring Store Account Activaiton")
+                        .from(storeEmail)
+                        .subject("Spring Store Account Activation")
                         .text("Welcome to Spring Store!")
                         .to(activationToken.getUser().getUsername())
                         .build(), activationToken.getToken()
         );
+
+        log.info("an email has been sent.");
     }
 
 

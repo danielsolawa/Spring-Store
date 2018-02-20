@@ -5,8 +5,8 @@
             <div ng-show="controller.error" class="alert alert-danger">
                 <p>{{controller.message}}</p>
                 <div ng-show="controller.tokenExpired">
-                    <p>Click <span ng-click="controller.sendNewToken = true">here</span>
-                        to send new activation token.</p>
+                    <p>Click <span ng-click="controller.createNewToken()">here</span>
+                        to send a new activation token.</p>
                 </div>
             </div>
             <div ng-show="!controller.error" class="alert alert-success">

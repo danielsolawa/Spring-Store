@@ -24,5 +24,11 @@ application.controller('activateAccountController',['$routeParams', '$location',
         });
     }
 
+    self.createNewToken = function(){
+        self.sendNewToken = true;
+
+
+    }
+
 
 }]);

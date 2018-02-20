@@ -43,4 +43,14 @@ public class ActivateAccountControllerTest {
         then(activateAccountService).should().activateAccount(anyString(), anyString());
 
     }
+
+    @Test
+    public void createNewToken() throws Exception {
+        mockMvc.perform(get
+                (ActivateAccountController.BASE_URL  + "/user@user.com/create-new-token/")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        then(activateAccountService).should().createNewToken(anyString());
+    }
 }
