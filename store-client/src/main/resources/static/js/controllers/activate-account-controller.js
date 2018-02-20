@@ -27,6 +27,11 @@ application.controller('activateAccountController',['$routeParams', '$location',
     self.createNewToken = function(){
         self.sendNewToken = true;
 
+        activateAccountService.get({username: self.username}, function(){
+            self.newTokenMessage = "An email with activation token has been sent to your email " + self.username;
+        }, function(error){
+           console.log(error);
+        });
 
     }
 

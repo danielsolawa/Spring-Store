@@ -23,7 +23,7 @@ public class ActivateAccountController {
         activateAccountService.activateAccount(username, token);
 
     }
-    @GetMapping("/{username}/create-new-token")
+    @GetMapping("/{username}/activate")
     @ResponseStatus(HttpStatus.OK)
     public void createNewToken(@PathVariable String username){
         activateAccountService.createNewToken(username);

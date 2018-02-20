@@ -47,7 +47,7 @@ public class ActivateAccountControllerTest {
     @Test
     public void createNewToken() throws Exception {
         mockMvc.perform(get
-                (ActivateAccountController.BASE_URL  + "/user@user.com/create-new-token/")
+                (ActivateAccountController.BASE_URL  + "/user@user.com/activate/")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
