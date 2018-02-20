@@ -47,6 +47,12 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
                 new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({AccountAlreadyActivatedException.class})
+    public ResponseEntity<Object> handleAccountAlreadyActivatedException(Exception exception, WebRequest request){
+        return new ResponseEntity<>(ErrorInfo.builder().message(exception.getMessage()).build(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler({NumberFormatException.class})
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

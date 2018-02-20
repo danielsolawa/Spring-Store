@@ -4,6 +4,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.ActivationToken;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.EmailDto;
+import com.danielsolawa.storeauth.exceptions.AccountAlreadyActivatedException;
 import com.danielsolawa.storeauth.exceptions.ActivateTokenExpiredException;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.exceptions.TokenMismatchException;
@@ -38,6 +39,10 @@ public class ActivateAccountServiceImpl implements ActivateAccountService {
 
         if(user == null){
             throw new ResourceNotFoundException("User not found");
+        }
+
+        if(user.isEnabled()){
+            throw new AccountAlreadyActivatedException("Account already activated.");
         }
 
 

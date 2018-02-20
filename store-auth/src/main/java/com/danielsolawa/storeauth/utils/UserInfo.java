@@ -1,11 +1,13 @@
 package com.danielsolawa.storeauth.utils;
 
 import com.danielsolawa.storeauth.domain.User;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,6 +31,9 @@ public class UserInfo implements UserDetails {
 
 
     public UserInfo(User user) {
+        if(user == null){
+            throw new ResourceNotFoundException("User not found");
+        }
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
