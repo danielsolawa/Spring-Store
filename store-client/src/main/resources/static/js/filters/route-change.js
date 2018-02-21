@@ -7,9 +7,9 @@ application.run(function ($rootScope, $location, $http, LoginService, inventoryS
                 LoginService.setCurrentUser(response.data);
                 LoginService.setWasLogged(true);
                 $rootScope.$broadcast('authorized');
-                $rootScope.user = response.data;
-            }
 
+            }
+            $rootScope.user = response.data;
 
 
         }, function(error){

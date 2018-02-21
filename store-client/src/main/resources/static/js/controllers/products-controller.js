@@ -7,6 +7,8 @@ application
         var user = LoginService.getCurrentUser();
 
         self.customFullscreen = false;
+        self.amount = 1;
+
 
         var product = productsService.get({id: $routeParams.id, prodId: $routeParams.prodId},function(){
             self.product = product;
@@ -16,8 +18,14 @@ application
 
         self.showConfirmDialog = function(ev) {
 
-            inventoryService.addToInventory(product);
+            if(LoginService.getCurrentUser() == null){
+                location.href = "/login";
+            }
 
+
+            for(var i = 0; i < self.amount; i++){
+                inventoryService.addToInventory(product);
+            }
 
             $mdDialog.show({
                 controller: 'ConfirmController',
@@ -30,7 +38,7 @@ application
                 .then(function(answer) {
 
                 }, function() {
-                    inventoryService.removeLastProduct();
+                    inventoryService.removeLastProduct(self.amount);
                 });
         };
 

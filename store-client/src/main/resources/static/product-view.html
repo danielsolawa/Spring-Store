@@ -7,7 +7,10 @@
             <p>Description: {{controller.product.description}}</p>
             <p>Price: {{controller.product.price}}</p>
 
-            <button class="btn btn-success" ng-click="controller.showConfirmDialog($event)">Buy</button>
+            <form class="form-inline" name="inv" ng-submit="controller.showConfirmDialog($event)">
+                <input type="number" class="form-control" step="1" min="1" ng-model="controller.amount" required/>
+                <input type="submit" class="btn btn-success" ng-disabled="inv.$invalid" value="buy"/>
+            </form>
         </div>
     </div>
 

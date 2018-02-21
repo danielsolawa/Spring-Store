@@ -121,10 +121,14 @@ application.service('inventoryService', function($resource, $rootScope, LoginSer
     }
 
 
-    self.removeLastProduct = function(){
+    self.removeLastProduct = function(amount){
         if(!isEmpty()){
             if(inventory.length > 0){
-                inventory.splice(inventory.length -1, 1);
+                var reduceTo = inventory.length -1 - amount;
+                for(var i = inventory.length -1; i > reduceTo; i--){
+                    inventory.splice(i, 1);
+                }
+
             }
         }
 

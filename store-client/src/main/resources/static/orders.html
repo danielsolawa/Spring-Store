@@ -29,16 +29,22 @@
         <!-- PRODUCTS -->
         <div ng-show="controller.showProducts">
             <button class="btn btn-primary" ng-click="controller.showProducts = false">Hide Details</button>
-            <h3>Details for order {{controller.orderDetail.id}}</h3>
-            <h5>Date:  {{controller.orderDetail.orderDate.hour}}:{{controller.orderDetail.orderDate.minute}}:{{controller.orderDetail.orderDate.second}} {{controller.orderDetail.orderDate.dayOfMonth}}
-                {{controller.orderDetail.orderDate.month}} {{controller.orderDetail.orderDate.year}}
-            </h5>
+            <h3>Details for order nr {{controller.orderDetail.id}}</h3>
+            <h4>
+                <p>{{controller.orderDetail.orderDate.dayOfMonth}}
+                    {{controller.orderDetail.orderDate.month}} {{controller.orderDetail.orderDate.year}}
+                </p>
+                <p>
+                    {{controller.orderDetail.orderDate.hour}}:{{controller.orderDetail.orderDate.minute}}:{{controller.orderDetail.orderDate.second}}
+                </p>
+
+            </h4>
 
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>name</th>
+                    <th>product name</th>
                     <th>price</th>
                 </tr>
                 </thead>
@@ -46,7 +52,7 @@
                 <tr>
                     <td>{{product.id}}</td>
                     <td>{{product.name}}</td>
-                    <td>{{product.price}}</td>
+                    <td>{{product.price | number : 2}} PLN</td>
                 </tr>
                 </tbody>
             </table>
