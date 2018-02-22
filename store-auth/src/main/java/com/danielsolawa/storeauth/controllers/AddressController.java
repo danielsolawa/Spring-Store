@@ -17,6 +17,13 @@ public class AddressController {
         this.addressService = addressService;
     }
 
+
+    @GetMapping("/{userId}/address")
+    @ResponseStatus(HttpStatus.OK)
+    public AddressDto getAddressDto(@PathVariable Long userId){
+        return addressService.getAddress(userId);
+    }
+
     @PostMapping("/{userId}/address")
     @ResponseStatus(HttpStatus.OK)
     public AddressDto createNewAddress(@PathVariable Long userId, @RequestBody AddressDto addressDto){

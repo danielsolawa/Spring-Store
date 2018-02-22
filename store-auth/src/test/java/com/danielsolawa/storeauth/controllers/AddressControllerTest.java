@@ -11,13 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.any;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.anyLong;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,6 +36,22 @@ public class AddressControllerTest extends AbstractControllerTest{
         addressController = new AddressController(addressService);
         mockMvc = MockMvcBuilders.standaloneSetup(addressController).build();
 
+    }
+
+
+    @Test
+    public void getAddressDto() throws Exception {
+        AddressDto addressDto = new AddressDto();
+        addressDto.setId(1L);
+
+        given(addressService.getAddress(anyLong())).willReturn(addressDto);
+
+        mockMvc.perform(get(AddressController.BASE_URL + "/1/address")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(1)));
+
+        then(addressService).should().getAddress(anyLong());
     }
 
     @Test
