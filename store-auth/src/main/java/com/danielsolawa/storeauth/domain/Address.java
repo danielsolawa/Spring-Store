@@ -2,11 +2,13 @@ package com.danielsolawa.storeauth.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@ToString(exclude = {"user"})
 public class Address {
 
     @Id
