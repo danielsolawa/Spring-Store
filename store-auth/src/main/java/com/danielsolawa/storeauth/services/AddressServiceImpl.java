@@ -22,12 +22,19 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto createNewAddress(Long userId, AddressDto addressDto) {
-        User user = userRepository.findOne(userId);
+    public AddressDto getAddress(Long userId) {
+        User user = fetchUser(userId);
 
-        if(user == null){
-            throw new ResourceNotFoundException("User not found");
+        if(user.getAddress() == null){
+            throw new ResourceNotFoundException("Address not found");
         }
+
+        return addressMapper.addressToAddressDto(user.getAddress());
+    }
+
+    @Override
+    public AddressDto createNewAddress(Long userId, AddressDto addressDto) {
+        User user = fetchUser(userId);
 
 
         return saveAddressDto(addressDto, user);
@@ -36,13 +43,20 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto updateAddress(Long userId, AddressDto addressDto) {
+        User user = fetchUser(userId);
+
+       return saveAddressDto(prepareForUpdate(user, addressDto), user);
+    }
+
+
+    private User fetchUser(Long userId) {
         User user = userRepository.findOne(userId);
 
         if(user == null){
             throw new ResourceNotFoundException("User not found");
         }
 
-       return saveAddressDto(prepareForUpdate(user, addressDto), user);
+        return user;
     }
 
     private AddressDto prepareForUpdate(User user, AddressDto addressDto) {

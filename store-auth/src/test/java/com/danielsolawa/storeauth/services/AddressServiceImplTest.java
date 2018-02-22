@@ -3,6 +3,7 @@ package com.danielsolawa.storeauth.services;
 import com.danielsolawa.storeauth.domain.Address;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.AddressDto;
+import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.AddressMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import org.junit.Before;
@@ -12,12 +13,14 @@ import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 public class AddressServiceImplTest {
 
@@ -33,6 +36,40 @@ public class AddressServiceImplTest {
         MockitoAnnotations.initMocks(this);
         addressMapper = AddressMapper.INSTANCE;
         addressService = new AddressServiceImpl(userRepository, addressMapper);
+    }
+
+
+    @Test
+    public void getAddressHappyPath() {
+        User user = new User();
+        user.setId(1L);
+
+        Address address = new Address();
+        address.setId(1L);
+
+        user.setAddress(address);
+
+        given(userRepository.findOne(anyLong())).willReturn(user);
+
+        AddressDto addressDto = addressService.getAddress(1L);
+
+        assertThat(address.getId(), equalTo(addressDto.getId()));
+
+        then(userRepository).should().findOne(anyLong());
+
+    }
+
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void getAddressFailure(){
+
+        given(userRepository.findOne(anyLong())).willThrow(ResourceNotFoundException.class);
+
+        AddressDto addressDto = addressService.getAddress(1L);
+
+        assertNull(addressDto);
+
+        then(userRepository).should().findOne(anyLong());
     }
 
     @Test
