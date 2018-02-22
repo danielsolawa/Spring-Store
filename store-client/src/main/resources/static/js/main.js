@@ -48,7 +48,7 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'activateAccountController',
             controllerAs: 'controller'
         })
-        .when("/users/:id/address", {
+        .when("/users/:id/address/add", {
             templateUrl: 'add-address.html',
             controller: 'addressController',
             controllerAs: 'controller'

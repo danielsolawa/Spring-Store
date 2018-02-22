@@ -27,9 +27,6 @@ application.controller('ordersController',['$routeParams','ordersService', funct
 
    var getSortedOrders = function(orders){
 
-
-
-
        var sortedOrders = [];
 
        sortedLoop:

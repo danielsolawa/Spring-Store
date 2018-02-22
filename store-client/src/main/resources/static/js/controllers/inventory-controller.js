@@ -1,9 +1,19 @@
 application.controller('inventoryController',['$rootScope', '$location', '$mdDialog','inventoryService', 'ordersService',
-    'LoginService',
-    function($rootScope, $location, $mdDialog, inventoryService, ordersService, LoginService){
+    'addressService' ,'LoginService',
+    function($rootScope, $location, $mdDialog, inventoryService, ordersService, addressService, LoginService){
 
     var self = this;
     var userId = LoginService.getCurrentUser().id;
+    var addressExist = false;
+
+        addressService.get({id: userId}, function(response){
+            addressExist = true;
+        }, function(error){
+            console.log("an error has occurred");
+            addressExist = false;
+        });
+
+
 
 
     self.init = function(){
@@ -63,11 +73,20 @@ application.controller('inventoryController',['$rootScope', '$location', '$mdDia
             .cancel('Cancel');
 
         $mdDialog.show(confirm).then(function() {
-            self.order();
+            if(addressExist){
+                self.order();
+            }else{
+                $location.path("/users/" + userId + "/address/add");
+            }
+
+
         }, function() {
 
         });
     };
+
+
+
 
     var removeOneType = function(id){
         var index = -1;

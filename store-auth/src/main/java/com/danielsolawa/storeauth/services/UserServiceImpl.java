@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
         if(userDto.getActivationToken() == null && !userDto.isEnabled()){
             ActivationToken activationToken = new ActivationToken();
-            activationToken.setExpireDate(LocalDateTime.now());
+            activationToken.setExpireDate(LocalDateTime.now().plusDays(2L));
             activationToken.setToken(UUID.randomUUID().toString());
             activationToken.setUser(user);
             user.setActivationToken(activationToken);
