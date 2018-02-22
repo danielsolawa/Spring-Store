@@ -1,8 +1,10 @@
 package com.danielsolawa.storeauth.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private ActivationToken activationToken;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
     public User addOrder(Order order){
         order.setUser(this);

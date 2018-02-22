@@ -46,6 +46,7 @@
                     <th>id</th>
                     <th>product name</th>
                     <th>price</th>
+                    <th>amount</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="product in controller.orderDetail.products">
@@ -53,6 +54,7 @@
                     <td>{{product.id}}</td>
                     <td>{{product.name}}</td>
                     <td>{{product.price | number : 2}} PLN</td>
+                    <td>{{product.amount}}</td>
                 </tr>
                 </tbody>
             </table>
