@@ -18,7 +18,7 @@ application.controller('ordersController',['$routeParams','ordersService', funct
    self.showDetails = function(index){
        self.showProducts = true;
        var sortedDetails = getSortedOrders(self.orders[index].products);
-       console.log(sortedDetails);
+
        self.orderDetail = self.orders[index];
        self.orderDetail.products = sortedDetails;
 
@@ -45,7 +45,6 @@ application.controller('ordersController',['$routeParams','ordersService', funct
 
            }
 
-       console.log(sortedOrders.length + " length");
        return sortedOrders;
    }
 

@@ -48,6 +48,11 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'activateAccountController',
             controllerAs: 'controller'
         })
+        .when("/users/:id/address", {
+            templateUrl: 'add-address.html',
+            controller: 'addressController',
+            controllerAs: 'controller'
+        })
         .when('/error401', {
             templateUrl: 'error401.html'
         })
