@@ -1,15 +1,20 @@
 package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.Order;
+import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.domain.User;
+import com.danielsolawa.storeauth.dtos.EmailDto;
 import com.danielsolawa.storeauth.dtos.OrderDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.OrderMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,10 +28,15 @@ public class OrderServiceImpl implements OrderService {
 
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
+    private final EmailService emailService;
+    private final String storeEmail;
 
-    public OrderServiceImpl(UserRepository userRepository, OrderMapper orderMapper) {
+    public OrderServiceImpl(UserRepository userRepository, OrderMapper orderMapper,
+                            EmailService emailService, @Value("${spring.mail.username}") String storeEmail) {
         this.userRepository = userRepository;
         this.orderMapper = orderMapper;
+        this.emailService = emailService;
+        this.storeEmail = storeEmail;
     }
 
     @Override
@@ -138,6 +148,61 @@ public class OrderServiceImpl implements OrderService {
                 .max(Comparator.comparing(Order::getId))
                 .orElseThrow(NoSuchElementException::new);
 
+        try {
+            sendEmails(order, returnedUser);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return orderMapper.orderToOrderDto(order);
     }
+
+
+    private void sendEmails(Order order, User user) throws MessagingException, InterruptedException {
+        emailService.sendEmail
+                (
+                        EmailDto.builder()
+                           .from(storeEmail)
+                           .text(generateProductList(order.getProducts()))
+                           .to(user.getUsername())
+                           .subject("Spring Store order")
+                           .user(user)
+                           .build()
+                );
+
+
+    }
+
+    private String generateProductList(List<Product> products) {
+        StringBuilder builder = new StringBuilder();
+
+        Product tempProduct = null;
+        int productAmount = 0;
+
+        for(Product p : products){
+            if(tempProduct == null){
+                tempProduct = p;
+            }
+
+            if(p.getId().equals(tempProduct.getId())){
+                productAmount++;
+            }else{
+                builder.append("id: " + tempProduct.getId() + " name: "
+                        + tempProduct.getName() +
+                        " price: " + tempProduct.getPrice() + " amount: " + productAmount +"\n");
+
+                productAmount = 1;
+                tempProduct = p;
+            }
+
+
+        }
+
+
+
+        return builder.toString();
+    }
+
 }

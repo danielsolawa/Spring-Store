@@ -1,6 +1,5 @@
 package com.danielsolawa.storeauth.services;
 
-import com.danielsolawa.storeauth.domain.Inventory;
 import com.danielsolawa.storeauth.domain.Order;
 import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.domain.User;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,23 +22,25 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.when;
 
 public class OrderServiceImplTest {
 
     OrderService orderService;
 
+    @Mock
+    EmailService emailService;
 
     @Mock
     UserRepository userRepository;
 
     OrderMapper orderMapper;
 
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         orderMapper = OrderMapper.INSTANCE;
-        orderService = new OrderServiceImpl(userRepository, orderMapper);
+        orderService = new OrderServiceImpl(userRepository, orderMapper, emailService, "store@spring.org");
 
     }
 
@@ -149,11 +149,16 @@ public class OrderServiceImplTest {
 
         Order order = new Order();
         order.setId(1L);
-        order.addProduct(new Product());
+
+        Product product = new Product();
+        product.setId(1L);
+
+        order.addProduct(product);
 
 
         List<Order> orders = new ArrayList<>();
         orders.add(order);
+
 
         userWithOrders.setOrders(orders);
 

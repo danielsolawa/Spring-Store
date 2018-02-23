@@ -20,7 +20,18 @@ public class EmailServiceImpl implements EmailService {
 
     @Async
     @Override
-    public void sendEmail(EmailDto emailDto) {
+    public void sendEmail(EmailDto emailDto) throws InterruptedException, MessagingException {
+        Thread.sleep(10000);
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper =
+                new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        mimeMessageHelper.setFrom(emailDto.getFrom());
+        mimeMessageHelper.setTo(emailDto.getTo());
+        mimeMessageHelper.setSubject(emailDto.getSubject());
+        mimeMessageHelper.setText(emailDto.getText());
+
+        mailSender.send(mimeMessage);
 
     }
 

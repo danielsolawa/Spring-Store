@@ -21,7 +21,7 @@ public class OrderController {
 
     @PostMapping("/{userId}/orders")
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createNewOrder(@PathVariable Long userId,@RequestBody  OrderDto orderDto){
+    public OrderDto createNewOrder(@PathVariable Long userId, @RequestBody OrderDto orderDto){
         return orderService.createNewOrder(userId, orderDto);
     }
 
