@@ -1,0 +1,58 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Profile</h2>
+    </div>
+    <div class="panel-body">
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h3>User </h3>
+            <div class="well well-lg">
+                <div class="col-md-6">
+                    <p><span style="font-weight: bold;">Logged as: </span>{{controller.getUser().username}}</p>
+                </div>
+                <div class="col-md-4">
+                    <ul>
+                        <li>Change password</li>
+                    </ul>
+                </div>
+
+            </div>
+        </li>
+        <li class="list-group-item">
+            <h3>Address </h3>
+            <div class="well well-lg">
+                <div ng-show="controller.addressExist">
+                    <div class="modal-body row">
+                        <div class="col-md-6">
+                            <p><span style="font-weight: bold;">First Name: </span> {{controller.address.firstName}}</p>
+                            <p><span style="font-weight: bold;">Last Name: </span> {{controller.address.lastName}}</p>
+                            <p><span style="font-weight: bold;">Street: </span> {{controller.address.street}}</p>
+                            <p><span style="font-weight: bold;">City: </span> {{controller.address.city}}</p>
+                            <p><span style="font-weight: bold;">Zip Code: </span> {{controller.address.zipCode}}</p>
+                            <p><span style="font-weight: bold;">Country: </span> {{controller.address.country}}</p>
+                            <p><span style="font-weight: bold;">Phone Number: </span> {{controller.address.phoneNumber}}</p>
+
+                        </div>
+                        <div class="col-md-6">
+                            <p><span style="font-weight: bold;">Manage: </span></p>
+                            <ul>
+                                <li>Edit address</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="!controller.addressExist">
+                    <button class="btn btn-lg btn-success btn-block" ng-click="controller.addAddress()">Add address</button>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <h3>Orders </h3>
+            <div class="well well-lg">
+                Address
+            </div>
+        </li>
+    </ul>
+</div>

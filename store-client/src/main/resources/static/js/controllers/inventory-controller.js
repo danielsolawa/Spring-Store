@@ -76,7 +76,7 @@ application.controller('inventoryController',['$rootScope', '$location', '$mdDia
             if(addressExist){
                 self.order();
             }else{
-                $location.path("/users/" + userId + "/address/add");
+                $location.path("/users/" + userId + "/address/add/order");
             }
 
 

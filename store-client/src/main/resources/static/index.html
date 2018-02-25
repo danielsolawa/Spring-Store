@@ -48,6 +48,7 @@
     <script type="application/javascript" src="/js/controllers/orders-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/activate-account-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/address-controller.js"></script>
+    <script type="application/javascript" src="/js/controllers/profile-controller.js"></script>
 
 
 
@@ -58,10 +59,21 @@
     <p class="navbar-text"><a href="/">Home</a></p>
     <p ng-show="!nav.isAuthenticated()" class="navbar-text"><a ng-href="login" href="#">Login</a></p>
     <p ng-show="nav.isAuthenticated() && nav.getRole() == 'ADMIN'" class="navbar-text"><a ng-href="/#!/admin" href="#">Admin Panel</a></p>
-    <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="#" ng-click="nav.logout()">{{user.username}} Logout</a></p>
-    <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="/#!/inventory" >Inventory</a></p>
     <p ng-show="nav.isAuthenticated()" class="navbar-text"><a href="/#!/users/{{nav.getUserId()}}/orders">Orders</a></p>
-    <p class="navbar-text"><a href="/#!/users/new">Register</a></p>
+    <div class="btn-group" ng-show="nav.isAuthenticated()">
+        <p  data-toggle="dropdown" class="navbar-text">
+            <a href>My account</a>
+        </p>
+        <div class="dropdown-menu">
+            <span class="glyphicon glyphicon-briefcase" style="margin-left: 10px;" aria-hidden="true"></span>
+            <a class="dropdown-item" style="font-size: large;"  href="/#!/users/{{nav.getUserId()}}/profile">Profile</a>
+            <div class="dropdown-divider"></div>
+            <span class="glyphicon glyphicon-shopping-cart" style="margin-left: 10px;" aria-hidden="true"><a class="dropdown-item" style="font-size: large;" href="/#!/inventory">Inventory</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" style="font-size: large;" href="#" ng-click="nav.logout()">Logout</a>
+        </div>
+    </div>
+    <p ng-show="!nav.isAuthenticated()" class="navbar-text"><a href="/#!/users/new">Register</a></p>
 
 </nav>
 
