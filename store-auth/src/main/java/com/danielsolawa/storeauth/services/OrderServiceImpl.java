@@ -8,13 +8,13 @@ import com.danielsolawa.storeauth.dtos.OrderDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.OrderMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
+import com.danielsolawa.storeauth.utils.EmailTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -161,11 +161,14 @@ public class OrderServiceImpl implements OrderService {
 
 
     private void sendEmails(Order order, User user) throws MessagingException, InterruptedException {
+        //to customer
+        String customerMessage = "Thank you for your order.";
+        String customerText = generateMessage(user, order.getProducts(), customerMessage, false);
         emailService.sendEmail
                 (
                         EmailDto.builder()
                            .from(storeEmail)
-                           .text(generateProductList(order.getProducts()))
+                           .text(customerText)
                            .to(user.getUsername())
                            .subject("Spring Store order")
                            .user(user)
@@ -173,13 +176,46 @@ public class OrderServiceImpl implements OrderService {
                 );
 
 
+        //to owner
+        String ownerMessage = "New product/products have been sold.";
+        String ownerText = generateMessage(user, order.getProducts(), ownerMessage, true);
+        emailService.sendEmail(
+                EmailDto.builder()
+                        .from(storeEmail)
+                        .text(ownerText)
+                        .to(storeEmail)
+                        .subject("Spring Store Sale")
+                        .user(user)
+                        .build()
+        );
+
     }
 
-    private String generateProductList(List<Product> products) {
+    private String generateMessage(User user, List<Product> products, String message, boolean toOwner) {
         StringBuilder builder = new StringBuilder();
+        builder.append(EmailTemplate.MESSAGE_START);
+        builder.append(EmailTemplate.addMessage(message));
+
+        if(toOwner) {
+           builder.append(EmailTemplate.generateCustomerAddress(user.getAddress(), user.getUsername()));
+        }
+
+        builder.append(getProductListAsString(products));
+
+        builder.append(EmailTemplate.MESSAGE_END);
+
+        return builder.toString();
+
+    }
+
+    private String getProductListAsString(List<Product> products) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(EmailTemplate.generateProductHeaders());
 
         Product tempProduct = null;
         int productAmount = 0;
+        double productSum = 0.0;
 
         for(Product p : products){
             if(tempProduct == null){
@@ -188,21 +224,31 @@ public class OrderServiceImpl implements OrderService {
 
             if(p.getId().equals(tempProduct.getId())){
                 productAmount++;
-            }else{
-                builder.append("id: " + tempProduct.getId() + " name: "
-                        + tempProduct.getName() +
-                        " price: " + tempProduct.getPrice() + " amount: " + productAmount +"\n");
-
-                productAmount = 1;
-                tempProduct = p;
+                continue;
             }
 
 
+            builder.append(EmailTemplate.generateProductRow(tempProduct, productAmount));
+            productSum += productAmount * tempProduct.getPrice();
+            productAmount = 1;
+            tempProduct = p;
+
         }
+        builder.append(EmailTemplate.generateProductRow(tempProduct, productAmount));
+        productSum += productAmount * tempProduct.getPrice();
 
-
+        builder.append(EmailTemplate.generateProductTotalPrice(productSum));
+        log.info(builder.toString());
 
         return builder.toString();
     }
+
+
+
+
+
+
+
+
 
 }

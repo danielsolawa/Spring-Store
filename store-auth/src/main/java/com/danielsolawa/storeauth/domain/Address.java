@@ -17,6 +17,7 @@ public class Address {
     private String firstName;
     private String lastName;
     private String street;
+    private String city;
     private String country;
     private String zipCode;
     private String phoneNumber;

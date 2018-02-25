@@ -78,6 +78,10 @@ public class AddressServiceImpl implements AddressService {
             address.setStreet(addressDto.getStreet());
         }
 
+        if(addressDto.getCity() != null){
+            address.setCity(addressDto.getCity());
+        }
+
         if(addressDto.getZipCode() != null){
             address.setZipCode(addressDto.getZipCode());
         }

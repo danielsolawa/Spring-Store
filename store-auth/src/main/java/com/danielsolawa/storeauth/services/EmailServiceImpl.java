@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
         mimeMessageHelper.setFrom(emailDto.getFrom());
         mimeMessageHelper.setTo(emailDto.getTo());
         mimeMessageHelper.setSubject(emailDto.getSubject());
-        mimeMessageHelper.setText(emailDto.getText());
+        mimeMessageHelper.setText(emailDto.getText(), true);
 
         mailSender.send(mimeMessage);
 
