@@ -16,12 +16,12 @@ import java.util.List;
 public class UserDto {
 
     private Long id;
-    @Email(message = "Please enter a valid email address.")
-    @Size(min = 8, max = 30, message = "Please enter an email between 8 and 30 characters.")
+    @Email(message = "{Email.user.username}")
+    @Size(min = 8, max = 30, message = "{Size.user.username}")
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Size(min = 8, max = 30, message = "Please enter a password between 8 and 30 characters.")
+    @Size(min = 8, max = 30, message = "{Size.user.password }")
     private String password;
 
     private boolean accountNonExpired;
