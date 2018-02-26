@@ -63,7 +63,7 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .formLogin().permitAll()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -73,7 +73,7 @@ public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/h2-console/**", "/webjars/**");
     }
 
 
