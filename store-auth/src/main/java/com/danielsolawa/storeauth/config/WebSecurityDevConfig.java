@@ -24,7 +24,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 @Configuration
-@Profile("dev")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(-20)
 public class WebSecurityDevConfig extends WebSecurityConfigurerAdapter {

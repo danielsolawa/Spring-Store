@@ -2,6 +2,25 @@ spring:
   h2:
     console:
       enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_store_dev
+    username: store_user_dev
+    password: springstore
+    platform: mysql
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    show-sql: true
+#    properties:
+#      javax:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: spring_store_db.sql
 security:
   basic:
     enabled: false
