@@ -1,12 +1,8 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        {{controller.category.name}}
+<div class="card bg-light mb-3">
+    <div class="card-header"><h2> {{controller.category.name}}</h2></div>
+    <div class="card-body">
+        <ul ng-repeat="product in controller.category.products">
+            <a href="/#!/categories/{{controller.category.id}}/products/{{product.id}}">{{product.name}}</a>
+        </ul>
     </div>
-    <div class="panel-body">
-     <ul ng-repeat="product in controller.category.products">
-         <a href="/#!/categories/{{controller.category.id}}/products/{{product.id}}">{{product.name}}</a>
-     </ul>
-    </div>
-
-
 </div>

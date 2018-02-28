@@ -1,30 +1,29 @@
-<div class="panel panel-default" data-ng-init="controller.init()">
-    <div class="panel-heading">
-        Inventory
-    </div>
-    <div class="panel-body">
+
+<div class="card bg-light mb-3" data-ng-init="controller.init()">
+    <div class="card-header"><h2>Shopping Cart</h2></div>
+    <div class="card-body">
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th>name</th>
-                    <th>price</th>
-                    <th>amount</th>
-                </tr>
+            <tr>
+                <th>name</th>
+                <th>price</th>
+                <th>amount</th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="inventory in controller.filteredInventory">
-                    <td>{{inventory.name}}</td>
-                    <td>{{inventory.price | number : 2}} PLN</td>
-                    <td><input class="form-control" type="number" step="1" min="1"
-                               ng-model="controller.filteredInventory[$index].amount" required/></td>
-                    <td><button class="btn btn-danger" ng-click="controller.deleteDialog($event ,inventory.id)">
-                        remove all</button></td>
-                </tr>
-                <tr>
-                    <td><h3>Total price:</h3></td>
-                    <td></td>
-                    <td><h3>{{controller.totalPrice | number : 2}} PLN</h3></td>
-                </tr>
+            <tr ng-repeat="inventory in controller.filteredInventory">
+                <td>{{inventory.name}}</td>
+                <td>{{inventory.price | number : 2}} PLN</td>
+                <td><input class="form-control" type="number" step="1" min="1"
+                           ng-model="controller.filteredInventory[$index].amount" required/></td>
+                <td><button class="btn btn-danger" ng-click="controller.deleteDialog($event ,inventory.id)">
+                    remove all</button></td>
+            </tr>
+            <tr>
+                <td><h3>Total price:</h3></td>
+                <td></td>
+                <td><h3>{{controller.totalPrice | number : 2}} PLN</h3></td>
+            </tr>
             </tbody>
 
 
@@ -36,10 +35,7 @@
                     ng-click="controller.showConfirm($event)">order</button>
 
         </div>
-
     </div>
-
-
-
-
 </div>
+
+

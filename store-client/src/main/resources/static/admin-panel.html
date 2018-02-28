@@ -1,20 +1,15 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-
-        <div class="row">
-            <div class="col-xs-2">
-                Admin Panel
-            </div>
-            <div class="col-xs-10">
-                <div class="btn-group btn-block">
-                    <button class="btn btn-primary btn-lg" ng-click="controller.toggle('users', -1)">Manage Users</button>
-                    <button class="btn btn-primary btn-lg" ng-click="controller.toggle('categories', -1)">Manage Categories</button>
-                </div>
-            </div>
-        </div>
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <a class="nav-link" href ng-click="controller.toggle('users', -1)">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href ng-click="controller.toggle('categories', -1)">Manage Categories</a>
+            </li>
+        </ul>
     </div>
-    <!-- USERS -->
-    <div class="panel-body">
+    <div class="card-body">
         <div ng-show="controller.users">
             <table class="table table-hover">
                 <thead>
@@ -78,39 +73,39 @@
                 </thead>
                 <tbody ng-repeat="category in controller.categoryData">
 
-                    <!-- EDIT OFF -->
-                    <tr ng-show="!category.edit">
+                <!-- EDIT OFF -->
+                <tr ng-show="!category.edit">
+                    <td>{{category.id}}</td>
+                    <td>{{category.name}}</td>
+                    <td ng-click="controller.toggle('products', category.id)">display product list</td>
+                    <td><button class="btn btn-warning" ng-click="controller.categoryEdit($index, true)">edit</button></td>
+                    <td><button class="btn btn-danger" ng-click="controller.deleteCategory(category.id)">delete</button></td>
+                </tr>
+
+                <!-- EDIT ON -->
+                <tr ng-show="category.edit">
+
+
+                    <div class="form-group">
                         <td>{{category.id}}</td>
-                        <td>{{category.name}}</td>
-                        <td ng-click="controller.toggle('products', category.id)">display product list</td>
-                        <td><button class="btn btn-warning" ng-click="controller.categoryEdit($index, true)">edit</button></td>
-                        <td><button class="btn btn-danger" ng-click="controller.deleteCategory(category.id)">delete</button></td>
-                    </tr>
+                        <td>
+                            <input class="form-control" type="text"
+                                   ng-model="controller.categoryData[$index].name" required/>
+                        </td>
 
-                    <!-- EDIT ON -->
-                    <tr ng-show="category.edit">
+                        <td>
+                            <form name="reg" ng-submit="controller.updateCategories($index)">
+                                <button type="submit" class="btn btn-success">save</button>
+                            </form>
 
+                        </td>
+                        <td>
+                            <button ng-click="controller.categoryEdit($index, false)" class="btn btn-warning">cancel</button>
+                        </td>
 
-                            <div class="form-group">
-                                <td>{{category.id}}</td>
-                                <td>
-                                    <input class="form-control" type="text"
-                                           ng-model="controller.categoryData[$index].name" required/>
-                                </td>
+                    </div>
 
-                                <td>
-                                    <form name="reg" ng-submit="controller.updateCategories($index)">
-                                        <button type="submit" class="btn btn-success">save</button>
-                                    </form>
-
-                                </td>
-                                <td>
-                                    <button ng-click="controller.categoryEdit($index, false)" class="btn btn-warning">cancel</button>
-                                </td>
-
-                            </div>
-
-                    </tr>
+                </tr>
 
                 </tbody>
             </table>
@@ -150,30 +145,29 @@
                 </thead>
                 <tbody ng-repeat="product in controller.productData.products">
                 <!-- EDIT OFF -->
-                    <tr ng-show="!controller.productData.products[$index].edit">
-                        <td>{{product.id}}</td>
-                        <td>{{product.name}}</td>
-                        <td>{{product.price}}</td>
-                        <td>{{product.description}}</td>
-                        <td><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = true">edit</button></td>
-                        <td><button class="btn btn-danger"
-                                    ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
-                    </tr>
+                <tr ng-show="!controller.productData.products[$index].edit">
+                    <td>{{product.id}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.description}}</td>
+                    <td><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = true">edit</button></td>
+                    <td><button class="btn btn-danger"
+                                ng-click="controller.deleteProduct(controller.productData.id, product.id)">delete</button></td>
+                </tr>
                 <!-- EDIT ON -->
-                    <tr style="min-height: 120%" ng-show="controller.productData.products[$index].edit">
-                        <td class="col-md-1">{{product.id}}</td>
-                        <td class="col-md-2"><input class="form-control input-sm" type="text" ng-model="controller.productData.products[$index].name"required/></td>
-                        <td class="col-md-2"><input class="form-control input-sm" type="number" ng-model="controller.productData.products[$index].price"required/></td>
-                        <td class="col-md-5"><textarea class="form-control input-sm" ng-model="controller.productData.products[$index].description" required></textarea></td>
-                        <td class="col-md-1"><button class="btn btn-success" ng-click="controller.updateProduct(controller.productData.id, controller.productData.products[$index].id, $index)">save</button></td>
-                        <td class="col-md-1"><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = false">cancel</button></td>
-                    </tr>
+                <tr style="min-height: 120%" ng-show="controller.productData.products[$index].edit">
+                    <td class="col-md-1">{{product.id}}</td>
+                    <td class="col-md-2"><input class="form-control input-sm" type="text" ng-model="controller.productData.products[$index].name"required/></td>
+                    <td class="col-md-2"><input class="form-control input-sm" type="number" ng-model="controller.productData.products[$index].price"required/></td>
+                    <td class="col-md-5"><textarea class="form-control input-sm" ng-model="controller.productData.products[$index].description" required></textarea></td>
+                    <td class="col-md-1"><button class="btn btn-success" ng-click="controller.updateProduct(controller.productData.id, controller.productData.products[$index].id, $index)">save</button></td>
+                    <td class="col-md-1"><button class="btn btn-warning" ng-click="controller.productData.products[$index].edit = false">cancel</button></td>
+                </tr>
                 </tbody>
             </table>
 
         </div>
-
-
     </div>
-
 </div>
+
+

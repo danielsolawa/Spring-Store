@@ -23,9 +23,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<angularjs.version>1.6.6</angularjs.version>
-		<jquery.version>3.2.1</jquery.version>
+		<jquery.version>3.3.1</jquery.version>
 		<spring-cloud.version>Edgware.SR1</spring-cloud.version>
-		<bootstrap.version>3.3.7</bootstrap.version>
+		<bootstrap.version>4.0.0-1</bootstrap.version>
+		<font-awesome.version>5.0.6</font-awesome.version>
 	</properties>
 
 	<dependencies>
@@ -53,7 +54,11 @@
 			<artifactId>bootstrap</artifactId>
 			<version>${bootstrap.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>${font-awesome.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
