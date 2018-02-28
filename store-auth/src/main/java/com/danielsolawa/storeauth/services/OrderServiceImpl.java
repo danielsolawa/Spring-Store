@@ -1,16 +1,12 @@
 package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.Order;
-import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.domain.User;
-import com.danielsolawa.storeauth.dtos.EmailDto;
 import com.danielsolawa.storeauth.dtos.OrderDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.OrderMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
-import com.danielsolawa.storeauth.utils.EmailTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -28,15 +24,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
-    private final EmailService emailService;
-    private final String storeEmail;
+    private final OrderEmailService orderEmailService;
 
-    public OrderServiceImpl(UserRepository userRepository, OrderMapper orderMapper,
-                            EmailService emailService, @Value("${spring.mail.username}") String storeEmail) {
+
+    public OrderServiceImpl(UserRepository userRepository, OrderMapper orderMapper, OrderEmailService orderEmailService) {
         this.userRepository = userRepository;
         this.orderMapper = orderMapper;
-        this.emailService = emailService;
-        this.storeEmail = storeEmail;
+
+        this.orderEmailService = orderEmailService;
     }
 
     @Override
@@ -149,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(NoSuchElementException::new);
 
         try {
-            sendEmails(order, returnedUser);
+            orderEmailService.sendEmails(returnedUser, order);
         } catch (MessagingException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -158,95 +153,6 @@ public class OrderServiceImpl implements OrderService {
 
         return orderMapper.orderToOrderDto(order);
     }
-
-
-    private void sendEmails(Order order, User user) throws MessagingException, InterruptedException {
-        //to customer
-        String customerMessage = "Thank you for your order.";
-        String customerText = generateMessage(user, order.getProducts(), customerMessage, false);
-        emailService.sendEmail
-                (
-                        EmailDto.builder()
-                           .from(storeEmail)
-                           .text(customerText)
-                           .to(user.getUsername())
-                           .subject("Spring Store order")
-                           .user(user)
-                           .build()
-                );
-
-
-        //to owner
-        String ownerMessage = "New product/products have been sold.";
-        String ownerText = generateMessage(user, order.getProducts(), ownerMessage, true);
-        emailService.sendEmail(
-                EmailDto.builder()
-                        .from(storeEmail)
-                        .text(ownerText)
-                        .to(storeEmail)
-                        .subject("Spring Store Sale")
-                        .user(user)
-                        .build()
-        );
-
-    }
-
-    private String generateMessage(User user, List<Product> products, String message, boolean toOwner) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(EmailTemplate.MESSAGE_START);
-        builder.append(EmailTemplate.addMessage(message));
-
-        if(toOwner) {
-           builder.append(EmailTemplate.generateCustomerAddress(user.getAddress(), user.getUsername()));
-        }
-
-        builder.append(getProductListAsString(products));
-
-        builder.append(EmailTemplate.MESSAGE_END);
-
-        return builder.toString();
-
-    }
-
-    private String getProductListAsString(List<Product> products) {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(EmailTemplate.generateProductHeaders());
-
-        Product tempProduct = null;
-        int productAmount = 0;
-        double productSum = 0.0;
-
-        for(Product p : products){
-            if(tempProduct == null){
-                tempProduct = p;
-            }
-
-            if(p.getId().equals(tempProduct.getId())){
-                productAmount++;
-                continue;
-            }
-
-
-            builder.append(EmailTemplate.generateProductRow(tempProduct, productAmount));
-            productSum += productAmount * tempProduct.getPrice();
-            productAmount = 1;
-            tempProduct = p;
-
-        }
-        builder.append(EmailTemplate.generateProductRow(tempProduct, productAmount));
-        productSum += productAmount * tempProduct.getPrice();
-
-        builder.append(EmailTemplate.generateProductTotalPrice(productSum));
-        log.info(builder.toString());
-
-        return builder.toString();
-    }
-
-
-
-
-
 
 
 

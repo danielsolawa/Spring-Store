@@ -5,12 +5,12 @@ import com.danielsolawa.storeauth.domain.Product;
 import com.danielsolawa.storeauth.dtos.ProductDto;
 import com.danielsolawa.storeauth.mappers.ProductMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
+import com.danielsolawa.storeauth.repositories.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,18 +25,24 @@ import static org.mockito.Matchers.anyLong;
 
 public class ProductServiceImplTest {
 
+
     ProductService productService;
+
 
     ProductMapper productMapper;
 
     @Mock
     CategoryRepository categoryRepository;
 
+
+    @Mock
+    ProductRepository productRepository;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         productMapper = ProductMapper.INSTANCE;
-        productService = new ProductServiceImpl(categoryRepository, productMapper);
+        productService = new ProductServiceImpl(categoryRepository, productRepository, productMapper);
 
     }
 

@@ -12,9 +12,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -23,7 +25,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class UserServiceIT {
 
     @Autowired
@@ -81,26 +83,34 @@ public class UserServiceIT {
 
 
     @Test
+    @Transactional
     public void updateUser() {
-        Long id = getUserId();
+        //create new user
+        User user = new User();
+        user.setUsername("John");
+        user.setPassword("password");
+        user.setRole(Role.USER);
 
-        User foundUser = userRepository.findOne(id);
+        User returnedUser =  userRepository.save(user);
 
-        assertNotNull(foundUser);
+        assertNotNull(returnedUser);
 
-        String oldUsername = foundUser.getUsername();
-        String oldPassword = foundUser.getPassword();
+        Long id = returnedUser.getId();
+        String oldUsername = returnedUser.getUsername();
+        String oldPassword = returnedUser.getPassword();
 
-        foundUser.setUsername("Samantha");
-        foundUser.setPassword("newPassword");
+        returnedUser.setUsername("Samantha");
+        returnedUser.setPassword("newPassword");
 
-        userRepository.save(foundUser);
+        userRepository.save(returnedUser);
 
         User updatedUser = userRepository.findOne(id);
 
         assertNotNull(updatedUser);
         assertThat(updatedUser.getUsername(), not(equalTo(oldUsername)));
         assertThat(updatedUser.getPassword(), not(equalTo(oldPassword)));
+
+        userRepository.delete(id);
 
     }
 

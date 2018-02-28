@@ -28,10 +28,10 @@ public class OrderServiceImplTest {
     OrderService orderService;
 
     @Mock
-    EmailService emailService;
+    UserRepository userRepository;
 
     @Mock
-    UserRepository userRepository;
+    OrderEmailService orderEmailService;
 
     OrderMapper orderMapper;
 
@@ -40,7 +40,7 @@ public class OrderServiceImplTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         orderMapper = OrderMapper.INSTANCE;
-        orderService = new OrderServiceImpl(userRepository, orderMapper, emailService, "store@spring.org");
+        orderService = new OrderServiceImpl(userRepository, orderMapper, orderEmailService);
 
     }
 
@@ -48,6 +48,8 @@ public class OrderServiceImplTest {
     public void createNewOrder() {
         User user = getUser();
         User userWithOrders = getUserWithOrders();
+
+
 
         given(userRepository.findOne(anyLong())).willReturn(user);
         given(userRepository.save(any(User.class))).willReturn(userWithOrders);

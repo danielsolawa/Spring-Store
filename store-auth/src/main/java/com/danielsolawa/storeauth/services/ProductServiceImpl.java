@@ -6,6 +6,7 @@ import com.danielsolawa.storeauth.dtos.ProductDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
 import com.danielsolawa.storeauth.mappers.ProductMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
+import com.danielsolawa.storeauth.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
    private final CategoryRepository categoryRepository;
+   private final ProductRepository productRepository;
    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(CategoryRepository categoryRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository, ProductMapper productMapper) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
 

@@ -2,11 +2,13 @@ package com.danielsolawa.storeauth.utils;
 
 import com.danielsolawa.storeauth.domain.Address;
 import com.danielsolawa.storeauth.domain.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmailTemplate {
 
 
-    public static final String MESSAGE_START = "<html><head>" +
+    private final String messageStart = "<html><head>" +
             "<style>" +
             ".links{" +
             "text-decoration: none;" +
@@ -26,11 +28,19 @@ public class EmailTemplate {
             "</head>" +
             "<body>";
 
-    public static final String MESSAGE_END = "</body>" +
+    private final String messageEnd = "</body>" +
             "<a class='links' href='http://localhost:9000'>Spring Store</a>" +
             "</html>";
 
-    public static String addMessage(String message){
+    public String getMessageStart(){
+        return messageStart;
+    }
+
+    public String getMessageEnd(){
+        return messageEnd;
+    }
+
+    public String addMessage(String message){
         return "<h2>" + message + "</h2>";
     }
 
@@ -39,7 +49,7 @@ public class EmailTemplate {
         Products
      */
 
-    public static final String generateProductHeaders(){
+    public final String generateProductHeaders(){
         return  "<h3>Products List: </h3>" +
                 "<table>" +
                     "<tr style='background-color: #e7e7e7;'>" +
@@ -53,7 +63,7 @@ public class EmailTemplate {
 
 
 
-    public static String generateProductRow(Product product, int amount){
+    public String generateProductRow(Product product, int amount){
 
         return  "<tr style='background-color: #f4f4f4;'>"+
                 "<td>" + product.getId() + "</td> " +
@@ -64,7 +74,7 @@ public class EmailTemplate {
     }
 
 
-    public static String generateProductTotalPrice(double totalPrice){
+    public String generateProductTotalPrice(double totalPrice){
         return "</table>" +
                 "<h2>Total price: " + totalPrice + " PLN</h2>";
     }
@@ -74,7 +84,7 @@ public class EmailTemplate {
     /*
         Customer
      */
-    public static String generateCustomerAddress(Address address, String email) {
+    public String generateCustomerAddress(Address address, String email) {
         return  "<h3>Customer information: </h3>" +
                 "<ul>" +
                 "<li>Name: "+ address.getFirstName() + " " + address.getLastName() +"</li>" +
