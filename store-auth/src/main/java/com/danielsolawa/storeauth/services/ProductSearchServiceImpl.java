@@ -23,7 +23,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
 
     @Override
     public List<ProductDto> searchForProductByKeyword(String keyword) {
-        return productRepository.searchForProducts(keyword, keyword)
+        return productRepository.searchForProducts(keyword, keyword, keyword)
                 .stream()
                 .map(productMapper::productToProductDto)
                 .collect(Collectors.toList());

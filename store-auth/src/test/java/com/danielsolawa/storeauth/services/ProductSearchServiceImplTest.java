@@ -41,13 +41,13 @@ public class ProductSearchServiceImplTest {
         products.add(new Product());
         products.add(new Product());
 
-        given(productRepository.searchForProducts(anyString(), anyString())).willReturn(products);
+        given(productRepository.searchForProducts(anyString(), anyString(), anyString())).willReturn(products);
 
         List<ProductDto> dtoList = productSearchService.searchForProductByKeyword("search");
 
         assertThat(dtoList, hasSize(3));
 
-        then(productRepository).should().searchForProducts(anyString(), anyString());
+        then(productRepository).should().searchForProducts(anyString(), anyString(), anyString());
 
     }
 }
