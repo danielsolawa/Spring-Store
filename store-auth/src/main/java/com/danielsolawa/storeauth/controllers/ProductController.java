@@ -25,6 +25,7 @@ public class ProductController {
         return new ProductListDto(productService.getProductList(categoryId));
     }
 
+
     @GetMapping("/{categoryId}/products/{productId}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDto getProductById(@PathVariable Long categoryId, @PathVariable Long productId){

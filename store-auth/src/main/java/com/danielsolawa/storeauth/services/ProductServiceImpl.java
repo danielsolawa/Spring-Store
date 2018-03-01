@@ -24,7 +24,8 @@ public class ProductServiceImpl implements ProductService {
    private final ProductRepository productRepository;
    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository,
+                              ProductMapper productMapper) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productMapper = productMapper;
@@ -40,6 +41,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(productMapper::productToProductDto)
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public ProductDto getProductById(Long categoryId, Long productId) {
@@ -87,6 +89,8 @@ public class ProductServiceImpl implements ProductService {
 
 
     }
+
+
 
     private Category removeProduct(Long productId, Category category) {
         Product foundProduct = category.getProducts()
