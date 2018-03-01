@@ -1,0 +1,18 @@
+<div class="card bg-light mb-3" data-ng-init="controller.loadData()">
+    <div class="card-header"><h2>Search Results</h2></div>
+    <div class="card-body" ng-repeat="product in controller.products">
+        <div class="card">
+            <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">{{product.description}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Price: {{product.price | number: 2}} PLN</li>
+            </ul>
+            <div class="card-body">
+                <a href="/#!/categories/{{product.category.id}}/products/{{product.id}}" class="btn btn-secondary">Buy</a>
+            </div>
+        </div>
+    </div>
+</div>

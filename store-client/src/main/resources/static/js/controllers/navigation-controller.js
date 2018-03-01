@@ -1,6 +1,11 @@
 application.controller('navigation', function ($rootScope, $http, $location, inventoryService, LoginService) {
     var self = this;
 
+    self.search = function(){
+        if(self.keyword != null){
+            $location.path("/product-search/" + self.keyword);
+        }
+    }
 
     self.getUserId = function(){
         if(LoginService.getCurrentUser() != null){

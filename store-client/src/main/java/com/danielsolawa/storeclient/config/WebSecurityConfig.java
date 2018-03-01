@@ -23,8 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/", "/login**", "/categories/**", "/logout", "/users/**",
-                        "/home.html", "/category-view.html", "/product-view.html", "/user-add.html",
-                        "/user-registered.html", "/activate-account.html", "/error401.html").permitAll()
+                        "/product-search/**", "/home.html", "/category-view.html", "/product-view.html",
+                        "/user-add.html", "/user-registered.html", "/activate-account.html", "/product-search.html",
+                        "/error401.html").permitAll()
                 .antMatchers("/admin-panel.html").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
     }

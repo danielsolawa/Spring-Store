@@ -58,6 +58,11 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'userProfile',
             controllerAs: 'controller'
         })
+        .when("/product-search/:keyword", {
+            templateUrl: 'product-search.html',
+            controller: 'productSearchController',
+            controllerAs: 'controller'
+        })
         .when('/error401', {
             templateUrl: 'error401.html'
         })

@@ -66,6 +66,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .authorizeRequests()
                     .antMatchers( "/api/v1/users/**").permitAll()
                     .antMatchers("/api/v1/categories/**").permitAll()
+                    .antMatchers("/api/v1/product-search/**").permitAll()
                     .anyRequest().authenticated();
         }
     }
