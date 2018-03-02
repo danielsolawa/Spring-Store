@@ -1,8 +1,35 @@
 <div class="card bg-light mb-3">
-    <div class="card-header"><h2> {{controller.category.name}}</h2></div>
-    <div class="card-body">
-        <ul ng-repeat="product in controller.category.products">
-            <a href="/#!/categories/{{controller.category.id}}/products/{{product.id}}">{{product.name}}</a>
-        </ul>
+    <div class="card-header"><h2>{{controller.category.name}}</h2></div>
+    <div class="card-body" ng-repeat="product in controller.products">
+        <section>
+            <div class="card-extended" >
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card-img-bottom">
+                                <img src="http://via.placeholder.com/200x200"/>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-block">
+                                <h4 class="card-title inner-card">{{product.name}}</h4>
+                                <p class="card-text inner-card">{{product.description}}</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Price: {{product.price | number: 2}} PLN</li>
+                                    <li class="list-group-item">
+                                        <a href="/#!/categories/{{controller.category.id}}/products/{{product.id}}"
+                                           data-toggle="tooltip" data-html="true" title="Read more about the product."
+                                           class="btn btn-secondary btn-lg">Read More</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
+

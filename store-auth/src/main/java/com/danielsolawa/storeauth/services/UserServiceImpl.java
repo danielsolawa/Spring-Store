@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         userDto.setAccountNonExpired(true);
         userDto.setAccountNonLocked(true);
         userDto.setCredentialsNonExpired(true);
-        userDto.setEnabled(true);
+        userDto.setEnabled(false);
 
 
 
@@ -162,15 +162,13 @@ public class UserServiceImpl implements UserService {
             user.setActivationToken(activationToken);
 
 
-            /*
-            uncomment to send activation email
             try {
                 prepareActivationEmail(activationToken);
             } catch (MessagingException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }
 
         }
 

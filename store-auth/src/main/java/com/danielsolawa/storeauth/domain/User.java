@@ -1,10 +1,12 @@
 package com.danielsolawa.storeauth.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -43,6 +45,10 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    private List<Contact> contacts = new ArrayList<>();
 
     public User addOrder(Order order){
         order.setUser(this);
