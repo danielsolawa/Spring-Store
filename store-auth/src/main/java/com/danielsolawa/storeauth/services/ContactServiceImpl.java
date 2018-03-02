@@ -7,16 +7,21 @@ import com.danielsolawa.storeauth.repositories.ContactRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
+    private final EmailService emailService;
 
-    public ContactServiceImpl(ContactRepository contactRepository, ContactMapper contactMapper) {
+    public ContactServiceImpl(ContactRepository contactRepository, ContactMapper contactMapper, EmailService emailService) {
         this.contactRepository = contactRepository;
         this.contactMapper = contactMapper;
+        this.emailService = emailService;
     }
 
     @Override
@@ -25,20 +30,26 @@ public class ContactServiceImpl implements ContactService {
     }
 
 
-
     @Override
     public ContactDto createToCustomer(ContactDto contactDto) {
         return saveContact(contactDto);
     }
 
     @Override
-    public ContactDto findByUserId(Long id) {
-        return contactMapper.contactToContactDto(contactRepository.findByUsersId(id));
+    public List<ContactDto> findByUserId(Long id) {
+        return contactRepository.findByUsersId(id)
+                .stream()
+                .map(contactMapper::contactToContactDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ContactDto findByUserUsername(String username) {
-        return contactMapper.contactToContactDto(contactRepository.findByUsersUsername(username));
+    public List<ContactDto> findByUserUsername(String username) {
+
+        return contactRepository.findByUsersUsername(username)
+                .stream()
+                .map(contactMapper::contactToContactDto)
+                .collect(Collectors.toList());
     }
 
     @Override

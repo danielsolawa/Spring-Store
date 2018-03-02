@@ -9,7 +9,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -25,13 +29,16 @@ public class ContactServiceImplTest {
     @Mock
     ContactRepository contactRepository;
 
+    @Mock
+    EmailService emailService;
+
     ContactMapper contactMapper;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         contactMapper = ContactMapper.INSTANCE;
-        contactService = new ContactServiceImpl(contactRepository, contactMapper);
+        contactService = new ContactServiceImpl(contactRepository, contactMapper, emailService);
     }
 
     @Test
@@ -73,30 +80,34 @@ public class ContactServiceImplTest {
 
     @Test
     public void findByUserId() {
+        List<Contact> contacts = new ArrayList<>();
+
         Contact contact = new Contact();
         contact.setId(1L);
+        contacts.add(contact);
 
-        given(contactRepository.findByUsersId(anyLong())).willReturn(contact);
+        given(contactRepository.findByUsersId(anyLong())).willReturn(contacts);
 
-        ContactDto contactDto = contactService.findByUserId(1L);
+        List<ContactDto> contactDto = contactService.findByUserId(1L);
 
-        assertNotNull(contactDto);
-        assertThat(contactDto.getId(), equalTo(1L));
+        assertThat(contactDto, hasSize(1));
 
         then(contactRepository).should().findByUsersId(anyLong());
     }
 
     @Test
     public void findByUserUsername() {
+        List<Contact> contacts = new ArrayList<>();
+
         Contact contact = new Contact();
         contact.setId(1L);
+        contacts.add(contact);
 
-        given(contactRepository.findByUsersUsername(anyString())).willReturn(contact);
+        given(contactRepository.findByUsersUsername(anyString())).willReturn(contacts);
 
-        ContactDto contactDto = contactService.findByUserUsername("username");
+        List<ContactDto> contactDto = contactService.findByUserUsername("username");
 
-        assertNotNull(contactDto);
-        assertThat(contactDto.getId(), equalTo(1L));
+        assertThat(contactDto, hasSize(1));
 
         then(contactRepository).should().findByUsersUsername(anyString());
 
