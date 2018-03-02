@@ -36,6 +36,14 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    public List<ContactDto> getAll() {
+        return contactRepository.findAll()
+                .stream()
+                .map(contactMapper::contactToContactDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ContactDto> findByUserId(Long id) {
         return contactRepository.findByUsersId(id)
                 .stream()

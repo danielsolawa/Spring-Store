@@ -78,6 +78,23 @@ public class ContactServiceImplTest {
 
     }
 
+
+    @Test
+    public void getAll() {
+        List<Contact> contacts = new ArrayList<>();
+        contacts.add(new Contact());
+        contacts.add(new Contact());
+        contacts.add(new Contact());
+
+        given(contactRepository.findAll()).willReturn(contacts);
+
+        List<ContactDto> contactDtos = contactService.getAll();
+
+        assertThat(contactDtos, hasSize(3));
+
+        then(contactRepository).should().findAll();
+    }
+
     @Test
     public void findByUserId() {
         List<Contact> contacts = new ArrayList<>();
