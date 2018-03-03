@@ -20,7 +20,15 @@ public class Contact {
             joinColumns = @JoinColumn(name = "contact_id"),
             inverseJoinColumns = @JoinColumn(name= "user_id"))
     private List<User> users = new ArrayList<>();
+    private String conversationId;
     private String subject;
     private String content;
     private LocalDateTime date;
+
+
+    public Contact addUser(User user){
+        this.users.add(user);
+
+        return this;
+    }
 }

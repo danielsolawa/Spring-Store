@@ -47,35 +47,62 @@ public class ContactControllerTest extends AbstractControllerTest {
         ContactDto contactDto = new ContactDto();
         contactDto.setId(1L);
 
-        given(contactService.createToOwner(any(ContactDto.class))).willReturn(contactDto);
+        given(contactService.createToOwner(anyLong(), any(ContactDto.class))).willReturn(contactDto);
 
-        mockMvc.perform(post(ContactController.BASE_URL + "/to-owner")
+        mockMvc.perform(post(ContactController.BASE_URL + "/to-owner/users/1")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(asJson(contactDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)));
 
-        then(contactService).should().createToOwner(any(ContactDto.class));
+        then(contactService).should().createToOwner(anyLong(), any(ContactDto.class));
 
     }
 
     @Test
-    public void createToCustomer() throws Exception {
+    public void updateToOwner() throws Exception {
         ContactDto contactDto = new ContactDto();
         contactDto.setId(1L);
 
-        given(contactService.createToCustomer(any(ContactDto.class))).willReturn(contactDto);
+        given(contactService.updateConversationToOwner(
+                anyLong(), anyString(), any(ContactDto.class))).willReturn(contactDto);
 
-        mockMvc.perform(post(ContactController.BASE_URL + "/to-customer")
+        mockMvc.perform(put(ContactController.BASE_URL +
+                "/update-conversation-to-owner/users/1/conversation/conid")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJson(contactDto))
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJson(contactDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)));
 
-        then(contactService).should().createToCustomer(any(ContactDto.class));
+
+
+        then(contactService).should().updateConversationToOwner(anyLong(), anyString(), any(ContactDto.class));
     }
+
+    @Test
+    public void updateToCustomer() throws Exception {
+        ContactDto contactDto = new ContactDto();
+        contactDto.setId(1L);
+
+        given(contactService.updateConversationToCustomer(
+                anyLong(), anyString(), any(ContactDto.class))).willReturn(contactDto);
+
+        mockMvc.perform(put(ContactController.BASE_URL +
+                "/update-conversation-to-customer/users/1/conversation/conid")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJson(contactDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(1)));
+
+
+
+        then(contactService).should().updateConversationToCustomer(anyLong(), anyString(), any(ContactDto.class));
+    }
+
+
 
     @Test
     public void getAll() throws Exception {

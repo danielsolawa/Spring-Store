@@ -1,7 +1,7 @@
 create table activation_token (id bigint not null auto_increment, expire_date tinyblob, token varchar(255), primary key (id)) ENGINE=InnoDB
 create table address (id bigint not null auto_increment, city varchar(255), country varchar(255), first_name varchar(255), last_name varchar(255), phone_number varchar(255), street varchar(255), zip_code varchar(255), primary key (id)) ENGINE=InnoDB
 create table category (id bigint not null auto_increment, name varchar(255), primary key (id)) ENGINE=InnoDB
-create table contact (id bigint not null auto_increment, content varchar(255), date tinyblob, subject varchar(255), primary key (id)) ENGINE=InnoDB
+create table contact (id bigint not null auto_increment, content varchar(255), conversation_id varchar(255), date tinyblob, subject varchar(255), primary key (id)) ENGINE=InnoDB
 create table contact_user (contact_id bigint not null, user_id bigint not null) ENGINE=InnoDB
 create table inventory (id bigint not null auto_increment, user_id bigint, primary key (id)) ENGINE=InnoDB
 create table inventory_product (inventory_id bigint not null, product_id bigint not null) ENGINE=InnoDB

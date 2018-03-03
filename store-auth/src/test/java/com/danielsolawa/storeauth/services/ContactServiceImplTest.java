@@ -1,15 +1,18 @@
 package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.Contact;
+import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.ContactDto;
 import com.danielsolawa.storeauth.mappers.ContactMapper;
 import com.danielsolawa.storeauth.repositories.ContactRepository;
+import com.danielsolawa.storeauth.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -30,7 +33,10 @@ public class ContactServiceImplTest {
     ContactRepository contactRepository;
 
     @Mock
-    EmailService emailService;
+    UserRepository userRepository;
+
+    @Mock
+    ContactEmailService contactEmailService;
 
     ContactMapper contactMapper;
 
@@ -38,7 +44,8 @@ public class ContactServiceImplTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         contactMapper = ContactMapper.INSTANCE;
-        contactService = new ContactServiceImpl(contactRepository, contactMapper, emailService);
+        contactService = new ContactServiceImpl(userRepository, contactRepository,
+                contactMapper, contactEmailService);
     }
 
     @Test
@@ -47,9 +54,10 @@ public class ContactServiceImplTest {
         contact.setId(1L);
         contact.setContent("message");
 
+        given(userRepository.findOne(anyLong())).willReturn(new User());
         given(contactRepository.save(any(Contact.class))).willReturn(contact);
 
-        ContactDto contactDto = contactService.createToOwner(new ContactDto());
+        ContactDto contactDto = contactService.createToOwner(1L, new ContactDto());
 
         assertNotNull(contactDto);
         assertThat(contactDto.getId(), equalTo(1L));
@@ -61,23 +69,52 @@ public class ContactServiceImplTest {
     }
 
     @Test
-    public void createToCustomer() {
+    public void updateConversationToOwner() {
         Contact contact = new Contact();
-        contact.setId(2L);
-        contact.setContent("message");
+        contact.setId(1L);
 
+        List<Contact> contacts = Arrays.asList(new Contact(), new Contact());
+
+        given(userRepository.findOne(anyLong())).willReturn(new User());
+        given(contactRepository.findByConversationId(anyString())).willReturn(contacts);
         given(contactRepository.save(any(Contact.class))).willReturn(contact);
 
-        ContactDto contactDto = contactService.createToCustomer(new ContactDto());
+        ContactDto contactDto = contactService.updateConversationToOwner(1L, "id", new ContactDto());
 
         assertNotNull(contactDto);
-        assertThat(contactDto.getId(), equalTo(2L));
-        assertThat(contactDto.getContent(), equalTo("message"));
+        assertThat(contactDto.getId(), equalTo(1L));
 
+        then(userRepository).should().findOne(anyLong());
+        then(contactRepository).should().findByConversationId(anyString());
         then(contactRepository).should().save(any(Contact.class));
+
 
     }
 
+
+    @Test
+    public void updateConversationToCustomer() {
+        Contact contact = new Contact();
+        contact.setId(2L);
+
+        List<Contact> contacts = Arrays.asList(new Contact(), new Contact());
+
+        given(userRepository.findOne(anyLong())).willReturn(new User());
+        given(contactRepository.findByConversationId(anyString())).willReturn(contacts);
+        given(contactRepository.save(any(Contact.class))).willReturn(contact);
+
+        ContactDto contactDto = contactService.updateConversationToCustomer(2L, "conversationId",
+                new ContactDto());
+
+        assertNotNull(contactDto);
+        assertThat(contactDto.getId(), equalTo(2L));
+
+        then(userRepository).should().findOne(anyLong());
+        then(contactRepository).should().findByConversationId(anyString());
+        then(contactRepository).should().save(any(Contact.class));
+
+
+    }
 
     @Test
     public void getAll() {
@@ -93,6 +130,20 @@ public class ContactServiceImplTest {
         assertThat(contactDtos, hasSize(3));
 
         then(contactRepository).should().findAll();
+    }
+
+
+    @Test
+    public void findByConversationId() {
+        List<Contact> contacts = Arrays.asList(new Contact(), new Contact(), new Contact());
+
+        given(contactRepository.findByConversationId(anyString())).willReturn(contacts);
+
+        List<ContactDto> contactDtos = contactService.findByConversationId("id");
+
+        assertThat(contactDtos, hasSize(3));
+
+        then(contactRepository).should().findByConversationId(anyString());
     }
 
     @Test

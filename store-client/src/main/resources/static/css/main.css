@@ -67,3 +67,7 @@ code {
 .inner-card {
     padding-top: 10px;
 }
+
+.card-margin-bottom{
+    margin-bottom: 15px;
+}

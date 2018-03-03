@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ContactController.BASE_URL)
 public class ContactController {
 
-    public static final String BASE_URL = "/api/v1/contact";
+    public static final String BASE_URL = "/api/v1/contacts";
 
     private final ContactService contactService;
 
@@ -18,18 +18,26 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @PostMapping("/to-owner")
+    @PostMapping("/to-owner/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    ContactDto createToOwner(@RequestBody ContactDto contactDto){
-        return contactService.createToOwner(contactDto);
+    ContactDto createToOwner(@PathVariable Long userId, @RequestBody ContactDto contactDto){
+        return contactService.createToOwner(userId, contactDto);
     }
 
-
-    @PostMapping("/to-customer")
+    @PutMapping("/update-conversation-to-owner/users/{userId}/conversation/{conversationId}")
     @ResponseStatus(HttpStatus.OK)
-    ContactDto createToCustomer(@RequestBody ContactDto contactDto){
-        return contactService.createToCustomer(contactDto);
+    ContactDto updateToOwner(@PathVariable Long userId, @PathVariable String conversationId,
+                             @RequestBody ContactDto contactDto){
+        return contactService.updateConversationToOwner(userId,conversationId, contactDto);
     }
+
+    @PutMapping("/update-conversation-to-customer/users/{userId}/conversation/{conversationId}")
+    @ResponseStatus(HttpStatus.OK)
+    ContactDto updateToCustomer(@PathVariable Long userId, @PathVariable String conversationId,
+                             @RequestBody ContactDto contactDto){
+        return contactService.updateConversationToCustomer(userId,conversationId, contactDto);
+    }
+
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -47,5 +55,11 @@ public class ContactController {
     @ResponseStatus(HttpStatus.OK)
     ContactListDto findByUserUsername(@PathVariable String username){
         return new ContactListDto(contactService.findByUserUsername(username));
+    }
+
+    @GetMapping("/find-by-conversation/{conversationId}")
+    @ResponseStatus(HttpStatus.OK)
+    ContactListDto findByConversationId(@PathVariable String conversationId){
+        return new ContactListDto(contactService.findByConversationId(conversationId));
     }
 }

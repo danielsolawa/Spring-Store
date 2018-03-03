@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.utils;
 
 import com.danielsolawa.storeauth.domain.Address;
+import com.danielsolawa.storeauth.domain.Contact;
 import com.danielsolawa.storeauth.domain.Product;
 import org.springframework.stereotype.Component;
 
@@ -96,5 +97,28 @@ public class EmailTemplate {
                 "<li>Phone: "+ address.getPhoneNumber() + "</li>" +
                 "</ul>";
 
+    }
+
+    /*
+       Owner
+     */
+
+    public String generateContactMessageBodyForOwner(Contact contact){
+
+        return  "<h4>A new message has been received from "+ contact.getUsers().get(0).getUsername() + "</h4>" +
+                "<p>" + contact.getSubject() +"</p>" +
+                "<p>" + contact.getContent() +"</p>" +
+                "<p><a class='links' href='http://localhost:9000/'>Respond to message</a></p>" +
+                "</body>" +
+                "</html>";
+    }
+
+    public String generateContactMessageBodyForCustomer(Contact contact){
+
+        return  "<h4>Hello "+ contact.getUsers().get(0).getUsername() + "!</h4>" +
+                "<p>" + "Response to your question" +"</p>" +
+                "<p><a class='links' href='http://localhost:9000/'>Respond to message</a></p>" +
+                "</body>" +
+                "</html>";
     }
 }
