@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,5 +17,6 @@ public class ActivationToken {
     private String token;
     private LocalDateTime expireDate;
     @OneToOne(mappedBy = "activationToken")
+    @JsonIgnore
     private User user;
 }

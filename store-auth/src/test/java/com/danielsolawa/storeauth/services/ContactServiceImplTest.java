@@ -57,7 +57,7 @@ public class ContactServiceImplTest {
         given(userRepository.findOne(anyLong())).willReturn(new User());
         given(contactRepository.save(any(Contact.class))).willReturn(contact);
 
-        ContactDto contactDto = contactService.createToOwner(1L, new ContactDto());
+        ContactDto contactDto = contactService.createToOwner(new ContactDto());
 
         assertNotNull(contactDto);
         assertThat(contactDto.getId(), equalTo(1L));
@@ -79,7 +79,7 @@ public class ContactServiceImplTest {
         given(contactRepository.findByConversationId(anyString())).willReturn(contacts);
         given(contactRepository.save(any(Contact.class))).willReturn(contact);
 
-        ContactDto contactDto = contactService.updateConversationToOwner(1L, "id", new ContactDto());
+        ContactDto contactDto = contactService.updateConversationToOwner("id", new ContactDto());
 
         assertNotNull(contactDto);
         assertThat(contactDto.getId(), equalTo(1L));
@@ -103,7 +103,7 @@ public class ContactServiceImplTest {
         given(contactRepository.findByConversationId(anyString())).willReturn(contacts);
         given(contactRepository.save(any(Contact.class))).willReturn(contact);
 
-        ContactDto contactDto = contactService.updateConversationToCustomer(2L, "conversationId",
+        ContactDto contactDto = contactService.updateConversationToCustomer( "conversationId",
                 new ContactDto());
 
         assertNotNull(contactDto);
@@ -146,40 +146,7 @@ public class ContactServiceImplTest {
         then(contactRepository).should().findByConversationId(anyString());
     }
 
-    @Test
-    public void findByUserId() {
-        List<Contact> contacts = new ArrayList<>();
 
-        Contact contact = new Contact();
-        contact.setId(1L);
-        contacts.add(contact);
-
-        given(contactRepository.findByUsersId(anyLong())).willReturn(contacts);
-
-        List<ContactDto> contactDto = contactService.findByUserId(1L);
-
-        assertThat(contactDto, hasSize(1));
-
-        then(contactRepository).should().findByUsersId(anyLong());
-    }
-
-    @Test
-    public void findByUserUsername() {
-        List<Contact> contacts = new ArrayList<>();
-
-        Contact contact = new Contact();
-        contact.setId(1L);
-        contacts.add(contact);
-
-        given(contactRepository.findByUsersUsername(anyString())).willReturn(contacts);
-
-        List<ContactDto> contactDto = contactService.findByUserUsername("username");
-
-        assertThat(contactDto, hasSize(1));
-
-        then(contactRepository).should().findByUsersUsername(anyString());
-
-    }
 
     @Test
     public void deleteById() {

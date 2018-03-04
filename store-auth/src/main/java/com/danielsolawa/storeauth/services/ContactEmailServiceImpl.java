@@ -30,12 +30,13 @@ public class ContactEmailServiceImpl implements ContactEmailService {
     public void sendEmailToOwner(Contact contact) throws MessagingException, InterruptedException {
         String message = generateMessage(contact, true);
 
+        log.info("sending an email to " + ownerEmail);
         emailService.sendEmail(
                 EmailDto
                         .builder()
                         .subject(contact.getSubject())
                         .text(message)
-                        .from(contact.getUsers().get(0).getUsername())
+                        .from(ownerEmail)
                         .to(ownerEmail)
                         .build()
         );

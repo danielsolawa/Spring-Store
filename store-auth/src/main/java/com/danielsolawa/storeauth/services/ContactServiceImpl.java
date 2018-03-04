@@ -36,21 +36,21 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactDto createToOwner(Long userId, ContactDto contactDto) {
+    public ContactDto createToOwner(ContactDto contactDto) {
 
-        return saveContact(contactDto, userId);
+        return saveContact(contactDto, contactDto.getUserId());
     }
 
 
 
     @Override
-    public ContactDto updateConversationToOwner(Long userId, String conversationId, ContactDto contactDto) {
-        return updateContact(userId, conversationId, contactDto, true);
+    public ContactDto updateConversationToOwner(String conversationId, ContactDto contactDto) {
+        return updateContact(contactDto.getUserId(), conversationId, contactDto, true);
     }
 
     @Override
-    public ContactDto updateConversationToCustomer(Long userId, String conversationId, ContactDto contactDto) {
-        return updateContact(userId, conversationId, contactDto, false);
+    public ContactDto updateConversationToCustomer(String conversationId, ContactDto contactDto) {
+        return updateContact(contactDto.getUserId(), conversationId, contactDto, false);
     }
 
 
@@ -70,22 +70,7 @@ public class ContactServiceImpl implements ContactService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ContactDto> findByUserId(Long id) {
-        return contactRepository.findByUsersId(id)
-                .stream()
-                .map(contactMapper::contactToContactDto)
-                .collect(Collectors.toList());
-    }
 
-    @Override
-    public List<ContactDto> findByUserUsername(String username) {
-
-        return contactRepository.findByUsersUsername(username)
-                .stream()
-                .map(contactMapper::contactToContactDto)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public void deleteById(Long id) {
