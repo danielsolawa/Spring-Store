@@ -15,8 +15,7 @@
                 <tr ng-click="controller.showDetails($index)">
                     <td>{{order.id}}</td>
                     <td>
-                        {{order.orderDate.hour}}:{{order.orderDate.minute}}:{{order.orderDate.second < 10 ? '0' + order.orderDate.second : order.orderDate.second}}
-                        {{order.orderDate.dayOfMonth}} {{order.orderDate.month}} {{order.orderDate.year}}
+                       {{controller.formatDate(order.orderDate)}}
                     </td>
                     <td>{{order.products.length}}</td>
                     <td>click to show order details</td>
@@ -33,8 +32,7 @@
                     {{controller.orderDetail.orderDate.month}} {{controller.orderDetail.orderDate.year}}
                 </p>
                 <p>
-                    {{controller.orderDetail.orderDate.hour}}:{{controller.orderDetail.orderDate.minute}}:{{controller.orderDetail.orderDate.second < 10 ?
-                    '0' + controller.orderDetail.orderDate.second : controller.orderDetail.orderDate.second}}
+                    {{controller.formatDate(order.orderDate)}}
                 </p>
 
             </h4>

@@ -1,6 +1,7 @@
 package com.danielsolawa.storeauth.services;
 
 import com.danielsolawa.storeauth.domain.Contact;
+import com.danielsolawa.storeauth.domain.MessageFrom;
 import com.danielsolawa.storeauth.domain.User;
 import com.danielsolawa.storeauth.dtos.ContactDto;
 import com.danielsolawa.storeauth.exceptions.ResourceNotFoundException;
@@ -42,7 +43,6 @@ public class ContactServiceImpl implements ContactService {
     }
 
 
-
     @Override
     public ContactDto updateConversationToOwner(String conversationId, ContactDto contactDto) {
         return updateContact(contactDto.getUserId(), conversationId, contactDto, true);
@@ -70,6 +70,13 @@ public class ContactServiceImpl implements ContactService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ContactDto> findByUserId(Long id) {
+        return contactRepository.findByUserId(id)
+                .stream()
+                .map(contactMapper::contactToContactDto)
+                .collect(Collectors.toList());
+    }
 
 
     @Override
@@ -89,7 +96,9 @@ public class ContactServiceImpl implements ContactService {
 
         Contact contact = contactMapper.contactDtoToContact(contactDto);
         contact.addUser(user);
+        contact.setMessageFrom(MessageFrom.USER);
         contact.setDate(LocalDateTime.now());
+        contact.setUserId(user.getId());
         contact.setConversationId(conversationId);
 
         Contact savedContact = contactRepository.save(contact);
@@ -117,9 +126,13 @@ public class ContactServiceImpl implements ContactService {
         }
 
         Contact contactToSave = contactMapper.contactDtoToContact(contactDto);
+        MessageFrom messageFrom = toOwner ? MessageFrom.USER : MessageFrom.ADMIN;
+
         contactToSave.addUser(user);
         contactToSave.setSubject("RE: " + contactToSave.getSubject());
+        contactToSave.setMessageFrom(messageFrom);
         contactToSave.setConversationId(conversationId);
+        contactToSave.setUserId(user.getId());
         contactToSave.setDate(LocalDateTime.now());
 
         Contact savedContact = contactRepository.save(contactToSave);

@@ -58,6 +58,11 @@ application.config(['$routeProvider', '$httpProvider', '$locationProvider', func
             controller: 'userProfile',
             controllerAs: 'controller'
         })
+        .when("/users/:id/contact" , {
+            templateUrl: "user-contact-view.html",
+            controller: 'userContactController',
+            controllerAs: 'controller'
+        })
         .when("/product-search/:keyword", {
             templateUrl: 'product-search.html',
             controller: 'productSearchController',

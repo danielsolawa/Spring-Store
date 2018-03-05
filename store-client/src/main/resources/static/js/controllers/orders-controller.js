@@ -1,4 +1,5 @@
-application.controller('ordersController',['$routeParams','ordersService', function ($routeParams, ordersService) {
+application.controller('ordersController',['$routeParams','ordersService', 'dateService',
+    function ($routeParams, ordersService, dateService) {
    var self =  this;
 
    self.orderDetail = {};
@@ -23,6 +24,10 @@ application.controller('ordersController',['$routeParams','ordersService', funct
        self.orderDetail.products = sortedDetails;
 
 
+   }
+
+   self.formatDate = function(date){
+       return dateService.formatDate(date);
    }
 
    var getSortedOrders = function(orders){

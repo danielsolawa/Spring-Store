@@ -49,7 +49,7 @@ public class ContactControllerTest extends AbstractControllerTest {
 
         given(contactService.createToOwner(any(ContactDto.class))).willReturn(contactDto);
 
-        mockMvc.perform(post(ContactController.BASE_URL)
+        mockMvc.perform(post(ContactController.BASE_URL + "/users")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(asJson(contactDto))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -68,7 +68,7 @@ public class ContactControllerTest extends AbstractControllerTest {
         given(contactService.updateConversationToOwner(
                 anyString(), any(ContactDto.class))).willReturn(contactDto);
 
-        mockMvc.perform(post(ContactController.BASE_URL + "/1")
+        mockMvc.perform(post(ContactController.BASE_URL + "/1/users")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJson(contactDto)))
@@ -88,7 +88,7 @@ public class ContactControllerTest extends AbstractControllerTest {
         given(contactService.updateConversationToCustomer(
                 anyString(), any(ContactDto.class))).willReturn(contactDto);
 
-        mockMvc.perform(put(ContactController.BASE_URL + "/1")
+        mockMvc.perform(put(ContactController.BASE_URL + "/1/users")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJson(contactDto)))
@@ -111,7 +111,7 @@ public class ContactControllerTest extends AbstractControllerTest {
 
         given(contactService.getAll()).willReturn(contactDtos);
 
-        mockMvc.perform(get(ContactController.BASE_URL)
+        mockMvc.perform(get(ContactController.BASE_URL +"/users")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.contacts", hasSize(3)));
@@ -120,4 +120,39 @@ public class ContactControllerTest extends AbstractControllerTest {
 
     }
 
+    @Test
+    public void findByConversationId() throws Exception {
+        List<ContactDto> contactDtos = new ArrayList<>();
+        contactDtos.add(new ContactDto());
+        contactDtos.add(new ContactDto());
+        contactDtos.add(new ContactDto());
+
+        given(contactService.findByConversationId(anyString())).willReturn(contactDtos);
+
+        mockMvc.perform(get(ContactController.BASE_URL + "/id/users")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contacts", hasSize(3)));
+
+        then(contactService).should().findByConversationId(anyString());
+
+    }
+
+
+    @Test
+    public void findByUserId() throws Exception {
+        List<ContactDto> contactDtos = new ArrayList<>();
+        contactDtos.add(new ContactDto());
+        contactDtos.add(new ContactDto());
+        contactDtos.add(new ContactDto());
+
+        given(contactService.findByUserId(anyLong())).willReturn(contactDtos);
+
+        mockMvc.perform(get(ContactController.BASE_URL + "/id/users/2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contacts", hasSize(3)));
+
+        then(contactService).should().findByUserId(anyLong());
+    }
 }

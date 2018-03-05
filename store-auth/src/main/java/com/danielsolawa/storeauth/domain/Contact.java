@@ -21,6 +21,10 @@ public class Contact {
             inverseJoinColumns = @JoinColumn(name= "user_id"))
     private List<User> users = new ArrayList<>();
     private Long userId;
+
+    @Enumerated(EnumType.STRING)
+    private MessageFrom messageFrom;
+
     private String conversationId;
     private String subject;
     private String content;

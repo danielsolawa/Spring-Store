@@ -146,7 +146,18 @@ public class ContactServiceImplTest {
         then(contactRepository).should().findByConversationId(anyString());
     }
 
+    @Test
+    public void findByUserId() {
+        List<Contact> contacts = Arrays.asList(new Contact(), new Contact(), new Contact());
 
+        given(contactRepository.findByUserId(anyLong())).willReturn(contacts);
+
+        List<ContactDto> contactDtos = contactService.findByUserId(1L);
+
+        assertThat(contactDtos, hasSize(3));
+
+        then(contactRepository).should().findByUserId(anyLong());
+    }
 
     @Test
     public void deleteById() {

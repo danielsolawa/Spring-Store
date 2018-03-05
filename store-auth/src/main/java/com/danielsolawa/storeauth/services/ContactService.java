@@ -11,6 +11,7 @@ public interface ContactService {
     ContactDto updateConversationToCustomer(String conversationId, ContactDto contactDto);
     List<ContactDto> getAll();
     List<ContactDto> findByConversationId(String conversationId);
+    List<ContactDto> findByUserId(Long id);
     void deleteById(Long id);
 
 }

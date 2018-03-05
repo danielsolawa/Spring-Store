@@ -1,0 +1,50 @@
+<div class="card bg-light mb-3 card-margin-bottom" data-ng-init="controller.loadData()">
+    <div class="card-header"><h2>Contact</h2></div>
+    <div class="card-body">
+        <!-- Conversations list -->
+       <div ng-show="!controller.write">
+            <div class="top-bot-margin">
+                <button class="btn btn-secondary btn-lg btn-block" ng-click="controller.write = true">
+                    Start new conversation</button>
+            </div>
+
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th>#Subject</th>
+                        <th>#Date</th>
+                        <th>#Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="message in controller.messages">
+                        <td>{{message.subject}}</td>
+                        <td>{{controller.formatDate(message.date)}}</td>
+                        <td>{{message.amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Start conversation -->
+        <div ng-show="controller.write">
+            <a href ng-click="controller.write = false">Back to list</a>
+
+            <form name="message" ng-submit="controller.sendMessage()">
+                <div class="form-group row">
+                    <label for="subject" class="col-2 col-form-label">Subject:</label>
+                    <div class="col-10">
+                        <input class="form-control form-control-sm" type="text" id="subject" ng-model="controller.message.subject"
+                               required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="content">Content: </label>
+                    <textarea class="form-control form-control-sm" id="content" rows="3"
+                              ng-model="controller.message.content" required></textarea>
+                </div>
+                <button class="btn btn-success btn-lg" type="submit" ng-disabled="message.$invalid">send</button>
+            </form>
+        </div>
+    </div>
+</div>

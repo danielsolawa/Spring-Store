@@ -43,6 +43,9 @@
     <script type="application/javascript" src="/js/services/address-service.js"></script>
     <script type="application/javascript" src="/js/services/product-search-service.js"></script>
     <script type="application/javascript" src="/js/services/product-sort-service.js"></script>
+    <script type="application/javascript" src="/js/services/contact-service.js"></script>
+    <script type="application/javascript" src="/js/services/date-service.js"></script>
+
 
     <!-- CONTROLLERS -->
     <script type="application/javascript" src="/js/controllers/navigation-controller.js"></script>
@@ -57,6 +60,7 @@
     <script type="application/javascript" src="/js/controllers/address-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/profile-controller.js"></script>
     <script type="application/javascript" src="/js/controllers/product-search-controller.js"></script>
+    <script type="application/javascript" src="/js/controllers/contact-controller.js"></script>
 
 
 
@@ -96,6 +100,9 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-link">
                 <a class="nav-link" ng-href="/#!/users/{{nav.getUserId()}}/profile" href="#">My Account</a>
+            </li>
+            <li class="nav-link">
+                <a class="nav-link" ng-href="/#!/users/{{nav.getUserId()}}/contact" href="#">Contact</a>
             </li>
             <li class="nav-link">
                 <a class="nav-link" ng-href="/#!/users/{{nav.getUserId()}}/orders" href="#">Orders</a>

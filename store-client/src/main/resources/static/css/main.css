@@ -71,3 +71,8 @@ code {
 .card-margin-bottom{
     margin-bottom: 15px;
 }
+
+.top-bot-margin{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -32,5 +32,8 @@ zuul:
     search:
       path: /product-search/**
       url: http://localhost:8080/api/v1/product-search
+    contacts:
+      path: /contacts/**
+      url: http://localhost:8080/api/v1/contacts
 
 

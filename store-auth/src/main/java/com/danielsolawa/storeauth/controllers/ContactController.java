@@ -19,13 +19,13 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @PostMapping
+    @PostMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     ContactDto createToOwner(@RequestBody ContactDto contactDto){
         return contactService.createToOwner(contactDto);
     }
 
-    @PostMapping("/{conversationId}")
+    @PostMapping("/{conversationId}/users")
     @ResponseStatus(HttpStatus.OK)
     ContactDto updateToOwner(@PathVariable String conversationId,
                              @RequestBody ContactDto contactDto){
@@ -33,7 +33,7 @@ public class ContactController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/{conversationId}")
+    @PutMapping("/{conversationId}/users")
     @ResponseStatus(HttpStatus.OK)
     ContactDto updateToCustomer(@PathVariable String conversationId,
                              @RequestBody ContactDto contactDto){
@@ -41,16 +41,22 @@ public class ContactController {
     }
 
 
-    @GetMapping
+    @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     ContactListDto getAll(){
         return new ContactListDto(contactService.getAll());
     }
 
-    @GetMapping("/{conversationId}")
+    @GetMapping("/{conversationId}/users")
     @ResponseStatus(HttpStatus.OK)
     ContactListDto findByConversationId(@PathVariable String conversationId){
         return new ContactListDto(contactService.findByConversationId(conversationId));
+    }
+
+    @GetMapping("/{conversationId}/users/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    ContactListDto findByUserId(@PathVariable String conversationId, @PathVariable Long userId){
+        return new ContactListDto(contactService.findByUserId(userId));
     }
 
 
