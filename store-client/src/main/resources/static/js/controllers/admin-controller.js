@@ -1,29 +1,39 @@
 application.controller('adminPanel',
-    ['categoryService', 'userService', 'productsService',  function (categoryService, userService, productsService) {
+    ['categoryService', 'userService', 'productsService' , 'contactService', 'dateService',
+        function (categoryService, userService, productsService, contactService, dateService) {
    var self = this;
 
-   self.error = false;
-   self.errorMessage = "";
-   self.users = false;
-   self.categories = false;
-   self.products = false;
-   self.addingProduct = false;
+
+   self.init = function(){
+       self.activeTab = 'users';
+       self.error = false;
+       self.errorMessage = "";
+       self.users = false;
+       self.categories = false;
+       self.products = false;
+       self.addingProduct = false;
+       self.conversation = false;
+       self.conversationDetail = false;
+
+       self.userData = [];
+       self.categoryData = [];
+       self.productData = [];
+
+       self.category = {};
+       self.product = {};
+
+       self.toggle('users', -1);
+
+   }
 
 
-
-
-   self.userData = [];
-   self.categoryData = [];
-   self.productData = [];
-
-   self.category = {};
-   self.product = {};
 
    self.toggle = function(val, index){
        disableAll();
        switch(val){
            case 'users':
               self.users = true;
+               self.activeTab = 'users';
               userService.get(function(response){
                  self.userData = response.users;
                  setUpUsersEdit();
@@ -31,6 +41,7 @@ application.controller('adminPanel',
               break;
            case 'categories':
               self.categories = true;
+              self.activeTab = 'categories';
               categoryService.get(function(response){
                   self.categoryData = response.categories;
                   setUpCategoryEdit();
@@ -42,17 +53,59 @@ application.controller('adminPanel',
                   self.productData = response;
                   setUpProductEdit();
               });
+              break;
+           case 'messages':
+               self.messages = true;
+               self.activeTab = 'messages';
+               contactService.getResource().get(function(response){
+                  self.messageData = contactService.sortByUsers(response.contacts);
+               });
+               break;
+           case 'conversations':
+               self.messages = true;
+               self.conversation = true;
+               contactService.getResource().get({id: 'non', userId: index}, function(response){
+                   self.conversationData = contactService.sortByConversations(response.contacts);
+               });
+               break;
+           case 'conversationDetail':
+               self.messages = true;
+               self.conversationDetail = true;
+               contactService.getResource().get({id: index}, function(response){
+                   self.conversationDetailData = response.contacts;
+                   self.messageTemplate = {userId: self.conversationDetailData[0].userId,
+                       subject: self.conversationDetailData[0].subject,
+                       conversationId: self.conversationDetailData[0].conversationId};
+                   window.setTimeout(scrollToBottom, 1000);
+
+
+               });
+               break;
+
+
        }
 
    }
 
+   self.formatDate = function(date){
+       return dateService.formatDate(date);
+   }
 
+   self.isActive = function(tab){
+       return self.activeTab == tab;
+   }
 
+   var scrollToBottom = function(){
+       window.scrollTo(0,document.body.scrollHeight);
+   }
 
     var disableAll = function(){
         self.users = false;
         self.categories = false;
         self.products = false;
+        self.messages = false;
+        self.conversation = false;
+        self.conversationDetail = false;
     }
 
 
@@ -193,6 +246,21 @@ application.controller('adminPanel',
            console("an error has occurred");
        });
 
+   }
+
+   /*
+    *Messages
+    *
+    */
+
+   self.respond = function(){
+       self.messageTemplate.content = self.message.content;
+       contactService.getResource().update({id: self.messageTemplate.conversationId}, self.messageTemplate,
+           function(response){
+           self.toggle('conversationDetail', self.messageTemplate.conversationId);
+       }, function(error){
+               console.log("an error has occurred.");
+           });
    }
 
 

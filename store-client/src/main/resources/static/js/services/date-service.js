@@ -5,7 +5,7 @@ application.factory('dateService', function(){
         var minute = date.minute < 10 ?  "0" + date.minute : date.minute;
         var second = date.second < 10 ?  "0" + date.second : date.second;
 
-       return hour + ":" + minute + ":" + second + " " + date.dayOfMonth + " " + date.month + " " + date.year;
+       return  hour + ":" + minute + ":" + second + " " + date.month + " " + date.dayOfMonth + " " + date.year;
     }
 
     return{

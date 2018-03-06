@@ -75,7 +75,7 @@
         </a>
         <a class="btn btn-dark" ng-href="/#!/users/new" href="#">Register</a>
         <a class="btn btn-dark" ng-show="!nav.isAuthenticated()" ng-href="login" href="#">Login</a>
-        <a class="btn btn-dark" ng-show="nav.isAuthenticated()" ng-href="/#!/inventory" href="#">
+        <a class="btn btn-dark" ng-show="nav.isAuthenticated() && nav.getRole() == 'USER'"  ng-href="/#!/inventory" href="#">
             <i class="fas fa-shopping-cart"></i> Shopping Cart
         </a>
 
@@ -98,17 +98,17 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-link">
+            <li class="nav-link" ng-show="nav.getRole() == 'USER'">
                 <a class="nav-link" ng-href="/#!/users/{{nav.getUserId()}}/profile" href="#">My Account</a>
             </li>
-            <li class="nav-link">
+            <li class="nav-link" ng-show="nav.getRole() == 'USER'">
                 <a class="nav-link" ng-href="/#!/users/{{nav.getUserId()}}/contact" href="#">Contact</a>
             </li>
-            <li class="nav-link">
+            <li class="nav-link" ng-show="nav.getRole() == 'USER'">
                 <a class="nav-link" ng-href="/#!/users/{{nav.getUserId()}}/orders" href="#">Orders</a>
             </li>
             <li class="nav-link" ng-show="nav.getRole() == 'ADMIN'">
-                <a class="nav-link" ng-href="/#!/admin" href="#">Orders</a>
+                <a class="nav-link" ng-href="/#!/admin" href="#">Admin Panel</a>
             </li>
             <li class="nav-link">
                 <a class="nav-link" ng-click="nav.logout()" href="#">Logout</a>

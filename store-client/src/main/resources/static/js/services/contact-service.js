@@ -36,14 +36,39 @@ application.factory('contactService', function($resource){
 
         conversations.push(tempConversation);
 
-        console.log(conversations.length);
+
+        return conversations;
+    }
+
+
+    var sortByUsers = function(messages){
+        var conversations = [];
+        var tempConversation = null;
+
+        for(var i = 0; i < messages.length; i++){
+            if(tempConversation == null){
+                tempConversation = {username: messages[i].users[0].username, userId: messages[i].users[0].id};
+                continue;
+            }
+
+            if(messages[i].users[0].username != tempConversation.username){
+                conversations.push(tempConversation);
+                tempConversation = {username: messages[i].users[0].username, userId: messages[i].users[0].id};
+            }
+
+
+        }
+
+        conversations.push(tempConversation);
+
 
         return conversations;
     }
 
     return{
         getResource: getResource,
-        sortByConversations: sortByConversations
+        sortByConversations: sortByConversations,
+        sortByUsers: sortByUsers
     }
 
 });

@@ -25,7 +25,4 @@ application.controller('userContactController', function($routeParams, contactSe
     self.formatDate = function(date){
         return dateService.formatDate(date);
     }
-})
-    .controller('adminContactController', function(){
-
 });

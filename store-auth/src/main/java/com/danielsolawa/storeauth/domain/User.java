@@ -2,6 +2,7 @@ package com.danielsolawa.storeauth.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +25,7 @@ public class User {
     private Long id;
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private boolean accountNonExpired;
@@ -35,15 +37,18 @@ public class User {
     private Role role;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Order> orders = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Inventory inventory;
 
     @OneToOne(cascade = CascadeType.ALL)
     private ActivationToken activationToken;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Address address;
 
     @ManyToMany(mappedBy = "users")
