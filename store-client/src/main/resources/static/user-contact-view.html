@@ -21,6 +21,11 @@
                         <td>{{message.subject}}</td>
                         <td>{{controller.formatDate(message.date)}}</td>
                         <td>{{message.amount}}</td>
+                        <td>
+                            <a href="/#!/users/{{controller.userId}}/contact/{{message.conversationId}}" >
+                                show details
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

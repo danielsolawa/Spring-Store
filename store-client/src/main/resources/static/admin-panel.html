@@ -234,7 +234,7 @@
             <div ng-repeat="detail in controller.conversationDetailData">
                 <div class="row" ng-show="detail.messageFrom == 'USER'">
                     <div class="col col-md-6">
-                        <div class="card text-white bg-dark mb-3">
+                        <div class="card bg-light mb-3">
                             <div class="card-header">
                                 <i class="fas fa-arrow-circle-right"></i> {{detail.users[0].username}}
                                 {{controller.formatDate(detail.date)}}
@@ -255,7 +255,7 @@
 
                     </div>
                     <div class="col-md-6">
-                        <div class="card bg-light mb-3">
+                        <div class="card text-white bg-dark mb-3">
                             <div class="card-header">
                                 <i class="fas fa-arrow-circle-right"></i> Admin
                                 {{controller.formatDate(detail.date)}}
