@@ -35,11 +35,11 @@ application.service('inventoryService', function($resource, $rootScope, LoginSer
     }
 
 
-    self.getInventory = function(){
+    self.getInventory = function(callback){
         InventoryResource.get({id: LoginService.getCurrentUser().id}, function(response){
 
             setUpInventoryData(response);
-
+            callback();
         }, function(error){
             console.log("an error has occurred");
         });
@@ -73,6 +73,8 @@ application.service('inventoryService', function($resource, $rootScope, LoginSer
         if(!isEmpty()){
             inventory = store.get('inventory');
         }
+
+        console.log(inventory);
 
         var filteredInventory = [];
 

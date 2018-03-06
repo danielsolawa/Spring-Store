@@ -1,7 +1,12 @@
 application.service('LoginService', function(store) {
     var self = this,
         currentUser = null,
-        wasLogged = false;
+        wasLogged = false,
+        redirectUrl = null;
+
+    var protectedUrls = ['inventory.html', 'user-profile.html',
+        'user-contact-view.html', 'user-conversation-view.html', 'orders.html'];
+
     self.setCurrentUser = function(user) {
         currentUser = user;
         store.set('user', user);
@@ -25,6 +30,31 @@ application.service('LoginService', function(store) {
 
         return wasLogged;
     };
+
+    self.setRedirectUrl = function(url){
+        redirectUrl = url;
+        store.set('redirectUrl', redirectUrl);
+
+        return redirectUrl;
+    }
+
+    self.getRedirectUrl = function(){
+        if(!redirectUrl){
+            redirectUrl = store.get('redirectUrl');
+        }
+
+        return redirectUrl;
+    }
+
+    self.isUrlProtected = function(url){
+        for(var i = 0; i < protectedUrls.length; i++){
+            if(protectedUrls[i] == url){
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 

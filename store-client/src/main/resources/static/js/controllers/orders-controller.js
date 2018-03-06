@@ -27,6 +27,7 @@ application.controller('ordersController',['$routeParams','ordersService', 'date
    }
 
    self.formatDate = function(date){
+       console.log("date " + date);
        return dateService.formatDate(date);
    }
 

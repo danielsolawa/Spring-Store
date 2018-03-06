@@ -46,7 +46,7 @@ public class ContactEmailServiceImpl implements ContactEmailService {
 
     @Override
     public void sendEmailToCustomer(Contact contact) throws MessagingException, InterruptedException {
-        String message = generateMessage(contact, true);
+        String message = generateMessage(contact, false);
 
         emailService.sendEmail(
                 EmailDto

@@ -150,13 +150,13 @@ public class ContactServiceImplTest {
     public void findByUserId() {
         List<Contact> contacts = Arrays.asList(new Contact(), new Contact(), new Contact());
 
-        given(contactRepository.findByUserId(anyLong())).willReturn(contacts);
+        given(contactRepository.findByUserIdOrderByDateDesc(anyLong())).willReturn(contacts);
 
         List<ContactDto> contactDtos = contactService.findByUserId(1L);
 
         assertThat(contactDtos, hasSize(3));
 
-        then(contactRepository).should().findByUserId(anyLong());
+        then(contactRepository).should().findByUserIdOrderByDateDesc(anyLong());
     }
 
     @Test

@@ -72,7 +72,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<ContactDto> findByUserId(Long id) {
-        return contactRepository.findByUserId(id)
+        return contactRepository.findByUserIdOrderByDateDesc(id)
                 .stream()
                 .map(contactMapper::contactToContactDto)
                 .collect(Collectors.toList());

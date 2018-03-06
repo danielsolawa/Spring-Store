@@ -103,21 +103,24 @@ public class EmailTemplate {
        Owner
      */
 
+    public String generateContactMessageBodyForCustomer(Contact contact){
+
+        return  "<h4>Hello "+ contact.getUsers().get(0).getUsername() + "!</h4>" +
+                "<p>" + "Response to your question" +"</p>" +
+                "<p><a class='links' href='http://localhost:9000/#!/users/"+ contact.getUserId() +"/contact/"
+                + contact.getConversationId()+
+                "'>Respond to message</a></p>" +
+                "</body>" +
+                "</html>";
+
+    }
+
     public String generateContactMessageBodyForOwner(Contact contact){
 
         return  "<h4>A new message has been received from "+ contact.getUsers().get(0).getUsername() + "</h4>" +
                 "<p>" + contact.getSubject() +"</p>" +
                 "<p>" + contact.getContent() +"</p>" +
-                "<p><a class='links' href='http://localhost:9000/'>Respond to message</a></p>" +
-                "</body>" +
-                "</html>";
-    }
-
-    public String generateContactMessageBodyForCustomer(Contact contact){
-
-        return  "<h4>Hello "+ contact.getUsers().get(0).getUsername() + "!</h4>" +
-                "<p>" + "Response to your question" +"</p>" +
-                "<p><a class='links' href='http://localhost:9000/'>Respond to message</a></p>" +
+                "<p><a class='links' href='http://localhost:9000/#!/admin'>Respond to message</a></p>" +
                 "</body>" +
                 "</html>";
     }

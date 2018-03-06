@@ -24,7 +24,9 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
     }
 
     $rootScope.$on('authorized', function(){
-        inventoryService.getInventory();
+        inventoryService.getInventory(function(){
+            $location.path(LoginService.getRedirectUrl());
+        });
     });
 
     $rootScope.$on('unauthorized', function(){
