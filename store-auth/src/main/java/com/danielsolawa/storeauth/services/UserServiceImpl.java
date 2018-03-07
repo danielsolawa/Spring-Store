@@ -12,6 +12,9 @@ import com.danielsolawa.storeauth.mappers.UserMapper;
 import com.danielsolawa.storeauth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,11 +49,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUserList() {
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
+
         return userRepository
-                .findAll()
+                .findAll(sort)
                 .stream()
                 .map(user -> userMapper.userToUserDto(user))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getUserList(Integer start, Integer end) {
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
+        Pageable pageable = new PageRequest(start, end, sort);
+
+        return userRepository.findAll(pageable)
+                .map(userMapper::userToUserDto)
+                .getContent();
     }
 
     @Transactional
@@ -88,6 +103,11 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(Long id) {
 
         return findUserDtoById(id);
+    }
+
+    @Override
+    public Long getUserListSize() {
+        return userRepository.count();
     }
 
 

@@ -26,10 +26,16 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserListDto getUserList(){
-        return new UserListDto(userService.getUserList());
+    public UserListDto getUserListPagination(@RequestParam(name = "start", required = false, defaultValue = "0") Integer start,
+                                             @RequestParam(name = "end", required = false, defaultValue = "0") Integer end){
+        if(start.equals(0) && end.equals(0)){
+            return new UserListDto(userService.getUserList(), userService.getUserListSize());
+        }
+
+        return new UserListDto(userService.getUserList(start, end), userService.getUserListSize());
     }
 
     @PostMapping

@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,17 +43,40 @@ public class UserControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void getUserList() throws Exception {
+    public void getUserListNoParams() throws Exception {
         List<UserDto> users = Arrays.asList(new UserDto(), new UserDto(), new UserDto());
 
+        given(userService.getUserListSize()).willReturn(3L);
         given(userService.getUserList()).willReturn(users);
 
         mockMvc.perform(get(UserController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.users", hasSize(3)));
+                .andExpect(jsonPath("$.users", hasSize(3)))
+                .andExpect(jsonPath("$.amount", equalTo(3)));
 
         then(userService).should().getUserList();
+        then(userService).should().getUserListSize();
+
+
+    }
+
+    @Test
+    public void getUserListWithParams() throws Exception {
+        List<UserDto> users = Arrays.asList(new UserDto(), new UserDto(), new UserDto());
+
+        given(userService.getUserListSize()).willReturn(3L);
+        given(userService.getUserList(anyInt(), anyInt())).willReturn(users);
+
+        mockMvc.perform(get(UserController.BASE_URL + "?start=0&end=3")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.users", hasSize(3)))
+                .andExpect(jsonPath("$.amount", equalTo(3)));
+
+        then(userService).should().getUserList(anyInt(), anyInt());
+        then(userService).should().getUserListSize();
+
 
     }
 

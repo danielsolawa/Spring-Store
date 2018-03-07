@@ -10,4 +10,5 @@ import java.util.List;
 public class UserListDto {
 
     List<UserDto> users;
+    Long amount;
 }

@@ -29,7 +29,13 @@ public class UserDto {
     private boolean credentialsNonExpired;
     private boolean enabled;
     private Role role;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Order> orders = new ArrayList<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Inventory inventory;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ActivationTokenDto activationToken;
 }

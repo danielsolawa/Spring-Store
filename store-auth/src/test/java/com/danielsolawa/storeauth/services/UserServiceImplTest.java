@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -48,16 +49,33 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getUserList() {
+    public void getUserListNoParams() {
         List<User> users = Arrays.asList(new User(), new User(), new User());
 
-        given(userRepository.findAll()).willReturn(users);
+        given(userRepository.findAll(any(Sort.class))).willReturn(users);
+
 
         List<UserDto> userDtos = userService.getUserList();
 
         assertThat(userDtos, hasSize(3));
 
-        then(userRepository).should().findAll();
+        then(userRepository).should().findAll(any(Sort.class));
+
+    }
+
+    @Test
+    public void getUserListWithParams() {
+        List<User> users = Arrays.asList(new User(), new User(), new User());
+        Page<User> userPage = new PageImpl<>(users);
+
+        given(userRepository.findAll(any(Pageable.class))).willReturn(userPage);
+
+
+        List<UserDto> userDtos = userService.getUserList(0, 5);
+
+        assertThat(userDtos, hasSize(3));
+
+        then(userRepository).should().findAll(any(Pageable.class));
 
     }
 
