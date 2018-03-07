@@ -21,8 +21,17 @@ public class ProductController {
 
     @GetMapping("/{categoryId}/products")
     @ResponseStatus(HttpStatus.OK)
-    public ProductListDto getProductList(@PathVariable  Long categoryId){
-        return new ProductListDto(productService.getProductList(categoryId));
+    public ProductListDto getProductList(@PathVariable  Long categoryId,
+                                         @RequestParam(name = "start", required = false, defaultValue = "0") Integer start,
+                                         @RequestParam(name = "end", required = false, defaultValue = "0") Integer end){
+
+        if(start.equals(0) && end.equals(0)){
+           return new ProductListDto(productService.getProductListByCategoryId(categoryId),
+                    productService.countProductListByCategoryId(categoryId));
+        }
+
+        return new ProductListDto(productService.getProductListByCategoryId(categoryId, start, end),
+                productService.countProductListByCategoryId(categoryId));
     }
 
 
@@ -31,6 +40,7 @@ public class ProductController {
     public ProductDto getProductById(@PathVariable Long categoryId, @PathVariable Long productId){
         return productService.getProductById(categoryId, productId);
     }
+
 
     @PostMapping("/{categoryId}/products")
     @ResponseStatus(HttpStatus.CREATED)

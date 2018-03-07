@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 
 public class ProductServiceImplTest {
@@ -47,21 +50,33 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void getProductList() {
-        Category category = new Category();
-        category.setId(1L);
-
+    public void getProductListNoParam() {
         List<Product> products = Arrays.asList(new Product(), new Product());
-        category.setProducts(products);
 
 
-        given(categoryRepository.findOne(anyLong())).willReturn(category);
 
-        List<ProductDto> dtoList = productService.getProductList(1l);
+        given(productRepository.findByCategoryId(anyLong(), any(Sort.class))).willReturn(products);
+
+        List<ProductDto> dtoList = productService.getProductListByCategoryId(1L);
 
         assertThat(dtoList, hasSize(2));
 
-        then(categoryRepository).should().findOne(anyLong());
+        then(productRepository).should().findByCategoryId(anyLong(), any(Sort.class));
+    }
+
+
+    @Test
+    public void getProductListWithParam() {
+        List<Product> products = Arrays.asList(new Product(), new Product());
+
+
+        given(productRepository.findByCategoryId(anyLong(), any(Pageable.class))).willReturn(products);
+
+        List<ProductDto> dtoList = productService.getProductListByCategoryId(1L, 0, 3);
+
+        assertThat(dtoList, hasSize(2));
+
+        then(productRepository).should().findByCategoryId(anyLong(), any(Pageable.class));
     }
 
     @Test

@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,19 +43,39 @@ public class ProductControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void getProductList() throws Exception {
+    public void getProductListNoParams() throws Exception {
         List<ProductDto> products = Arrays.asList(new ProductDto(), new ProductDto(), new ProductDto());
 
-        given(productService.getProductList(anyLong())).willReturn(products);
+        given(productService.countProductListByCategoryId(anyLong())).willReturn(3L);
+        given(productService.getProductListByCategoryId(anyLong())).willReturn(products);
 
         mockMvc.perform(get(ProductController.BASE_URL + "/1/products")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.products", hasSize(3)));
+                .andExpect(jsonPath("$.products", hasSize(3)))
+                .andExpect(jsonPath("$.amount", equalTo(3)));
 
-        then(productService).should().getProductList(anyLong());
+        then(productService).should().getProductListByCategoryId(anyLong());
 
     }
+
+
+    @Test
+    public void getProductListWithParams() throws Exception {
+        List<ProductDto> products = Arrays.asList(new ProductDto(), new ProductDto(), new ProductDto());
+
+        given(productService.countProductListByCategoryId(anyLong())).willReturn(3L);
+        given(productService.getProductListByCategoryId(anyLong(), anyInt(), anyInt())).willReturn(products);
+
+        mockMvc.perform(get(ProductController.BASE_URL + "/1/products?start=0&end=3")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.products", hasSize(3)));
+
+        then(productService).should().getProductListByCategoryId(anyLong(), anyInt(), anyInt());
+
+    }
+
 
     @Test
     public void getProductById() throws Exception {

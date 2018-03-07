@@ -8,6 +8,9 @@ import com.danielsolawa.storeauth.mappers.ProductMapper;
 import com.danielsolawa.storeauth.repositories.CategoryRepository;
 import com.danielsolawa.storeauth.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,13 +36,34 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductDto> getProductList(Long categoryId) {
-        Category category = getCategoryById(categoryId);
+    public List<ProductDto> getProductListByCategoryId(Long categoryId, Integer start, Integer end) {
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
+        Pageable pageable = new PageRequest(start, end, sort);
 
-        return  category.getProducts()
+        return  productRepository.findByCategoryId(categoryId, pageable)
                 .stream()
                 .map(productMapper::productToProductDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getProductListByCategoryId(Long categoryId) {
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
+
+        return productRepository.findByCategoryId(categoryId, sort)
+                .stream()
+                .map(productMapper::productToProductDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Long countProductListByCategoryId(Long categoryId) {
+        return productRepository.countByCategoryId(categoryId);
+    }
+
+    @Override
+    public Long getProductListSize() {
+        return productRepository.count();
     }
 
 
