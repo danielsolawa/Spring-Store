@@ -1,11 +1,11 @@
-application.controller('userContactController', function($routeParams, contactService, dateService){
+application.controller('userContactController', function($transition$, contactService, dateService){
     var self = this;
 
-    self.userId = $routeParams.id;
+    self.userId = $transition$.params().id;
     self.write = false;
 
     self.loadData = function(){
-        contactService.getResource().get({id: 'all', userId: $routeParams.id}, function(response){
+        contactService.getResource().get({id: 'all', userId: self.userId}, function(response){
             self.messages = contactService.sortByConversations(response.contacts);
         }, function(error){
             console.log("an error has occurred");
@@ -13,7 +13,7 @@ application.controller('userContactController', function($routeParams, contactSe
     }
 
     self.sendMessage = function(){
-        var message = {subject: self.message.subject, content: self.message.content, userId: $routeParams.id};
+        var message = {subject: self.message.subject, content: self.message.content, userId: self.userId};
         contactService.getResource().save(message, function(response){
             self.loadData();
             self.write = false;
@@ -26,11 +26,11 @@ application.controller('userContactController', function($routeParams, contactSe
     self.formatDate = function(date){
         return dateService.formatDate(date);
     }
-}).controller('userConversationController', function($routeParams, contactService, dateService){
+}).controller('userConversationController', function($transition$, contactService, dateService){
     var self = this;
 
 
-    self.converationId = $routeParams.conversationId;
+    self.converationId = $transition$.params().conversationId;
 
     self.loadData = function(){
         contactService.getResource().get({id: self.converationId}, function(response){

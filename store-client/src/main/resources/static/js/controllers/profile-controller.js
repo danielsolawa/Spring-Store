@@ -1,6 +1,6 @@
-application.controller('userProfile', function($routeParams, $location,  addressService, LoginService){
+application.controller('userProfile', function($transition$, $location,  addressService, LoginService){
    var self = this;
-   var userId = $routeParams.id;
+   var userId = $transition$.params().id;
    self.addressExist = false;
 
     addressService.get({id: userId}, function(response){

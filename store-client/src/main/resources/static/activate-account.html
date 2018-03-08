@@ -1,6 +1,6 @@
-<div class="panel panel-default" data-ng-init="controller.checkToken()">
-    <div class="panel-heading">Activate Account</div>
-    <div class="panel-body" ng-cloak>
+<div  class="card card-margin-bottom" data-ng-init="controller.checkToken()">
+    <div class="card-header"><h2>Activate Account</h2></div>
+    <div class="card-body" ng-cloak="">
         <div ng-show="!controller.sendNewToken">
             <div ng-show="controller.error" class="alert alert-danger">
                 <p>{{controller.message}}</p>
@@ -17,6 +17,17 @@
         <div ng-show="controller.sendNewToken">
             <p> {{controller.newTokenMessage}}.</p>
         </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"></div>
+    <div class="panel-body" ng-cloak>
+
 
     </div>
 

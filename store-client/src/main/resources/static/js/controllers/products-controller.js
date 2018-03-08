@@ -1,7 +1,7 @@
 application
-    .controller('productView',['$rootScope', '$routeParams', '$location', "$mdDialog", 'productsService', 'inventoryService',
+    .controller('productView',['$rootScope', '$transition$', '$location', "$mdDialog", 'productsService', 'inventoryService',
         'LoginService',
-        function($rootScope, $routeParams, $location, $mdDialog, productsService, inventoryService,
+        function($rootScope, $transition$, $location, $mdDialog, productsService, inventoryService,
                  LoginService){
         var self = this;
         var user = LoginService.getCurrentUser();
@@ -9,8 +9,8 @@ application
         self.customFullscreen = false;
         self.amount = 1;
 
-
-        var product = productsService.get({id: $routeParams.id, prodId: $routeParams.prodId},function(){
+        var product = productsService.get({id: $transition$.params().categoryId,
+            prodId: $transition$.params().productId},function(){
             self.product = product;
         });
 

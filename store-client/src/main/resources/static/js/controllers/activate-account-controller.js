@@ -1,5 +1,5 @@
-application.controller('activateAccountController',['$routeParams', '$location','activateAccountService',
-    function($routeParams, $location,activateAccountService){
+application.controller('activateAccountController',['$transition$', '$location','activateAccountService',
+    function($transition$, $location,activateAccountService){
     var self = this;
 
     self.sendNewToken = false;
@@ -8,8 +8,8 @@ application.controller('activateAccountController',['$routeParams', '$location',
     self.checkToken = function(){
         self.message = "";
         self.error = false;
-        self.username = $routeParams.username;
-        var token = $routeParams.token;
+        self.username = $transition$.params().username;
+        var token = $transition$.params().token;
 
         activateAccountService.get({username: self.username, token: token}, function(){
             self.message = "Account successfully activated!";

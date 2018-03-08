@@ -1,8 +1,8 @@
-application.controller('productSearchController', function($routeParams, productSearchService, productSortService){
+application.controller('productSearchController', function($transition$, productSearchService, productSortService){
     var self = this;
 
     self.loadData = function(){
-        self.keyword = $routeParams.keyword;
+        self.keyword = $transition$.params().keyword;
         productSearchService.get({keyword: self.keyword}, function(response){
             self.products = productSortService.sort(response.products);
         }, function(error){

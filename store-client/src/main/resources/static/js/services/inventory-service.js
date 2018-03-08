@@ -74,7 +74,6 @@ application.service('inventoryService', function($resource, $rootScope, LoginSer
             inventory = store.get('inventory');
         }
 
-        console.log(inventory);
 
         var filteredInventory = [];
 

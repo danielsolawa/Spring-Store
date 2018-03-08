@@ -1,7 +1,7 @@
 application.run(function ($rootScope, $location, $http, $window,  LoginService, inventoryService) {
-    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+    $rootScope.$on("$locationChangeStart", function (event, toUrl, fromUrl) {
 
-        handleLogin(next.$$route.templateUrl);
+        handleLogin(toUrl);
 
     });
 

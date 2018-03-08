@@ -1,9 +1,9 @@
-<div class="card bg-light mb-3 card-margin-bottom">
+<div class="card card-margin-bottom">
     <div class="card-header"><h2>Name: {{controller.product.name}}</h2></div>
     <div class="card-body">
         <div>
             <p>Description: {{controller.product.description}}</p>
-            <p>Price: {{controller.product.price}}</p>
+            <p>Price: {{controller.product.price | number:2}} PLN</p>
 
             <form class="form-inline" name="inv" ng-submit="controller.showConfirmDialog($event)">
                 <input type="number" class="form-control" step="1" min="1" ng-model="controller.amount" required/>

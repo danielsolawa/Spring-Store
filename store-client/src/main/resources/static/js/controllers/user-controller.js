@@ -39,8 +39,8 @@ application.controller('userAdd', ['$location', 'userService', '$http', function
 
         return true;
     }
-}]).controller('userRegistered', ['$routeParams', function($routeParams){
+}]).controller('userRegistered', ['$transition$', function($transition$){
    var self = this;
 
-   self.username = $routeParams.username;
+   self.username = $transition$.params().username;
 }]);

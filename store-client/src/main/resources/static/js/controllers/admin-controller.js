@@ -34,7 +34,7 @@ application.controller('adminPanel',
            case 'users':
               self.users = true;
                self.activeTab = 'users';
-              userService.get(function(response){
+              userService.get({start: '0', end: '2'}, function(response){
                  self.userData = response.users;
                  setUpUsersEdit();
               });

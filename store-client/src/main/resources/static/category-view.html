@@ -17,7 +17,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">Price: {{product.price | number: 2}} PLN</li>
                                     <li class="list-group-item">
-                                        <a href="/#!/categories/{{controller.category.id}}/products/{{product.id}}"
+                                        <a ui-sref="products({categoryId: controller.category.id, productId: product.id })"
                                            data-toggle="tooltip" data-html="true" title="Read more about the product."
                                            class="btn btn-secondary btn-lg">Read More</a>
                                     </li>

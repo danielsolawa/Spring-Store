@@ -1,5 +1,5 @@
-application.controller('ordersController',['$routeParams','ordersService', 'dateService',
-    function ($routeParams, ordersService, dateService) {
+application.controller('ordersController',['$transition$','ordersService', 'dateService',
+    function ($transition$, ordersService, dateService) {
    var self =  this;
 
    self.orderDetail = {};
@@ -7,7 +7,7 @@ application.controller('ordersController',['$routeParams','ordersService', 'date
 
 
    self.fetchOrders = function(){
-       var userId = $routeParams.id;
+       var userId = $transition$.params().userId;
        ordersService.get({id: userId}, function(response){
           self.orders = response.orders
        }, function(error){

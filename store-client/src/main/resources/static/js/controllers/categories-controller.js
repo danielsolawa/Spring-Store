@@ -9,13 +9,15 @@ application
 
     //categories controller
 }])
-    .controller('categoriesView', ['$routeParams', 'categoryService', 'productSortService',
-        function($routeParams, categoryService, productSortService){
+    .controller('categoriesView', ['$transition$', 'categoryService', 'productSortService',
+        function($transition$, categoryService, productSortService){
     var self = this;
 
-    var category = categoryService.get({id: $routeParams.id}, function(){
+    var category = categoryService.get({id: $transition$.params().categoryId}, function(){
+
         self.category = category;
         self.products = productSortService.sort(self.category.products);
+
     });
 
 
