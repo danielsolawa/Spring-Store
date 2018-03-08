@@ -54,6 +54,40 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
         controllerAs: 'controller'
     }
 
+    var adminPanelUsersState = {
+        name: 'admin-panel.users',
+        url: '/users',
+        templateUrl: 'admin-users.html',
+        controller: 'adminPanelUsers',
+        controllerAs: 'controller'
+    }
+
+
+    var adminPanelCategoriesState = {
+        name: 'admin-panel.categories',
+        url: '/categories',
+        templateUrl: 'admin-categories.html',
+        controller: 'adminPanelCategories',
+        controllerAs: 'controller'
+    }
+
+    var adminPanelProductsState = {
+        name: 'admin-panel.category',
+        url: '/categories/{categoryId}',
+        templateUrl: 'admin-products.html',
+        controller: 'adminPanelProducts',
+        controllerAs: 'controller'
+    }
+
+
+    var adminPanelMessagesState = {
+        name: 'admin-panel.messages',
+        url: '/messages',
+        templateUrl: 'admin-messages.html',
+        controller: 'adminPanelMessages',
+        controllerAs: 'controller'
+    }
+
     var inventoryState = {
         name: 'inventory',
         url: '/inventory',
@@ -133,6 +167,10 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
     $stateProvider.state(addUserState);
     $stateProvider.state(registeredUserState);
     $stateProvider.state(adminPanelState);
+    $stateProvider.state(adminPanelUsersState);
+    $stateProvider.state(adminPanelCategoriesState);
+    $stateProvider.state(adminPanelProductsState);
+    $stateProvider.state(adminPanelMessagesState);
     $stateProvider.state(inventoryState);
     $stateProvider.state(ordersState);
     $stateProvider.state(activationTokenState);

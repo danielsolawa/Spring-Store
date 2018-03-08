@@ -1,0 +1,60 @@
+<div data-ng-init="controller.loadData()">
+    <h3 ng-click="controller.addingProduct = !controller.addingProduct">
+        {{controller.productData.name}}(click do add new)
+    </h3>
+    <div ng-show="controller.addingProduct">
+        <form name="reg" ng-submit="controller.addProduct()">
+            <div class="form-group">
+                <label for="pname">Product Name:</label>
+                <input class="form-control"
+                       type="text" ng-model="controller.product.name" id="pname" required/>
+                <label for="price">Price:</label>
+                <input class="form-control"
+                       type="number" ng-model="controller.product.price" id="price" required/>
+                <label for="description">Description:</label>
+                <textarea class="form-control" rows="5" id="description"
+                          ng-model="controller.product.description" id="description" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="product in controller.productData">
+        <!-- EDIT OFF -->
+            <tr ng-show="!controller.productData[$index].edit">
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.description}}</td>
+                <td><button class="btn btn-warning" ng-click="controller.productData[$index].edit = true">edit</button></td>
+                <td><button class="btn btn-danger"
+                            ng-click="controller.deleteProduct(product.id)">delete</button></td>
+            </tr>
+
+        <!-- EDIT ON -->
+            <tr style="min-height: 120%" ng-show="controller.productData[$index].edit">
+
+                <td >{{product.id}}</td>
+                <td ><input class="form-control input-sm" style="min-width: 100px;" type="text" ng-model="controller.productData[$index].name"required/></td>
+                <td><input class="form-control input-sm" style="min-width: 100px;" type="number" ng-model="controller.productData[$index].price"required/></td>
+                <td><textarea class="form-control input-sm" ng-model="controller.productData[$index].description" cols="2" rows="8" required></textarea></td>
+                <td><button class="btn btn-success" ng-click="controller.updateProduct(controller.productData[$index].id, $index)">save</button></td>
+                <td><button class="btn btn-warning" ng-click="controller.productData[$index].edit = false">cancel</button></td>
+
+            </tr>
+
+
+        </tbody>
+    </table>
+
+
+</div>
