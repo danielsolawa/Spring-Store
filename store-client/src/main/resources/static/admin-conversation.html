@@ -1,0 +1,25 @@
+<div data-ng-init="controller.loadConversations()">
+    <h2>Conversations</h2>
+    <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+            <th>#Subject</th>
+            <th>#Date</th>
+            <th>#Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="conv in controller.conversationData">
+            <td>{{conv.subject}}</td>
+            <td>{{controller.formatDate(conv.date)}}</td>
+            <td>{{conv.amount}}</td>
+            <td>
+                <a ui-sref="admin-panel.conversation-detail({userId: controller.userId,conversationId: conv.conversationId})">
+                    show details
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

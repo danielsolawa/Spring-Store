@@ -1,0 +1,53 @@
+<div data-ng-init="controller.loadDetails()">
+    <h4>Conversation "{{controller.conversationDetailData[0].subject}}"</h4>
+    <div ng-repeat="detail in controller.conversationDetailData">
+        <div class="row" ng-show="detail.messageFrom == 'USER'">
+            <div class="col col-md-6">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-arrow-circle-right"></i> {{detail.users[0].username}}
+                        {{controller.formatDate(detail.date)}}
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-text">{{detail.content}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+        <div class="row" ng-show="detail.messageFrom == 'ADMIN'">
+
+            <div class="col col-md-6">
+
+            </div>
+            <div class="col-md-6">
+                <div class="card text-white bg-dark mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-arrow-circle-right"></i> Admin
+                        {{controller.formatDate(detail.date)}}
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-text">{{detail.content}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <form name="message" ng-submit="controller.respond()">
+            <div class="form-group">
+                <label for="content">Respond: </label>
+                <textarea class="form-control form-control-sm" id="content" rows="3"
+                          ng-model="controller.message.content" required></textarea>
+            </div>
+            <button class="btn btn-success btn-lg btn-block" type="submit" ng-disabled="message.$invalid">send</button>
+        </form>
+    </div>
+
+
+
+</div>

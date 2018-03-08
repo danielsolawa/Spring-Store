@@ -88,6 +88,23 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
         controllerAs: 'controller'
     }
 
+
+    var adminPanelConversationState = {
+        name: 'admin-panel.conversation',
+        url: '/messages/{userId}',
+        templateUrl: 'admin-conversation.html',
+        controller: 'adminPanelMessages',
+        controllerAs: 'controller'
+    }
+
+    var adminPanelConversationDetailState = {
+        name: 'admin-panel.conversation-detail',
+        url: '/messages/{userId}/conversation/{conversationId}',
+        templateUrl: 'admin-conversation-details.html',
+        controller: 'adminPanelMessages',
+        controllerAs: 'controller'
+    }
+
     var inventoryState = {
         name: 'inventory',
         url: '/inventory',
@@ -171,6 +188,8 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
     $stateProvider.state(adminPanelCategoriesState);
     $stateProvider.state(adminPanelProductsState);
     $stateProvider.state(adminPanelMessagesState);
+    $stateProvider.state(adminPanelConversationState);
+    $stateProvider.state(adminPanelConversationDetailState);
     $stateProvider.state(inventoryState);
     $stateProvider.state(ordersState);
     $stateProvider.state(activationTokenState);
