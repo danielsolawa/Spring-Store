@@ -67,7 +67,7 @@ public class ProductControllerTest extends AbstractControllerTest{
         given(productService.countProductListByCategoryId(anyLong())).willReturn(3L);
         given(productService.getProductListByCategoryId(anyLong(), anyInt(), anyInt())).willReturn(products);
 
-        mockMvc.perform(get(ProductController.BASE_URL + "/1/products?start=0&end=3")
+        mockMvc.perform(get(ProductController.BASE_URL + "/1/products?page=0&size=3")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.products", hasSize(3)));

@@ -36,9 +36,9 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductDto> getProductListByCategoryId(Long categoryId, Integer start, Integer end) {
+    public List<ProductDto> getProductListByCategoryId(Long categoryId, Integer page, Integer size) {
         Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
-        Pageable pageable = new PageRequest(start, end, sort);
+        Pageable pageable = new PageRequest(page, size, sort);
 
         return  productRepository.findByCategoryId(categoryId, pageable)
                 .stream()

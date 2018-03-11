@@ -18,7 +18,7 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
                 }
             })
             .state('categories',{
-            url: '/categories/{categoryId}',
+            url: '/categories/{categoryId}/page/{page}',
             views: {
                 'main': {
                     templateUrl: 'category-view.html',

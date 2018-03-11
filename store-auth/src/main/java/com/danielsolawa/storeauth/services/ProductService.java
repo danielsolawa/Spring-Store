@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<ProductDto> getProductListByCategoryId(Long categoryId, Integer start, Integer end);
+    List<ProductDto> getProductListByCategoryId(Long categoryId, Integer page, Integer size);
     List<ProductDto> getProductListByCategoryId(Long categoryId);
     Long countProductListByCategoryId(Long categoryId);
     Long getProductListSize();

@@ -1,4 +1,4 @@
-<div class="card card-margin-bottom">
+<div class="card card-margin-bottom" data-ng-init="controller.loadData()">
     <div class="card-header"><h2>{{controller.category.name}}</h2></div>
     <div class="card-body" ng-repeat="product in controller.products">
         <section>
@@ -30,6 +30,39 @@
                 </div>
             </div>
         </section>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <ul class="pagination">
+                <li class="page-item"
+                    ng-class="controller.changePage(-1) >= 0  ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link" ui-sref="categories({categoryId: controller.category.id,  page: controller.changePage(-1)})">
+                        <i class="fas fa-chevron-circle-left"></i>
+                    </a>
+                </li>
+                <div ng-repeat="page in controller.minPagination.pages">
+                    <li class="page-item" ng-class="controller.isActive(page) ? 'page-item active' : 'page-item'">
+                        <a class="page-link" ng-click="controller.setActivePage(page)"
+                           ui-sref="categories({categoryId: controller.category.id, page: page})">
+                            {{page + 1}}</a>
+                    </li>
+                </div>
+
+                <li class="page-item"
+                    ng-class="controller.changePage(1) < controller.minPagination.numbersOfPages  ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link"  ui-sref="categories({categoryId: controller.category.id, page: controller.changePage(1)})">
+                        <i class="fas fa-chevron-circle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+        </div>
+
     </div>
 </div>
 

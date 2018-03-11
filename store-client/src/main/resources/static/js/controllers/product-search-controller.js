@@ -11,7 +11,6 @@ application.controller('productSearchController',
 
         productSearchService.get({keyword: self.keyword, page: self.page, size: size}, function(response){
             self.products = productSortService.sort(response.products);
-            console.log(response);
             setUpPagination(response.amount, size, self.page);
         }, function(error){
             console.log("an error has occurred " + "\n" + error);

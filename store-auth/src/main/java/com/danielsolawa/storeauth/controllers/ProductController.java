@@ -22,15 +22,15 @@ public class ProductController {
     @GetMapping("/{categoryId}/products")
     @ResponseStatus(HttpStatus.OK)
     public ProductListDto getProductList(@PathVariable  Long categoryId,
-                                         @RequestParam(name = "start", required = false, defaultValue = "0") Integer start,
-                                         @RequestParam(name = "end", required = false, defaultValue = "0") Integer end){
+                                         @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                         @RequestParam(name = "size", required = false, defaultValue = "0") Integer size){
 
-        if(start.equals(0) && end.equals(0)){
+        if(page.equals(0) && size.equals(0)){
            return new ProductListDto(productService.getProductListByCategoryId(categoryId),
                     productService.countProductListByCategoryId(categoryId));
         }
 
-        return new ProductListDto(productService.getProductListByCategoryId(categoryId, start, end),
+        return new ProductListDto(productService.getProductListByCategoryId(categoryId, page, size),
                 productService.countProductListByCategoryId(categoryId));
     }
 
