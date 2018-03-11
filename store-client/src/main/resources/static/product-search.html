@@ -30,5 +30,39 @@
                 </div>
             </div>
         </section>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <ul class="pagination">
+                <li class="page-item"
+                    ng-class="controller.changePage(-1) >= 0  ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link" ui-sref="product-search({keyword: controller.keyword, page: controller.changePage(-1)})">
+                        <i class="fas fa-chevron-circle-left"></i>
+                    </a>
+                </li>
+                <div ng-repeat="page in controller.minPagination.pages">
+                    <li class="page-item" ng-class="controller.isActive(page) ? 'page-item active' : 'page-item'">
+                        <a class="page-link" ng-click="controller.setActivePage(page)"
+                           ui-sref="product-search({keyword: controller.keyword, page: page})">
+                            {{page + 1}}</a>
+                    </li>
+                </div>
+
+                <li class="page-item"
+                    ng-class="controller.changePage(1) < controller.minPagination.numbersOfPages  ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link"  ui-sref="product-search({keyword: controller.keyword, page: controller.changePage(1)})">
+                        <i class="fas fa-chevron-circle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+        </div>
+
     </div>
 </div>

@@ -20,8 +20,20 @@ public class ProductSearchController {
 
     @GetMapping("/{keyword}")
     @ResponseStatus(HttpStatus.OK)
-    public ProductListDto searchForProducts(@PathVariable("keyword") String keyword){
+    public ProductListDto searchForProducts(
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "0") Integer size,
+            @PathVariable("keyword") String keyword){
 
-        return new ProductListDto(productSearchService.searchForProductByKeyword(keyword));
+        if(page.equals(0) && size.equals(0)){
+            return new ProductListDto((productSearchService.searchForProductByKeyword(keyword)),
+                    productSearchService.countSearchForProductByKeyword(keyword));
+        }
+
+        return new ProductListDto(productSearchService.searchForProductByKeyword(keyword, page, size),
+                productSearchService.countSearchForProductByKeyword(keyword));
     }
+
+
+
 }

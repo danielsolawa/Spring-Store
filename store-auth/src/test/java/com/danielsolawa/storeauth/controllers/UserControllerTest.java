@@ -68,7 +68,7 @@ public class UserControllerTest extends AbstractControllerTest{
         given(userService.getUserListSize()).willReturn(3L);
         given(userService.getUserList(anyInt(), anyInt())).willReturn(users);
 
-        mockMvc.perform(get(UserController.BASE_URL + "?start=0&end=3")
+        mockMvc.perform(get(UserController.BASE_URL + "?page=0&size=3")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.users", hasSize(3)))

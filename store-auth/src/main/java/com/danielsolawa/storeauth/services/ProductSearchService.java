@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProductSearchService {
 
     List<ProductDto> searchForProductByKeyword(String keyword);
+    Long countSearchForProductByKeyword(String keyword);
+    List<ProductDto> searchForProductByKeyword(String keyword, Integer page, Integer size);
 }

@@ -25,6 +25,7 @@ application.factory('paginationService', function(){
             case firstPage:
                 var actual = currentPage + (pageLimit - 1);
                 var max = lastPage;
+
                 var pagesToAdd = actual > max ?(max - currentPage) : actual;
 
                 for(var i = firstPage; i <= pagesToAdd; i++){

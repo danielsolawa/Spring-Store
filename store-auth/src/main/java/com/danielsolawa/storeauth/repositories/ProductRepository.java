@@ -16,6 +16,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> searchForProducts(@Param("first") String first, @Param("second") String second,
                                     @Param("third") String third);
 
+    @Query("From Product p WHERE (p.name LIKE %:first OR p.name LIKE :second% OR p.name LIKE %:third%" +
+            " OR p.category.name LIKE %:first OR p.category.name LIKE :second% OR p.category.name LIKE %:third%)")
+    List<Product> searchForProducts(@Param("first") String first, @Param("second") String second,
+                                    @Param("third") String third, Pageable pageable);
+
+    @Query("Select count(p.id) From Product p WHERE (p.name LIKE %:first OR p.name LIKE :second% OR p.name LIKE %:third%" +
+            " OR p.category.name LIKE %:first OR p.category.name LIKE :second% OR p.category.name LIKE %:third%)")
+    Long countSearchForProducts(@Param("first") String first, @Param("second") String second,
+                                    @Param("third") String third);
+
+
     List<Product> findByCategoryId(Long categoryId, Pageable pageable);
     List<Product> findByCategoryId(Long categoryId, Sort sort);
     Long countByCategoryId(Long categoryId);
