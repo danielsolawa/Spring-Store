@@ -3,7 +3,7 @@ application.controller('adminPanel',
         function ($location, categoryService, userService, productsService, contactService, dateService) {
    var self = this;
 
-   $location.path("/admin/users");
+   $location.path("/admin/users/0");
    self.active = "users";
 
     self.setActive = function(tab){
@@ -14,20 +14,43 @@ application.controller('adminPanel',
         return self.active == tab;
     }
 
-    
-
 
 
     //Users
-}]).controller('adminPanelUsers', function(userService){
+}]).controller('adminPanelUsers', function($transition$, $location, userService, paginationService){
     var self = this;
+    var size = 5;
 
 
-    self.loadData = function(){
 
-        userService.get({start: '0', end: '5'}, function(response){
-            self.userData =  setUpUsersEdit(response.users);
+    self.init = function(){
+        self.page = $transition$.params().page;
+        userService.get({page: self.page, size: size}, function(response){
+            self.setUpPagination(response.amount, size, self.page);
+            self.userData = setUpUsersEdit(response.users);
         });
+    }
+
+    self.changePage = function(value){
+        var destinationPage = parseInt(self.page);
+
+        return destinationPage + value;
+    }
+
+
+    self.setActivePage = function(page){
+        self.activePage = page;
+    }
+
+    self.isActive = function(page){
+        return self.page == page;
+    }
+
+    self.setUpPagination = function(amount, size, activePage){
+
+        self.pagination = paginationService.generatePagination(amount, size);
+        self.minPagination = paginationService.getMinimizedPagination(self.pagination, activePage, 3);
+
     }
 
     self.deleteUser = function(userId){
@@ -46,7 +69,7 @@ application.controller('adminPanel',
             username: self.userData[index].username, role: self.userData[index].role}
 
         userService.update({id: userId}, userToUpdate, function(response){
-            self.loadData();
+            self.init();
         }, function(error){
             console.log("an error has occurred");
             console.log(error);
@@ -68,7 +91,7 @@ application.controller('adminPanel',
     }
 
 
-    //Categories
+
 }).controller('adminPanelCategories', function(categoryService){
     var self = this;
 

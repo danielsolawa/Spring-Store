@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getUserList(Integer start, Integer end) {
+    public List<UserDto> getUserList(Integer page, Integer size) {
         Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
-        Pageable pageable = new PageRequest(start, end, sort);
+        Pageable pageable = new PageRequest(page, size, sort);
 
         return userRepository.findAll(pageable)
                 .map(userMapper::userToUserDto)

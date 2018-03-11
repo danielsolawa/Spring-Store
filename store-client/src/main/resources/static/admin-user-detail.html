@@ -1,0 +1,37 @@
+<table class="table table-hover" data-ng-init="controller.loadData()">
+
+
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Authority</th>
+    </tr>
+    </thead>
+    <tbody ng-repeat="user in controller.userData">
+
+    <!-- EDIT OFF -->
+    <tr ng-show="!controller.userData[$index].edit">
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.role}}</td>
+        <td>
+            <button class="btn btn-warning"
+                    ng-click="controller.userData[$index].edit = true">edit</button>
+        </td>
+        <td><button class="btn btn-danger"
+                    ng-click="controller.deleteUser(user.id)">delete</button></td>
+    </tr>
+    <!-- EDIT ON-->
+    <tr ng-show="controller.userData[$index].edit">
+        <td>{{user.id}}</td>
+        <td><input class="form-control" type="text" ng-model="controller.userData[$index].username"/></td>
+        <td><input class="form-control" type="text" ng-model="controller.userData[$index].role"/></td>
+        <td><button class="btn btn-success" ng-click="controller.updateUser(user.id, $index)">save</button></td>
+        <td>
+            <button class="btn btn-warning"
+                    ng-click="controller.userData[$index].edit = false">cancel</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -29,13 +29,13 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserListDto getUserListPagination(@RequestParam(name = "start", required = false, defaultValue = "0") Integer start,
-                                             @RequestParam(name = "end", required = false, defaultValue = "0") Integer end){
-        if(start.equals(0) && end.equals(0)){
+    public UserListDto getUserListPagination(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                             @RequestParam(name = "size", required = false, defaultValue = "0") Integer size){
+        if(page.equals(0) && size.equals(0)){
             return new UserListDto(userService.getUserList(), userService.getUserListSize());
         }
 
-        return new UserListDto(userService.getUserList(start, end), userService.getUserListSize());
+        return new UserListDto(userService.getUserList(page, size), userService.getUserListSize());
     }
 
     @PostMapping

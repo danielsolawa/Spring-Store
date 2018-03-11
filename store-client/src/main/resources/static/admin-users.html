@@ -1,35 +1,76 @@
-<table class="table table-hover" data-ng-init="controller.loadData()">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Username</th>
-        <th>Authority</th>
-    </tr>
-    </thead>
-    <tbody ng-repeat="user in controller.userData">
+<div data-ng-init="controller.init()">
+    <table class="table table-hover">
 
-    <!-- EDIT OFF -->
-    <tr ng-show="!controller.userData[$index].edit">
-        <td>{{user.id}}</td>
-        <td>{{user.username}}</td>
-        <td>{{user.role}}</td>
-        <td>
-            <button class="btn btn-warning"
-                    ng-click="controller.userData[$index].edit = true">edit</button>
-        </td>
-        <td><button class="btn btn-danger"
-                    ng-click="controller.deleteUser(user.id)">delete</button></td>
-    </tr>
-    <!-- EDIT ON-->
-    <tr ng-show="controller.userData[$index].edit">
-        <td>{{user.id}}</td>
-        <td><input class="form-control" type="text" ng-model="controller.userData[$index].username"/></td>
-        <td><input class="form-control" type="text" ng-model="controller.userData[$index].role"/></td>
-        <td><button class="btn btn-success" ng-click="controller.updateUser(user.id, $index)">save</button></td>
-        <td>
-            <button class="btn btn-warning"
-                    ng-click="controller.userData[$index].edit = false">cancel</button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Authority</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="user in controller.userData">
+
+        <!-- EDIT OFF -->
+        <tr ng-show="!controller.userData[$index].edit">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.role}}</td>
+            <td>
+                <button class="btn btn-warning"
+                        ng-click="controller.userData[$index].edit = true">edit</button>
+            </td>
+            <td><button class="btn btn-danger"
+                        ng-click="controller.deleteUser(user.id)">delete</button></td>
+        </tr>
+        <!-- EDIT ON-->
+        <tr ng-show="controller.userData[$index].edit">
+            <td>{{user.id}}</td>
+            <td><input class="form-control" type="text" ng-model="controller.userData[$index].username"/></td>
+            <td><input class="form-control" type="text" ng-model="controller.userData[$index].role"/></td>
+            <td><button class="btn btn-success" ng-click="controller.updateUser(user.id, $index)">save</button></td>
+            <td>
+                <button class="btn btn-warning"
+                        ng-click="controller.userData[$index].edit = false">cancel</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <ul class="pagination">
+                <li class="page-item"
+                    ng-class="controller.changePage(-1) >= 0  ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link" ui-sref="admin-panel.users({page: controller.changePage(-1)})">
+                        <i class="fas fa-chevron-circle-left"></i>
+                    </a>
+                </li>
+                <div ng-repeat="page in controller.minPagination.pages">
+                    <li class="page-item" ng-class="controller.isActive(page) ? 'page-item active' : 'page-item'">
+                        <a class="page-link" ng-click="controller.setActivePage(page)" ui-sref="admin-panel.users({page: page})">
+                            {{page + 1}}</a>
+                    </li>
+                </div>
+
+                <li class="page-item"
+                    ng-class="controller.changePage(1) < controller.minPagination.numbersOfPages  ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link"  ui-sref="admin-panel.users({page: controller.changePage(1)})">
+                        <i class="fas fa-chevron-circle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+        </div>
+
+
+
+    </div>
+
+
+
+</div>

@@ -4,7 +4,7 @@
             <li class="nav-item">
                 <a class="nav-link" ng-click="controller.setActive('users')"
                    ng-class="controller.isActive('users') ? 'nav-link active' : 'nav-link'"
-                   ui-sref="admin-panel.users">Manage Users</a>
+                   ui-sref="admin-panel.users({page: '0'})">Manage Users</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" ng-click="controller.setActive('categories')"
@@ -21,7 +21,7 @@
     <div class="card-body">
 
         <!-- viewport for child view -->
-        <ui-view></ui-view>
+        <div ui-view="admin-panel"></div>
     </div>
 </div>
 

@@ -35,6 +35,7 @@ public class Bootstrap implements CommandLineRunner{
         loadUsers();
     }
 
+
     private void loadProducts() {
         if(categoryRepository.count() == 0){
 
