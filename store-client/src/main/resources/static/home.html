@@ -1,8 +1,9 @@
-<div class="card card-margin-bottom">
+<div class="card card-margin-bottom" data-ng-init="controller.loadData()">
     <div class="card-header"><h2>Products</h2></div>
     <div class="card-body">
         <div ng-repeat="category in controller.categories">
-            <h4> <a ui-sref="categories({categoryId: category.id, page: '0' })">{{category.name}}</a>
+            <h4> <a ui-sref="categories({categoryId: category.id, page: '0' })">{{category.name}}</a></h4>
         </div>
     </div>
+
 </div>

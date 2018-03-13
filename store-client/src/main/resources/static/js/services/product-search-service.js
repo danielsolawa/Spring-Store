@@ -1,3 +1,3 @@
 application.factory('productSearchService', function($resource){
-   return $resource('product-search/:keyword', {keyword: '@_keyword'});
+   return $resource('product-search/:word', {keyword: '@_word'});
 });

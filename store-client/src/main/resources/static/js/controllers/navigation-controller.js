@@ -3,7 +3,7 @@ application.controller('navigation', function ($rootScope, $http, $location, inv
 
     self.search = function(){
         if(self.keyword != null){
-            $location.path("/product-search/" + self.keyword + "/page/0");
+            $location.path("/search/" + self.keyword + "/page/0");
         }
     }
 

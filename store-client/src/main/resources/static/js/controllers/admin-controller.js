@@ -31,26 +31,12 @@ application.controller('adminPanel',
         });
     }
 
-    self.changePage = function(value){
-        var destinationPage = parseInt(self.page);
-
-        return destinationPage + value;
-    }
-
-
-    self.setActivePage = function(page){
-        self.activePage = page;
-    }
-
-    self.isActive = function(page){
-        return self.page == page;
-    }
 
     self.setUpPagination = function(amount, size, activePage){
-
-        self.pagination = paginationService.generatePagination(amount, size);
-        self.minPagination = paginationService.getMinimizedPagination(self.pagination, activePage, 3);
-
+        self.url = {paramSize: 1, keys: ['/admin/users/']};
+        self.amount = amount;
+        self.size = size;
+        self.page = activePage;
     }
 
     self.deleteUser = function(userId){

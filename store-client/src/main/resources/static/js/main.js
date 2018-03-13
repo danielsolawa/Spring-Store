@@ -197,8 +197,8 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
                     }
                 }
             })
-            .state('product-search',{
-                url: '/product-search/{keyword}/page/{page}',
+            .state('search',{
+                url: '/search/:word/page/:page',
                 views: {
                     'main': {
                         templateUrl: 'product-search.html',
