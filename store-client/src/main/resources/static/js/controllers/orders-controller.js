@@ -6,51 +6,69 @@ application.controller('ordersController',['$transition$','ordersService', 'date
    self.showProducts = false;
 
 
-   self.fetchOrders = function(){
-       var userId = $transition$.params().userId;
-       ordersService.get({id: userId}, function(response){
-          self.orders = response.orders
+   self.loadData = function(){
+       self.userId = $transition$.params().userId;
+
+       ordersService.get({id: self.userId}, function(response){
+          self.orders = response.orders;
        }, function(error){
            console.log("an error has occurred");
        });
    }
 
 
-   self.showDetails = function(index){
-       self.showProducts = true;
-       var sortedDetails = getSortedOrders(self.orders[index].products);
-
-       self.orderDetail = self.orders[index];
-       self.orderDetail.products = sortedDetails;
 
 
-   }
+   self.formatDate = function(index){
+       var date = self.orders[index].orderDate;
 
-   self.formatDate = function(date){
-       console.log("date " + date);
        return dateService.formatDate(date);
    }
 
-   var getSortedOrders = function(orders){
-
-       var sortedOrders = [];
-
-       sortedLoop:
-           for(var i = 0; i < orders.length; i++){
-               for(var j = 0; j < sortedOrders.length; j++){
-                   if(orders[i].id == sortedOrders[j].id){
-                       sortedOrders[j].amount++;
-                       continue sortedLoop;
-                   }
-               }
-
-               sortedOrders.push({id: orders[i].id, name: orders[i].name, price: orders[i].price, amount: 1});
-
-           }
-
-       return sortedOrders;
-   }
 
 
 
-}]);
+}]).controller('ordersProductController', function($transition$, ordersService, dateService){
+    var self = this;
+
+    self.loadData = function(){
+        self.userId = $transition$.params().userId;
+        self.orderId = $transition$.params().orderId;
+
+        ordersService.get({id: self.userId, orderId: self.orderId}, function(response){
+            self.order = response;
+            self.products = sortProducts(self.order.products)
+            self.date = self.order.orderDate;
+
+        }, function(error){
+            console.log("an error has occurred.");
+        })
+    }
+
+    var sortProducts = function(products){
+
+        var sortedProducts = [];
+
+        sortedLoop:
+            for(var i = 0; i < products.length; i++){
+                for(var j = 0; j < sortedProducts.length; j++){
+                    if(products[i].id == sortedProducts[j].id){
+                        sortedProducts[j].amount++;
+                        continue sortedLoop;
+                    }
+                }
+
+                sortedProducts.push({id: products[i].id, name: products[i].name, price: products[i].price, amount: 1});
+
+            }
+
+        return sortedProducts;
+    }
+
+
+    self.formatDate = function(){
+        return dateService.formatDate(self.date);
+    }
+
+
+});

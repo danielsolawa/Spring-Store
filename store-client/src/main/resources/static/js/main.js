@@ -147,6 +147,16 @@ application.config(['$httpProvider', '$locationProvider', '$stateProvider', '$ur
                     }
                 }
             })
+            .state('orders-products',{
+                url: '/users/{userId}/orders/{orderId}',
+                views: {
+                    'main': {
+                        templateUrl: 'orders-products.html',
+                        controller: 'ordersProductController',
+                        controllerAs: 'controller'
+                    }
+                }
+            })
             .state('activation-token',{
                 url: '/users/{username}/activate/{token}',
                 views: {

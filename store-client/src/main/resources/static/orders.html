@@ -1,8 +1,6 @@
-<div class="card card-margin-bottom" data-ng-init="controller.fetchOrders()">
+<div class="card card-margin-bottom" data-ng-init="controller.loadData()">
     <div class="card-header"><h2>{{user.username}} orders</h2></div>
     <div class="card-body">
-        <!-- Order -->
-        <div ng-show="!controller.showProducts">
             <table  class="table table-hover">
                 <thead>
                 <tr>
@@ -12,47 +10,17 @@
                 </tr>
                 </thead>
                 <tbody ng-repeat="order in controller.orders">
-                <tr ng-click="controller.showDetails($index)">
+                <tr>
                     <td>{{order.id}}</td>
                     <td>
-                       {{controller.formatDate(order.orderDate)}}
+                       {{controller.formatDate($index)}}
                     </td>
                     <td>{{order.products.length}}</td>
-                    <td>click to show order details</td>
+                    <td><a ui-sref="orders-products({userId: controller.userId, orderId: order.id})">show order details</a></td>
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <!-- PRODUCTS -->
-        <div ng-show="controller.showProducts">
-            <button class="btn btn-primary" ng-click="controller.showProducts = false">Hide Details</button>
-            <h3>Details for order nr {{controller.orderDetail.id}}</h3>
-            <h4>
-                <p>
-                    {{controller.formatDate(controller.orderDetail.orderDate)}}
-                </p>
 
-            </h4>
-
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>product name</th>
-                    <th>price</th>
-                    <th>amount</th>
-                </tr>
-                </thead>
-                <tbody ng-repeat="product in controller.orderDetail.products">
-                <tr>
-                    <td>{{product.id}}</td>
-                    <td>{{product.name}}</td>
-                    <td>{{product.price | number : 2}} PLN</td>
-                    <td>{{product.amount}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
 
     </div>
 </div>
